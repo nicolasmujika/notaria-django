@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Inicio · Notaría Felipe Velasquez{% endblock %}
+
+{% block content %}
+<section class="mb-10">
+  <h1 class="text-3xl font-semibold text-slate-900 mb-3">
+    Bienvenido a Notaría Felipe Velasquez
+  </h1>
+  <p class="text-sm text-slate-600 mb-4 max-w-2xl">
+    Plataforma en desarrollo para gestión de trámites notariales. Información clara,
+    horarios definidos y canal de contacto directo para consultas.
+  </p>
+  <div class="flex flex-wrap gap-3 text-sm">
+    <a href="/tramites/" class="px-4 py-2 rounded bg-slate-900 text-white">
+      Ver trámites disponibles
+    </a>
+    <a href="/contacto/" class="px-4 py-2 rounded border border-slate-900 text-slate-900">
+      Datos de contacto y ubicación
+    </a>
+  </div>
+</section>
+
+<section class="grid md:grid-cols-3 gap-6 text-sm">
+  <div class="bg-white shadow-sm rounded p-4">
+    <h2 class="font-semibold mb-2 text-slate-900">Atención</h2>
+    <p class="text-slate-600">
+      Lunes a Viernes 09:00–14:00 / 15:30–18:00<br>
+      Sábado 09:00–13:00
+    </p>
+  </div>
+  <div class="bg-white shadow-sm rounded p-4">
+    <h2 class="font-semibold mb-2 text-slate-900">Ubicación referencial</h2>
+    <p class="text-slate-600">
+      Dirección de ejemplo, Ciudad, Chile.
+    </p>
+  </div>
+  <div class="bg-white shadow-sm rounded p-4">
+    <h2 class="font-semibold mb-2 text-slate-900">Contacto</h2>
+    <p class="text-slate-600">
+      Tel: +56 32 123 4567<br>
+      Email: notaria.altodelcarmen@gmail.com
+    </p>
+  </div>
+</section>
+{% endblock %}

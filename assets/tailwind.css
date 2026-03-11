@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Componentes mínimos de ejemplo */
+.btn {
+  @apply px-4 py-2 rounded bg-black text-white text-sm;
+}

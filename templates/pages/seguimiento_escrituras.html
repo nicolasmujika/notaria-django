@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="max-w-3xl mx-auto py-8 px-4">
+  <h1 class="text-3xl font-bold mb-4">Seguimiento de Escrituras</h1>
+  <p class="text-sm text-gray-700 mb-6">
+    Ingresa el código de seguimiento entregado en la notaría para revisar el estado actual de tu escritura.
+  </p>
+
+  <form method="post" class="space-y-4 bg-white border border-slate-200 rounded p-4 mb-6">
+    {% csrf_token %}
+    <div>
+      <label class="block text-xs mb-1">{{ form.codigo.label }}</label>
+      {{ form.codigo }}
+    </div>
+    <div>
+      <label class="block text-xs mb-1">{{ form.rut.label }} <span class="text-[10px] text-slate-500">(opcional)</span></label>
+      {{ form.rut }}
+    </div>
+    <button type="submit" class="px-4 py-2 rounded bg-slate-900 text-white text-xs hover:bg-slate-800">
+      Buscar
+    </button>
+  </form>
+
+  {% if error %}
+    <div class="p-3 text-xs rounded bg-red-100 text-red-800 mb-4">
+      {{ error }}
+    </div>
+  {% endif %}
+
+  {% if resultado %}
+    <div class="bg-white border border-slate-200 rounded p-4 text-sm space-y-2">
+      <div><span class="font-semibold">Código:</span> {{ resultado.codigo_seguimiento }}</div>
+      <div><span class="font-semibold">Tipo de escritura:</span> {{ resultado.tipo }}</div>
+      {% if resultado.nombre_cliente %}
+        <div><span class="font-semibold">Cliente:</span> {{ resultado.nombre_cliente }}</div>
+      {% endif %}
+      {% if resultado.rut_cliente %}
+        <div><span class="font-semibold">RUT:</span> {{ resultado.rut_cliente }}</div>
+      {% endif %}
+      <div><span class="font-semibold">Estado actual:</span> {{ resultado.get_estado_display }}</div>
+      {% if resultado.observaciones_publicas %}
+        <div class="mt-2">
+          <span class="font-semibold">Información adicional:</span>
+          <p class="mt-1 text-gray-700">{{ resultado.observaciones_publicas|linebreaks }}</p>
+        </div>
+      {% endif %}
+      <div class="text-[11px] text-slate-500 mt-2">
+        Última actualización: {{ resultado.fecha_ultima_actualizacion|date:"d/m/Y H:i" }}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}

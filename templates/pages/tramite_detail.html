@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="max-w-3xl mx-auto py-8 px-4">
+  <a href="{% url 'tramites_list' %}" class="text-xs text-sky-700 hover:underline">
+    ← Volver al listado de trámites
+  </a>
+
+  <h1 class="text-3xl font-bold mt-4 mb-2">{{ tramite.nombre }}</h1>
+
+  {% if tramite.categoria %}
+    <p class="text-xs uppercase tracking-wide text-slate-500 mb-4">
+      {{ tramite.categoria }}
+    </p>
+  {% endif %}
+
+  {% if tramite.precio_referencial %}
+    <p class="text-sm font-semibold text-slate-800 mb-4">
+      Precio referencial: ${{ tramite.precio_referencial|floatformat:0 }}
+    </p>
+  {% endif %}
+
+  <div class="space-y-4 text-sm text-gray-800 leading-relaxed">
+    <section>
+      <h2 class="font-semibold mb-1">Descripción</h2>
+      <p>
+        {% if tramite.descripcion %}
+          {{ tramite.descripcion|linebreaks }}
+        {% else %}
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in
+          urna faucibus, semper lorem vel, faucibus lorem. Donec et dictum ex.
+        {% endif %}
+      </p>
+    </section>
+
+    <section>
+      <h2 class="font-semibold mb-1">Requisitos</h2>
+      <p>
+        {% if tramite.requisitos %}
+          {{ tramite.requisitos|linebreaks }}
+        {% else %}
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+          hendrerit, risus eu viverra auctor, nunc ex dignissim odio, in
+          convallis nisl enim vitae urna.
+        {% endif %}
+      </p>
+    </section>
+  </div>
+</div>
+
+{% endblock %}

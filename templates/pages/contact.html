@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Contacto · Notaría Felipe Velásquez{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-semibold text-slate-900 mb-4">Contacto</h1>
+<p class="text-sm text-slate-600 mb-6">
+  Puedes escribirnos a través del formulario o revisar los datos de ubicación y horarios de atención.
+</p>
+
+{% if messages %}
+  <div class="mb-4 space-y-2">
+    {% for m in messages %}
+      <div class="p-3 rounded text-xs
+        {% if m.tags == 'success' %}
+          bg-emerald-100 text-emerald-800
+        {% else %}
+          bg-red-100 text-red-800
+        {% endif %}">
+        {{ m }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="grid md:grid-cols-2 gap-8 text-sm">
+  <!-- Columna: Información de contacto -->
+  <section class="space-y-3">
+    <div>
+      <div class="font-semibold text-slate-900">Dirección</div>
+      <div class="text-slate-600">Calle Ejemplo 123, Ciudad, Chile</div>
+    </div>
+    <div>
+      <div class="font-semibold text-slate-900">Teléfono</div>
+      <div class="text-slate-600">+56 32 123 4567</div>
+    </div>
+    <div>
+      <div class="font-semibold text-slate-900">Correo electrónico</div>
+      <div class="text-slate-600">contacto@notaria.local</div>
+    </div>
+    <div>
+      <div class="font-semibold text-slate-900 mb-1">Horarios</div>
+      <p class="text-slate-600">
+        Lunes a Viernes 09:00–14:00 / 15:30–18:00<br>
+        Sábado 09:00–13:00
+      </p>
+    </div>
+
+    <!-- Mapa de referencia -->
+    <div class="mt-4">
+      <div class="text-xs text-slate-500 mb-1">Ubicación referencial</div>
+      <div class="aspect-video w-full rounded border overflow-hidden bg-slate-100 flex items-center justify-center text-[10px] text-slate-500">
+        Mapa en desarrollo
+      </div>
+    </div>
+  </section>
+
+  <!-- Columna: Formulario -->
+  <section>
+    <form method="post" class="space-y-4 bg-white border border-slate-200 rounded shadow-sm p-4">
+      {% csrf_token %}
+      {{ form.honeypot }}
+
+      <div>
+        <label class="block text-xs mb-1">Nombre completo</label>
+        {{ form.full_name }}
+      </div>
+      <div>
+        <label class="block text-xs mb-1">Email</label>
+        {{ form.email }}
+      </div>
+      <div>
+        <label class="block text-xs mb-1">Teléfono</label>
+        {{ form.phone }}
+      </div>
+      <div>
+        <label class="block text-xs mb-1">Asunto</label>
+        {{ form.subject }}
+      </div>
+      <div>
+        <label class="block text-xs mb-1">Mensaje</label>
+        {{ form.message }}
+      </div>
+
+      <button type="submit" class="px-4 py-2 rounded bg-slate-900 text-white text-xs hover:bg-slate-800">
+        Enviar mensaje
+      </button>
+    </form>
+  </section>
+</div>
+{% endblock %}

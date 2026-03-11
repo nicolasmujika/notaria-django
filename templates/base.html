@@ -1,0 +1,305 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Notaría Felipe Velasquez{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
+
+  <!-- Barra superior -->
+  <div class="bg-slate-100 text-slate-500 text-[10px]">
+    <div class="max-w-6xl mx-auto px-4 py-1 flex items-center justify-between">
+      <div class="space-x-3">
+      </div>
+    </div>
+  </div>
+
+  <!-- Logo + nombre -->
+  <div class="bg-white">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-full bg-sky-700 text-white flex items-center justify-center text-xs font-semibold">
+          NR
+        </div>
+        <div>
+          <div class="text-2xl font-semibold text-sky-800 leading-tight">
+            Notaría Felipe Velasquez
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menú principal -->
+  <!-- Menú principal -->
+<!-- Menú principal (hamburguesa + submenús por click) -->
+<!-- Menú principal: horizontal en desktop, hamburguesa en móvil, dropdown por click -->
+<header class="bg-sky-100 text-gray-900 text-[11px] font-semibold border-t border-b border-sky-200">
+  <nav class="max-w-6xl mx-auto px-4">
+    <!-- fila superior (hamburguesa móvil) -->
+    <div class="flex items-center justify-between py-3 md:py-0 md:h-11">
+      <a href="/" class="text-sm font-semibold md:hidden">Inicio</a>
+      <button id="nav-toggle"
+        class="md:hidden inline-flex items-center justify-center w-9 h-9 rounded hover:bg-sky-200"
+        aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menú">
+        <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- contenedor de enlaces -->
+    <div id="nav-menu" class="hidden md:block border-t md:border-0">
+      <ul id="nav-list" class="md:flex md:items-stretch">
+        <!-- HOME -->
+        <li class="nav-item"><a href="/" class="nav-link">HOME</a></li>
+
+        <!-- NOTARIA -->
+        <li class="nav-item relative">
+          <button class="nav-link nav-toggle" data-target="submenu-notaria" aria-expanded="false">
+            NOTARIA <span class="caret">▾</span>
+          </button>
+          <ul id="submenu-notaria" class="submenu">
+            <li><a href="{% url 'quienes_somos' %}" class="submenu-link">QUIÉNES SOMOS</a></li>
+            
+            <li><a href="{% url 'horario_atencion' %}" class="submenu-link">HORARIO DE ATENCIÓN</a></li>
+            <li><a href="{% url 'tramites_comunes' %}" class="submenu-link">TRÁMITES MÁS COMUNES</a></li>
+            <li><a href="{% url 'preguntas_frecuentes' %}" class="submenu-link">PREGUNTAS FRECUENTES</a></li>
+            <li><a href="{% url 'enlaces_interes' %}" class="submenu-link">ENLACES DE INTERÉS</a></li>
+          </ul>
+        </li>
+
+        <!-- SERVICIOS NOTARIALES -->
+        <li class="nav-item relative">
+          <button class="nav-link nav-toggle" data-target="submenu-servicios" aria-expanded="false">
+            SERVICIOS NOTARIALES <span class="caret">▾</span>
+          </button>
+          <ul id="submenu-servicios" class="submenu">
+            <li><a href="{% url 'tramites_list' %}" class="submenu-link">SERVICIOS NOTARIALES</a></li>
+            <li><a href="{% url 'escrituras_publicas' %}" class="submenu-link">ESCRITURAS PÚBLICAS</a></li>
+            <li><a href="{% url 'solicitud_escrituras' %}" class="submenu-link">SOLICITUD ESCRITURAS</a></li>
+            <li><a href="{% url 'validar_documentos' %}" class="submenu-link">VALIDAR DOCUMENTOS</a></li>
+            <li><a href="{% url 'seguimiento_escrituras' %}" class="submenu-link">SEGUIMIENTO ESCRITURAS</a></li>
+            <li><a href="{% url 'notaria_en_linea' %}" class="submenu-link">NOTARÍA EN LÍNEA</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item"><a href="#" class="nav-link">GALERÍA IMÁGENES</a></li>
+        <li class="nav-item"><a href="/contacto/#ubicacion" class="nav-link">UBICACIÓN</a></li>
+        <li class="nav-item md:ml-auto"><a href="/contacto/" class="nav-link">CONTACTO</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<style>
+  /* layout horizontal desktop */
+  @media (min-width: 768px) {
+    #nav-menu { display: block !important; border: 0 !important; }
+    #nav-list   { display: flex !important; align-items: stretch; gap: 0; }
+    .nav-item   { position: relative; }
+  }
+  .nav-link {
+    display:block; padding:.75rem 1.5rem; cursor:pointer;
+  }
+  .nav-link:hover { background:#dbeafe; }           /* sky-200 */
+  .caret { display:inline-block; margin-left:.35rem; transition:transform .15s; }
+
+  /* submenús cerrados por defecto */
+  .submenu { display:none; }
+  .submenu.open { display:block; }
+
+  /* submenús en desktop: flotantes */
+  @media (min-width:768px){
+    .submenu{
+      position:absolute; left:0; top:100%;
+      min-width:230px; background:#fff; color:#111827;  /* gray-900 */
+      border:1px solid #e2e8f0; border-radius:.25rem;
+      box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);
+      z-index:50;
+    }
+  }
+  .submenu-link{ display:block; padding:.5rem 1rem; }
+  .submenu-link:hover{ background:#f0f9ff; }         /* sky-50 */
+</style>
+
+
+  <!-- Contenido -->
+  <main class="flex-1">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+<footer class="site-footer">
+
+
+  <!-- Bloque oscuro con columnas -->
+  <div class="site-footer-main">
+    <div class="site-footer-grid">
+
+      <!-- Columna 1: Ubicación -->
+      <div class="site-footer-col">
+        <h3 class="site-footer-title">Ubicación</h3>
+        <p>
+          Notaría Felipe Velasquez<br>
+          Avenida Ejemplo 1234, Ciudad – Chile<br>
+          contacto@notaria.cl<br>
+          Horario de atención: 9:30 am - 16:30 pm<br>
+          Atención de lunes a viernes<br>
+          +569 0000 3321
+        </p>
+      </div>
+
+      <!-- Columna 2: Menú Principal -->
+      <div class="site-footer-col">
+        <h3 class="site-footer-title">Menú Principal</h3>
+        <ul class="site-footer-list">
+          <li><a href="{% url 'home' %}">Página Principal</a></li>
+          
+          <li><a href="/contacto/#ubicacion">Nuestra Ubicación</a></li>
+          <li><a href="{% url 'contact' %}">Contáctenos</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Nuestra Notaría -->
+      <div class="site-footer-col">
+        <h3 class="site-footer-title">Nuestra Notaría</h3>
+        <ul class="site-footer-list">
+          <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
+          
+          <li><a href="{% url 'tramites_comunes' %}">Trámites más Comunes</a></li>
+          <li><a href="{% url 'preguntas_frecuentes' %}">Preguntas Frecuentes</a></li>
+          <li><a href="{% url 'enlaces_interes' %}">Mapa del Sitio</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: Servicios Notariales -->
+      <div class="site-footer-col">
+        <h3 class="site-footer-title">Servicios Notariales</h3>
+        <ul class="site-footer-list">
+          <li><a href="{% url 'servicios_notariales' %}">Servicios Notariales</a></li>
+          <li><a href="{% url 'validar_documentos' %}">Validar Documentos</a></li>
+          <li><a href="{% url 'escrituras_publicas' %}">Escrituras Públicas</a></li>
+          <li><a href="{% url 'solicitud_escrituras' %}">Solicitud Escritura Pública</a></li>
+          <li><a href="{% url 'seguimiento_escrituras' %}">Seguimiento Web</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+
+
+<script>
+(function(){
+  // Hamburguesa
+  const btn = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-menu');
+  if (btn && menu){
+    btn.addEventListener('click', ()=>{
+      const ex = btn.getAttribute('aria-expanded')==='true';
+      btn.setAttribute('aria-expanded', String(!ex));
+      menu.classList.toggle('hidden');
+    });
+  }
+
+  // Dropdown por click
+  const toggles = document.querySelectorAll('.nav-toggle');
+  function closeAll(){
+    document.querySelectorAll('.submenu').forEach(u=>u.classList.remove('open'));
+    document.querySelectorAll('.nav-toggle').forEach(t=>t.setAttribute('aria-expanded','false'));
+    document.querySelectorAll('.nav-toggle .caret').forEach(c=>c.style.transform='');
+  }
+  toggles.forEach(t=>{
+    t.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const id = t.dataset.target;
+      const sub = document.getElementById(id);
+      if(!sub) return;
+      const open = sub.classList.contains('open');
+      closeAll();
+      if(!open){
+        sub.classList.add('open');
+        t.setAttribute('aria-expanded','true');
+        const c = t.querySelector('.caret'); if(c) c.style.transform='rotate(180deg)';
+      }
+    });
+  });
+  document.addEventListener('click', (e)=>{
+    const inside = e.target.closest('.nav-item');
+    if(!inside) closeAll();
+  });
+})();
+</script>
+<style>
+  /* Banda skyline */
+  .site-footer-top {
+    height: 48px;
+    background-color: #111827;
+    background-image: url("{% static 'img/skyline.png' %}");
+    background-repeat: repeat-x;
+    background-position: center top;
+    background-size: contain;
+  }
+
+  /* Fondo principal del footer */
+  .site-footer-main {
+    background-color: #111827;
+    color: #e5e7eb;
+    padding: 40px 24px;
+  }
+
+  /* Contenedor de columnas */
+  .site-footer-grid {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+
+  /* Cada columna */
+  .site-footer-col {
+    flex: 1 1 220px;    /* mínimo 220px, luego se reparten el ancho */
+    min-width: 200px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .site-footer-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 4px;
+  }
+
+  .site-footer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-footer-list li {
+    margin-bottom: 4px;
+  }
+
+  .site-footer-list a {
+    color: #e5e7eb;
+    text-decoration: none;
+  }
+
+  .site-footer-list a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+
+</body>
+</html>

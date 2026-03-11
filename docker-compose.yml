@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:16
+    container_name: notaria_db
+    env_file: .env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - TZ=${TZ}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    container_name: notaria_web
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    command: >
+      bash -lc "python manage.py runserver 0.0.0.0:8000"
+  assets:
+    image: node:20-alpine
+    container_name: notaria_assets
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    command: sh -lc "npm install && npm run dev"
+    depends_on:
+      - web
+
+
+volumes:
+  pgdata:
+  node_modules:

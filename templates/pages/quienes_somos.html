@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Quiénes Somos - Notaría Felipe Velasquez{% endblock %}
+
+{% block content %}
+
+<style>
+  /* Layout general de la página de Quiénes Somos */
+  .qs-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 48px;              /* separación entre texto y menú */
+  }
+
+  .qs-main {
+    flex: 1 1 auto;         /* ocupa casi todo el ancho disponible */
+    max-width: 800px;
+  }
+
+  .qs-menu {
+    width: 260px;           /* menú angosto */
+    margin-left: auto;      /* lo empuja hacia la derecha */
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    background: #ffffff;
+    padding: 16px 20px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1),
+                0 4px 6px -4px rgba(0,0,0,0.1);
+  }
+
+  .qs-menu h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0f4c81; /* azulito */
+    margin-bottom: 0.75rem;
+  }
+
+  .qs-menu nav a {
+    display: block;
+    font-size: 0.95rem;
+    color: #111827;
+    text-decoration: none;
+    margin-bottom: 0.25rem;
+  }
+
+  .qs-menu nav a:hover {
+    color: #0369a1;
+    text-decoration: underline;
+  }
+
+  /* En pantallas chicas: apilar (texto arriba, menú abajo) */
+  @media (max-width: 1024px) {
+    .qs-layout {
+      flex-direction: column;
+      gap: 24px;
+    }
+    .qs-menu {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+</style>
+
+<h1 class="text-3xl font-semibold text-slate-900 mb-8">
+  Quiénes <span class="text-slate-900">Somos</span>
+</h1>
+
+<section class="qs-layout">
+
+  <!-- TEXTO IZQUIERDA -->
+  <div class="qs-main space-y-4 leading-relaxed text-slate-900">
+    <p>
+      Somos una notaría ubicada en el centro de <span class="font-semibold">Alto del Carmen</span>,
+      servida por <span class="font-semibold">[Felipe Andres Velasquez Morales]</span>, donde
+      entregamos servicios notariales vinculados a la fe pública y la seguridad jurídica.
+    </p>
+
+    <p>
+      Nuestro objetivo es brindar una atención eficiente, ordenada y cercana,
+      apoyando a las personas y empresas en la formalización de sus actos y contratos,
+      con procesos claros y tiempos razonables de gestión.
+    </p>
+
+    <p>
+      Contamos con infraestructura adecuada, sistemas internos de gestión documental
+      y un equipo de trabajo capacitado, lo que nos permite dar respuesta a un alto
+      volumen de trámites manteniendo estándares de calidad y resguardo de la información.
+    </p>
+
+    <p>
+      Desarrollamos nuestra labor con respeto por las personas, estricto cumplimiento
+      de la normativa vigente y una búsqueda permanente de mejoras en nuestros procesos,
+      para que cada usuario pueda realizar sus gestiones con confianza y tranquilidad.
+    </p>
+  </div>
+
+  <!-- MENÚ LATERAL DERECHA -->
+  <aside class="qs-menu">
+    <h2>Menú Principal</h2>
+    <nav>
+      <a href="{% url 'home' %}">Página Principal</a>
+      <a href="{% url 'quienes_somos' %}">Quiénes Somos</a>
+      <a href="{% url 'nuestro_personal' %}">Nuestro Personal</a>
+      <a href="{% url 'horario_atencion' %}">Horario de Atención</a>
+      <a href="{% url 'preguntas_frecuentes' %}">Preguntas Frecuentes</a>
+      <a href="{% url 'tramites_comunes' %}">Trámites más Comunes</a>
+      <a href="{% url 'enlaces_interes' %}">Enlaces de Interés</a>
+      <a href="{% url 'seguimiento_escrituras' %}">Seguimiento Escrituras</a>
+      <a href="{% url 'contact' %}">Contáctenos</a>
+    </nav>
+  </aside>
+
+</section>
+
+{% endblock %}
