@@ -1,13 +1,389 @@
 {% extends "base.html" %}
+
+{% block title %}Trámites más Comunes - Notaría Felipe Velasquez{% endblock %}
+
 {% block content %}
 
-<div class="max-w-4xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold mb-6">Tramites comunes</h1>
-    <p class="text-gray-700 leading-relaxed">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis
-        ligula id mi ultrices varius. Integer consequat felis vel gravida
-        pulvinar. Donec posuere pulvinar ex vel pharetra.
-    </p>
-</div>
+<style>
+  .tc-top {
+    background: linear-gradient(to right, #f3f4f6, #fafafa);
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 28px 0 30px;
+    margin: -2rem -1rem 2rem;
+  }
+
+  .tc-top-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .tc-title {
+    font-size: 2.2rem;
+    line-height: 1.1;
+    color: #111827;
+    margin: 0 0 8px;
+    font-weight: 500;
+  }
+
+  .tc-breadcrumb {
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+
+  .tc-breadcrumb a {
+    color: #0284c7;
+    text-decoration: none;
+  }
+
+  .tc-layout {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    gap: 44px;
+    align-items: flex-start;
+  }
+
+  .tc-main {
+    flex: 1 1 auto;
+    max-width: 760px;
+  }
+
+  .tc-side {
+    width: 270px;
+    flex: 0 0 270px;
+  }
+
+  .tc-section-title {
+    font-size: 1.15rem;
+    color: #111827;
+    font-weight: 400;
+    margin: 0 0 18px;
+  }
+
+  .tc-item {
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    margin-bottom: 8px;
+  }
+
+  .tc-question {
+    width: 100%;
+    background: #f3f4f6;
+    border: 0;
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+
+  .tc-question:hover {
+    background: #e5e7eb;
+  }
+
+  .tc-icon {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #d1d5db;
+    color: #ffffff;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .tc-answer {
+    display: none;
+    padding: 18px 18px 10px 50px;
+    background: #ffffff;
+    color: #374151;
+    line-height: 1.55;
+    font-size: 0.96rem;
+  }
+
+  .tc-item.open .tc-answer {
+    display: block;
+  }
+
+  .tc-item.open .tc-question {
+    color: #0284c7;
+  }
+
+  .tc-item.open .tc-icon {
+    background: #0284c7;
+  }
+
+  .tc-answer p,
+  .tc-answer li {
+    margin-bottom: 10px;
+  }
+
+  .tc-answer ol,
+  .tc-answer ul {
+    padding-left: 18px;
+    margin: 0;
+  }
+
+  .tc-menu-title {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #111827;
+    margin: 0 0 18px;
+  }
+
+  .tc-menu-title strong {
+    font-weight: 700;
+  }
+
+  .tc-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .tc-menu li {
+    margin-bottom: 10px;
+  }
+
+  .tc-menu a {
+    color: #0284c7;
+    text-decoration: none;
+    font-size: 0.98rem;
+  }
+
+  .tc-menu a::before {
+    content: "›";
+    margin-right: 10px;
+    color: #0284c7;
+    font-weight: 700;
+  }
+
+  .tc-menu a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1024px) {
+    .tc-layout {
+      flex-direction: column;
+    }
+
+    .tc-main {
+      max-width: 100%;
+    }
+
+    .tc-side {
+      width: 100%;
+      flex: 1 1 auto;
+    }
+  }
+</style>
+
+<section class="tc-top">
+  <div class="tc-top-inner">
+    <h1 class="tc-title">Trámites más Comunes</h1>
+    <div class="tc-breadcrumb">
+      <a href="{% url 'home' %}">Home</a> / Trámites más Comunes
+    </div>
+  </div>
+</section>
+
+<section class="tc-layout">
+
+  <div class="tc-main">
+    <h2 class="tc-section-title">Trámites más Comunes en la Notaría</h2>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        ¿ CÓMO ACREDITA SU IDENTIDAD UN EXTRANJERO ?
+      </button>
+      <div class="tc-answer">
+        <p>La identidad puede acreditarse con pasaporte vigente, cédula de identidad para extranjeros u otro documento oficialmente reconocido, según el trámite. En algunos casos se requiere además acreditar domicilio o situación migratoria.</p>
+      </div>
+    </div>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        EL PROTESTO DE UNA LETRA O PAGARÉ
+      </button>
+      <div class="tc-answer">
+        <p>El protesto es la actuación mediante la cual el notario deja constancia formal de la falta de pago, aceptación o fecha de una letra de cambio o pagaré, cumpliendo con las formalidades legales aplicables.</p>
+      </div>
+    </div>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        ¿ SALIDA DE MENORES DEL PAÍS ?
+      </button>
+      <div class="tc-answer">
+        <p>Cuando corresponde, debe otorgarse autorización ante notario por parte del padre, madre o ambos, según la situación familiar. Se requiere cédula de identidad vigente y antecedentes del menor y del viaje.</p>
+      </div>
+    </div>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        IMPUESTOS DE TIMBRES EN PAGARÉS BANCARIOS
+      </button>
+      <div class="tc-answer">
+        <p>Los pagarés pueden encontrarse afectos al impuesto de timbres y estampillas, según el monto, naturaleza de la operación y normativa vigente. Se recomienda revisar el caso concreto antes de firmar.</p>
+      </div>
+    </div>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        JURISPRUDENCIA SOBRE LA FIRMA "AUTORIZO DE"
+      </button>
+      <div class="tc-answer">
+        <p>La expresión “autorizo” en materia notarial tiene un sentido técnico y jurídico preciso. Su uso y alcance dependen del tipo de actuación y de la legislación aplicable al instrumento respectivo.</p>
+      </div>
+    </div>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        TRANSFERENCIA SOBRE VEHÍCULOS MOTORIZADOS
+      </button>
+      <div class="tc-answer">
+        <ul>
+          <li>Cédula de identidad vigente de comprador y vendedor.</li>
+          <li>Padrón del vehículo.</li>
+          <li>Certificado de anotaciones vigentes, cuando corresponda.</li>
+          <li>Pago de impuesto o documentación exigida para la transferencia.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        PROMESA DE COMPRAVENTA
+      </button>
+      <div class="tc-answer">
+        <p>La promesa de compraventa puede requerir escritura pública o instrumento autorizado, según el caso. Es importante definir claramente precio, plazo, condiciones y antecedentes del bien o derecho comprometido.</p>
+      </div>
+    </div>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        LA COMPRAVENTA DE UN BIEN RAÍZ
+      </button>
+      <div class="tc-answer">
+        <ul>
+          <li>Antecedentes de dominio del inmueble.</li>
+          <li>Certificado de dominio vigente.</li>
+          <li>Certificado de hipotecas y gravámenes.</li>
+          <li>Certificados municipales o tributarios aplicables.</li>
+          <li>Redacción de minuta o borrador con los términos del contrato.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        EL PODER GENERAL
+      </button>
+      <div class="tc-answer">
+        <p>Permite otorgar facultades amplias a otra persona para actuar en nombre del mandante. Debe precisarse con claridad el alcance del poder y las limitaciones que se quieran establecer.</p>
+      </div>
+    </div>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        EL MANDATO ESPECIAL
+      </button>
+      <div class="tc-answer">
+        <p>Se utiliza cuando se quiere facultar a una persona para realizar uno o más actos específicos. Es recomendable individualizar de forma precisa las facultades otorgadas.</p>
+      </div>
+    </div>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        LA REVOCACIÓN DEL MANDATO
+      </button>
+      <div class="tc-answer">
+        <p>El mandato puede revocarse en la forma legal correspondiente. Dependiendo del instrumento original, puede ser necesario otorgar escritura pública y notificar a terceros interesados.</p>
+      </div>
+    </div>
+
+    <div class="tc-item">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">+</span>
+        LA GUARDA DE DOCUMENTOS Y LAS LLAMADAS "CARTA DE INSTRUCCIONES"
+      </button>
+      <div class="tc-answer">
+        <p>En ciertos casos la notaría puede recibir documentos o instrucciones conforme a las normas aplicables, dejando constancia del depósito o de las condiciones de entrega establecidas por las partes.</p>
+      </div>
+    </div>
+
+    <div class="tc-item open">
+      <button class="tc-question" type="button">
+        <span class="tc-icon">−</span>
+        DOCUMENTOS OTORGADOS EN EL EXTRANJERO
+      </button>
+      <div class="tc-answer">
+        <p>Los documentos emitidos en el extranjero pueden requerir traducción, legalización o apostilla, y en algunos casos protocolización, según el trámite específico y la normativa chilena vigente.</p>
+      </div>
+    </div>
+  </div>
+
+  <aside class="tc-side">
+    <h3 class="tc-menu-title">Menú <strong>Principal</strong></h3>
+    <ul class="tc-menu">
+      <li><a href="{% url 'home' %}">Página Principal</a></li>
+      <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
+      <li><a href="{% url 'horario_atencion' %}">Horario de Atención</a></li>
+      <li><a href="{% url 'preguntas_frecuentes' %}">Preguntas más Frecuentes</a></li>
+      <li><a href="{% url 'enlaces_interes' %}">Enlaces de Interés</a></li>
+      <li><a href="{% url 'servicios_notariales' %}">Servicios Notariales</a></li>
+      <li><a href="{% url 'escrituras_publicas' %}">Escrituras Públicas</a></li>
+      <li><a href="{% url 'solicitud_escrituras' %}">Solicitud de Escrituras Públicas</a></li>
+      <li><a href="{% url 'seguimiento_escrituras' %}">Seguimiento WEB de Escrituras</a></li>
+      <li><a href="{% url 'validar_documentos' %}">Validar Documentos</a></li>
+      <li><a href="{% url 'tramites_comunes' %}">Trámites más Comunes</a></li>
+      <li><a href="{% url 'notaria_en_linea' %}">Notaría en Línea</a></li>
+      <li><a href="/contacto/#ubicacion">Nuestra Ubicación</a></li>
+      <li><a href="{% url 'contact' %}">Contáctenos</a></li>
+    </ul>
+  </aside>
+
+</section>
+
+<script>
+  document.querySelectorAll(".tc-question").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = btn.closest(".tc-item");
+      const isOpen = item.classList.contains("open");
+
+      document.querySelectorAll(".tc-item").forEach((el) => {
+        el.classList.remove("open");
+        const icon = el.querySelector(".tc-icon");
+        if (icon) icon.textContent = "+";
+      });
+
+      if (!isOpen) {
+        item.classList.add("open");
+        const icon = item.querySelector(".tc-icon");
+        if (icon) icon.textContent = "−";
+      }
+    });
+  });
+</script>
 
 {% endblock %}

@@ -1,114 +1,247 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Quiénes Somos - Notaría Felipe Velasquez{% endblock %}
 
 {% block content %}
 
 <style>
-  /* Layout general de la página de Quiénes Somos */
-  .qs-layout {
+  .qs-wrap {
     display: flex;
+    gap: 48px;
     align-items: flex-start;
-    gap: 48px;              /* separación entre texto y menú */
   }
 
-  .qs-main {
-    flex: 1 1 auto;         /* ocupa casi todo el ancho disponible */
-    max-width: 800px;
+  .qs-photo {
+    width: 40%;
+    min-width: 320px;
   }
 
-  .qs-menu {
-    width: 260px;           /* menú angosto */
-    margin-left: auto;      /* lo empuja hacia la derecha */
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-    background: #ffffff;
-    padding: 16px 20px;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1),
-                0 4px 6px -4px rgba(0,0,0,0.1);
-  }
-
-  .qs-menu h2 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #0f4c81; /* azulito */
-    margin-bottom: 0.75rem;
-  }
-
-  .qs-menu nav a {
+  .qs-photo img {
+    width: 100%;
+    height: auto;
     display: block;
-    font-size: 0.95rem;
+    object-fit: cover;
+    border: 1px solid #d1d5db;
+  }
+
+  .qs-content {
+    flex: 1;
     color: #111827;
-    text-decoration: none;
-    margin-bottom: 0.25rem;
   }
 
-  .qs-menu nav a:hover {
-    color: #0369a1;
-    text-decoration: underline;
+  .qs-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #111827;
   }
 
-  /* En pantallas chicas: apilar (texto arriba, menú abajo) */
+  .qs-subtitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 28px 0 12px;
+    color: #111827;
+  }
+
+  .qs-content p {
+    font-size: 1rem;
+    line-height: 1.45;
+    margin-bottom: 18px;
+    text-align: justify;
+  }
+
+  .qs-list {
+    margin: 10px 0 18px 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .qs-list li {
+    margin-bottom: 10px;
+    padding-left: 22px;
+    position: relative;
+  }
+
+  .qs-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #16a34a;
+    font-weight: 700;
+  }
+
   @media (max-width: 1024px) {
-    .qs-layout {
+    .qs-wrap {
       flex-direction: column;
-      gap: 24px;
     }
-    .qs-menu {
+
+    .qs-photo {
       width: 100%;
-      margin-left: 0;
+      min-width: unset;
     }
   }
+
+  .equipo-notaria {
+  margin-top: 80px;
+}
+
+.equipo-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.equipo-subtitle {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 40px;
+}
+
+.equipo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: 32px;
+}
+
+.equipo-card {
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  padding: 24px;
+  border-radius: 6px;
+  background: white;
+  transition: 0.2s;
+}
+
+.equipo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.equipo-card img {
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  margin-bottom: 12px;
+}
+
+.equipo-card h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.equipo-card .cargo {
+  display: block;
+  color: #0f4c81;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
 </style>
 
-<h1 class="text-3xl font-semibold text-slate-900 mb-8">
-  Quiénes <span class="text-slate-900">Somos</span>
-</h1>
+<section class="qs-wrap">
 
-<section class="qs-layout">
-
-  <!-- TEXTO IZQUIERDA -->
-  <div class="qs-main space-y-4 leading-relaxed text-slate-900">
-    <p>
-      Somos una notaría ubicada en el centro de <span class="font-semibold">Alto del Carmen</span>,
-      servida por <span class="font-semibold">[Felipe Andres Velasquez Morales]</span>, donde
-      entregamos servicios notariales vinculados a la fe pública y la seguridad jurídica.
-    </p>
-
-    <p>
-      Nuestro objetivo es brindar una atención eficiente, ordenada y cercana,
-      apoyando a las personas y empresas en la formalización de sus actos y contratos,
-      con procesos claros y tiempos razonables de gestión.
-    </p>
-
-    <p>
-      Contamos con infraestructura adecuada, sistemas internos de gestión documental
-      y un equipo de trabajo capacitado, lo que nos permite dar respuesta a un alto
-      volumen de trámites manteniendo estándares de calidad y resguardo de la información.
-    </p>
-
-    <p>
-      Desarrollamos nuestra labor con respeto por las personas, estricto cumplimiento
-      de la normativa vigente y una búsqueda permanente de mejoras en nuestros procesos,
-      para que cada usuario pueda realizar sus gestiones con confianza y tranquilidad.
-    </p>
+  <!-- IMAGEN IZQUIERDA -->
+  <div class="qs-photo">
+    <img src="{% static 'img/quienes-somos.png' %}" alt="Entrada de la notaría">
   </div>
 
-  <!-- MENÚ LATERAL DERECHA -->
-  <aside class="qs-menu">
-    <h2>Menú Principal</h2>
-    <nav>
-      <a href="{% url 'home' %}">Página Principal</a>
-      <a href="{% url 'quienes_somos' %}">Quiénes Somos</a>
-      <a href="{% url 'nuestro_personal' %}">Nuestro Personal</a>
-      <a href="{% url 'horario_atencion' %}">Horario de Atención</a>
-      <a href="{% url 'preguntas_frecuentes' %}">Preguntas Frecuentes</a>
-      <a href="{% url 'tramites_comunes' %}">Trámites más Comunes</a>
-      <a href="{% url 'enlaces_interes' %}">Enlaces de Interés</a>
-      <a href="{% url 'seguimiento_escrituras' %}">Seguimiento Escrituras</a>
-      <a href="{% url 'contact' %}">Contáctenos</a>
-    </nav>
-  </aside>
+  <!-- TEXTO DERECHA -->
+  <div class="qs-content">
+    <h1 class="qs-title">NOTARÍA FELIPE VELASQUEZ MORALES</h1>
+
+    <p>
+      En nuestra Notaría sabemos que el tiempo de cada persona es importante. Por eso, buscamos
+      entregar un servicio ágil, claro y cercano, apoyado en herramientas de gestión que permitan
+      atender de mejor forma los requerimientos de la comunidad y disminuir los tiempos de espera
+      en los distintos trámites notariales.
+    </p> 
+
+    <h2 class="qs-subtitle">Sobre el Notario</h2>
+
+    <p>
+      El Notario Público Titular de la Notaría de Alto del Carmen es el abogado
+      <strong>Felipe Andrés Velasquez Morales</strong>, quien desarrolla su labor con un enfoque
+      centrado en la atención responsable, la seguridad jurídica y la confianza de quienes acuden
+      diariamente a realizar sus gestiones.
+    </p>
+
+    <p>
+      Nuestra oficina está orientada a brindar apoyo a personas y empresas en la formalización
+      de actos y contratos, manteniendo un estándar de atención profesional, ordenado y transparente.
+      Buscamos que cada usuario encuentre una experiencia clara, eficiente y acorde a las exigencias
+      actuales.
+    </p>
+
+    <p>
+      Contamos con una infraestructura adecuada y con procesos internos de gestión documental que
+      permiten responder a un alto volumen de trámites, resguardando la correcta administración de
+      la información y el cumplimiento de la normativa vigente.
+    </p>
+
+    <p>
+      Nuestra experiencia junto al equipo de trabajo permite implementar herramientas administrativas
+      y tecnológicas necesarias para ofrecer un servicio notarial cercano y moderno, brindando a la
+      comunidad los más diversos servicios notariales con la debida seguridad jurídica.
+    </p>
+
+    <h2 class="qs-subtitle">Compromiso Institucional</h2>
+
+    <ul class="qs-list">
+      <li>Atención clara, ordenada y cercana para cada usuario.</li>
+      <li>Gestión eficiente de documentos y trámites notariales.</li>
+      <li>Resguardo de la información y cumplimiento normativo.</li>
+      <li>Mejora continua en procesos y atención al público.</li>
+    </ul>
+  </div>
+
+</section>
+
+<section class="equipo-notaria">
+
+  <h2 class="equipo-title">Funcionarios de Nuestra Notaría</h2>
+  <p class="equipo-subtitle">
+    Equipo de trabajo que atiende en la Notaría Felipe Velasquez Morales
+  </p>
+
+  <div class="equipo-grid">
+
+    <!-- FUNCIONARIO -->
+    <div class="equipo-card">
+      <img src="{% static 'img/hombre.jpg' %}" alt="Funcionario">
+      <h3>Felipe Andrés Velasquez</h3>
+      <span class="cargo">Notario Público</span>
+      <p>info@notaria.cl</p>
+      <p>Tel: 51 222 2222</p>
+    </div>
+
+    <div class="equipo-card">
+      <img src="{% static 'img/mujer.jpg' %}" alt="Funcionario">
+      <h3>Yaritza</h3>
+      <span class="cargo">Escrituras Públicas</span>
+      <p>maria@notaria.cl</p>
+      <p>Tel: 51 222 2223</p>
+    </div>
+
+    <div class="equipo-card">
+      <img src="{% static 'img/mujer.jpg' %}" alt="Funcionario">
+      <h3>Arlett</h3>
+      <span class="cargo">Atención General</span>
+      <p>carlos@notaria.cl</p>
+      <p>Tel: 51 222 2224</p>
+    </div>
+
+    <div class="equipo-card">
+      <img src="{% static 'img/mujer.jpg' %}" alt="Funcionario">
+      <h3>Deborah</h3>
+      <span class="cargo">Empresas</span>
+      <p>paula@notaria.cl</p>
+      <p>Tel: 51 222 2225</p>
+    </div>
+
+  </div>
 
 </section>
 

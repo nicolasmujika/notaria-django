@@ -1,13 +1,250 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Horario de Atención - Notaría Felipe Velasquez{% endblock %}
+
 {% block content %}
 
-<div class="max-w-4xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold mb-6">Horario de atención</h1>
-    <p class="text-gray-700 leading-relaxed">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis
-        ligula id mi ultrices varius. Integer consequat felis vel gravida
-        pulvinar. Donec posuere pulvinar ex vel pharetra.
-    </p>
-</div>
+<style>
+  .ha-top {
+    background: linear-gradient(to right, #f3f4f6, #fafafa);
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 28px 0 30px;
+    margin: -2rem -1rem 2rem;
+  }
+
+  .ha-top-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .ha-title {
+    font-size: 2.2rem;
+    line-height: 1.1;
+    color: #111827;
+    margin: 0 0 8px;
+    font-weight: 500;
+  }
+
+  .ha-breadcrumb {
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+
+  .ha-breadcrumb a {
+    color: #0284c7;
+    text-decoration: none;
+  }
+
+  .ha-layout {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    gap: 44px;
+    align-items: flex-start;
+  }
+
+  .ha-main {
+    flex: 1 1 auto;
+    max-width: 760px;
+  }
+
+  .ha-side {
+    width: 270px;
+    flex: 0 0 270px;
+  }
+
+  .ha-banner img {
+    width: 100%;
+    display: block;
+    border: 1px solid #d1d5db;
+  }
+
+  .ha-section-title {
+    font-size: 1.15rem;
+    color: #111827;
+    font-weight: 400;
+    margin: 18px 0 14px;
+  }
+
+  .ha-section-title strong {
+    font-weight: 700;
+  }
+
+  .ha-hours-table,
+  .ha-turno-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+  }
+
+  .ha-hours-table td,
+  .ha-turno-table th,
+  .ha-turno-table td {
+    border: 1px solid #e5e7eb;
+    padding: 18px 16px;
+    color: #374151;
+  }
+
+  .ha-hours-table td:first-child {
+    width: 35%;
+    text-align: center;
+    font-weight: 700;
+    color: #111827;
+    font-size: 1rem;
+  }
+
+  .ha-hours-table td:last-child {
+    text-align: center;
+    font-weight: 700;
+    color: #111827;
+    font-size: 1rem;
+  }
+
+  .ha-subtitle {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #111827;
+    margin: 18px 0 8px;
+    text-transform: uppercase;
+  }
+
+  .ha-turno-text {
+    font-size: 1.1rem;
+    color: #111827;
+    margin: 0 0 18px;
+  }
+
+  .ha-turno-table th {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    color: #6b7280;
+    background: #f3f4f6;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .ha-turno-table td {
+    background: #f9fafb;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  .ha-turno-table td.left {
+    text-align: left;
+  }
+
+  .ha-menu-title {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #111827;
+    margin: 0 0 18px;
+  }
+
+  .ha-menu-title strong {
+    font-weight: 700;
+  }
+
+  .ha-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ha-menu li {
+    margin-bottom: 10px;
+  }
+
+  .ha-menu a {
+    color: #0284c7;
+    text-decoration: none;
+    font-size: 0.98rem;
+  }
+
+  .ha-menu a::before {
+    content: "›";
+    margin-right: 10px;
+    color: #0284c7;
+    font-weight: 700;
+  }
+
+  .ha-menu a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1024px) {
+    .ha-layout {
+      flex-direction: column;
+    }
+
+    .ha-main {
+      max-width: 100%;
+    }
+
+    .ha-side {
+      width: 100%;
+      flex: 1 1 auto;
+    }
+  }
+</style>
+
+<!-- CABECERA INTERNA -->
+<section class="ha-top">
+  <div class="ha-top-inner">
+    <h1 class="ha-title">Nuestra Notaría</h1>
+    <div class="ha-breadcrumb">
+      <a href="{% url 'home' %}">Home</a> / Horario de Atención y Turnos
+    </div>
+  </div>
+</section>
+
+<!-- CONTENIDO -->
+<section class="ha-layout">
+
+  <!-- COLUMNA PRINCIPAL -->
+  <div class="ha-main">
+    <div class="ha-banner">
+      <img src="{% static 'img/horario-banner.png' %}" alt="Horario de Atención">
+    </div>
+
+    <h2 class="ha-section-title">
+      Horario de <strong>Atención al Público</strong>
+    </h2>
+
+    <table class="ha-hours-table">
+      <tr>
+        <td>LUNES A VIERNES</td>
+        <td>09:00 a 16:00 hrs. (Horario Continuado)</td>
+      </tr>
+    </table>
+
+  </div>
+
+  <!-- MENÚ LATERAL -->
+  <aside class="ha-side">
+    <h3 class="ha-menu-title">Menu <strong>Principal</strong></h3>
+    <ul class="ha-menu">
+      <li><a href="{% url 'home' %}">Página Principal</a></li>
+      <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
+      <li><a href="{% url 'horario_atencion' %}">Horario de Atención</a></li>
+      <li><a href="{% url 'preguntas_frecuentes' %}">Preguntas más Frecuentes</a></li>
+      <li><a href="{% url 'enlaces_interes' %}">Enlaces de Interés</a></li>
+      <li><a href="{% url 'servicios_notariales' %}">Servicios Notariales</a></li>
+      <li><a href="{% url 'escrituras_publicas' %}">Escrituras Públicas</a></li>
+      <li><a href="{% url 'solicitud_escrituras' %}">Solicitud de Escrituras Públicas</a></li>
+      <li><a href="{% url 'seguimiento_escrituras' %}">Seguimiento WEB de Escrituras</a></li>
+      <li><a href="{% url 'validar_documentos' %}">Validar Documentos</a></li>
+      <li><a href="{% url 'tramites_comunes' %}">Trámites más Comunes</a></li>
+      <li><a href="{% url 'notaria_en_linea' %}">Notaría en Línea</a></li>
+      <li><a href="/contacto/#ubicacion">Nuestra Ubicación</a></li>
+      <li><a href="{% url 'contact' %}">Contáctenos</a></li>
+    </ul>
+  </aside>
+
+</section>
 
 {% endblock %}
