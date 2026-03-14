@@ -1,45 +1,442 @@
-{% extends "base.html" %}
-{% block title %}Inicio · Notaría Felipe Velasquez{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<section class="mb-10">
-  <h1 class="text-3xl font-semibold text-slate-900 mb-3">
-    Bienvenido a Notaría Felipe Velasquez
-  </h1>
-  <p class="text-sm text-slate-600 mb-4 max-w-2xl">
-    Plataforma en desarrollo para gestión de trámites notariales. Información clara,
-    horarios definidos y canal de contacto directo para consultas.
-  </p>
-  <div class="flex flex-wrap gap-3 text-sm">
-    <a href="/tramites/" class="px-4 py-2 rounded bg-slate-900 text-white">
-      Ver trámites disponibles
-    </a>
-    <a href="/contacto/" class="px-4 py-2 rounded border border-slate-900 text-slate-900">
-      Datos de contacto y ubicación
-    </a>
-  </div>
-</section>
+<style>
+  .home-page {
+    background: #f4f4f4;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+  }
 
-<section class="grid md:grid-cols-3 gap-6 text-sm">
-  <div class="bg-white shadow-sm rounded p-4">
-    <h2 class="font-semibold mb-2 text-slate-900">Atención</h2>
-    <p class="text-slate-600">
-      Lunes a Viernes 09:00–14:00 / 15:30–18:00<br>
-      Sábado 09:00–13:00
-    </p>
-  </div>
-  <div class="bg-white shadow-sm rounded p-4">
-    <h2 class="font-semibold mb-2 text-slate-900">Ubicación referencial</h2>
-    <p class="text-slate-600">
-      Dirección de ejemplo, Ciudad, Chile.
-    </p>
-  </div>
-  <div class="bg-white shadow-sm rounded p-4">
-    <h2 class="font-semibold mb-2 text-slate-900">Contacto</h2>
-    <p class="text-slate-600">
-      Tel: +56 32 123 4567<br>
-      Email: notaria.altodelcarmen@gmail.com
-    </p>
-  </div>
-</section>
+  .home-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .home-hero {
+    position: relative;
+    min-height: 480px;
+    background:
+      linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+      url("{% static 'img/alto.jpg' %}") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    border-radius: 10px;
+  }
+
+  .home-hero-content {
+    max-width: 800px;
+    padding: 40px 20px;
+  }
+
+  .home-hero h1 {
+    margin: 0 0 16px;
+    font-size: 54px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .home-hero p {
+    margin: 0 auto 28px;
+    font-size: 20px;
+    line-height: 1.6;
+    max-width: 720px;
+  }
+
+  .home-btn {
+    display: inline-block;
+    background: #1f4ea3;
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  }
+
+  .home-btn:hover {
+    background: #173d81;
+  }
+
+  .home-section {
+    padding: 64px 0;
+  }
+
+  .home-section-title {
+    text-align: center;
+    font-size: 36px;
+    color: #1f2f86;
+    margin: 0 0 14px;
+    font-weight: 700;
+  }
+
+  .home-section-subtitle {
+    text-align: center;
+    color: #5f6b7a;
+    font-size: 17px;
+    margin: 0 auto 34px;
+    max-width: 760px;
+    line-height: 1.7;
+  }
+
+  .home-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .home-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+
+  .home-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    padding: 28px 24px;
+    height: 100%;
+  }
+
+  .home-news-card h3,
+  .home-service-card h3,
+  .home-info-card h3 {
+    margin: 0 0 14px;
+    font-size: 22px;
+    color: #1f2f86;
+  }
+
+  .home-news-card p,
+  .home-service-card p,
+  .home-info-card p,
+  .home-about-text p {
+    margin: 0 0 14px;
+    color: #5a6573;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .home-link {
+    color: #1f4ea3;
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  .home-link:hover {
+    text-decoration: underline;
+  }
+
+  .home-about-wrap {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .home-about-image {
+    min-height: 360px;
+    border-radius: 16px;
+    background:
+      linear-gradient(rgba(31, 47, 134, 0.18), rgba(31, 47, 134, 0.18)),
+      url("{% static 'img/home/notaria-about.jpg' %}") center/cover no-repeat;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  }
+
+  .home-about-text .home-section-title,
+  .home-online .home-section-title,
+  .home-contact .home-section-title {
+    text-align: left;
+    margin-bottom: 16px;
+  }
+
+  .home-services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+  }
+
+  .home-service-card {
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .home-service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+  }
+
+  .home-service-icon {
+    font-size: 42px;
+    color: #1f2f86;
+    margin-bottom: 14px;
+    line-height: 1;
+  }
+
+  .home-online {
+    background: #eaf3fb;
+  }
+
+  .home-online-box {
+    background: #fff;
+    border-left: 5px solid #1f2f86;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    padding: 28px 24px;
+  }
+
+  .home-schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 28px;
+  }
+
+  .home-schedule-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    padding: 24px 20px;
+    text-align: center;
+  }
+
+  .home-schedule-card h4 {
+    margin: 0 0 10px;
+    color: #1f2f86;
+    font-size: 20px;
+  }
+
+  .home-schedule-card p {
+    margin: 0;
+    color: #5a6573;
+    line-height: 1.7;
+  }
+
+  .home-contact-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  .home-map iframe {
+    width: 100%;
+    min-height: 360px;
+    border: 0;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+  }
+
+  @media (max-width: 992px) {
+    .home-hero h1 {
+      font-size: 42px;
+    }
+
+    .home-grid-3,
+    .home-grid-2,
+    .home-services-grid,
+    .home-schedule-grid,
+    .home-contact-grid,
+    .home-about-wrap {
+      grid-template-columns: 1fr;
+    }
+
+    .home-about-image {
+      min-height: 280px;
+    }
+
+    .home-about-text .home-section-title,
+    .home-online .home-section-title,
+    .home-contact .home-section-title {
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .home-hero h1 {
+      font-size: 34px;
+    }
+
+    .home-hero p {
+      font-size: 17px;
+    }
+
+    .home-section {
+      padding: 48px 0;
+    }
+
+    .home-section-title {
+      font-size: 30px;
+    }
+  }
+</style>
+
+
+<div class="home-page">
+
+  <section class="home-hero">
+    <div class="home-hero-content">
+      <h1>Seguridad jurídica y atención cercana para tus trámites notariales</h1>
+      <p>
+        Atención eficiente para personas y empresas, con acceso a servicios notariales,
+        escrituras públicas y documentos privados.
+      </p>
+      <a href="{% url 'contact' %}" class="home-btn">Solicitar Atención</a>
+    </div>
+  </section>
+
+  <section class="home-section">
+    <div class="home-container">
+      <h2 class="home-section-title">Últimas Noticias</h2>
+      <p class="home-section-subtitle">
+        Un inicio estilo notaría moderna suele destacar noticias, información pública y novedades
+        relevantes para los usuarios. :contentReference[oaicite:1]{index=1}
+      </p>
+
+      <div class="home-grid-3">
+        <div class="home-card home-news-card">
+          <h3>Atención y modernización</h3>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+          </p>
+        </div>
+
+        <div class="home-card home-news-card">
+          <h3>Información para usuarios</h3>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+          </p>
+          
+        </div>
+
+        <div class="home-card home-news-card">
+          <h3>Novedades notariales</h3>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+          </p>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-section">
+    <div class="home-container">
+      <div class="home-about-wrap">
+        <div class="home-about-text">
+          <h2 class="home-section-title">Sobre nuestra Notaría</h2>
+          <p>
+            En nuestra Notaría sabemos que el tiempo de cada persona es importante. Por eso, buscamos entregar un servicio ágil, claro y cercano, apoyado en herramientas de gestión que permitan atender de mejor forma los requerimientos de la comunidad y disminuir los tiempos de espera en los distintos trámites notariales.
+          </p>
+          
+          <a href="{% url 'quienes_somos' %}" class="home-btn">Más sobre nosotros</a>
+        </div>
+
+        <div class="home-about-image"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-section">
+    <div class="home-container">
+      <h2 class="home-section-title">Servicios Principales</h2>
+      <p class="home-section-subtitle">
+        La web de referencia destaca servicios para personas y empresas, además de módulos
+        de atención y tramitación en línea. :contentReference[oaicite:3]{index=3}
+      </p>
+
+      <div class="home-services-grid">
+        <a href="{% url 'servicios_notariales' %}" class="home-card home-service-card">
+          <div class="home-service-icon">📝</div>
+          <h3>Servicios Notariales</h3>
+          <p>Revisa trámites frecuentes, requisitos y orientación general.</p>
+        </a>
+
+        <a href="{% url 'escrituras_publicas' %}" class="home-card home-service-card">
+          <div class="home-service-icon">🏛️</div>
+          <h3>Escrituras Públicas</h3>
+          <p>Información general, tipos de escrituras y valores referenciales.</p>
+        </a>
+
+        <a href="{% url 'documentos_privados' %}" class="home-card home-service-card">
+          <div class="home-service-icon">📄</div>
+          <h3>Documentos Privados</h3>
+          <p>Actuaciones frecuentes como cartas poder y declaraciones juradas.</p>
+        </a>
+
+        <a href="{% url 'contact' %}" class="home-card home-service-card">
+          <div class="home-service-icon">📍</div>
+          <h3>Contacto</h3>
+          <p>Dirección, horarios, medios de contacto y ubicación.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-section">
+    <div class="home-container">
+      <h2 class="home-section-title">Horario de Atención</h2>
+      
+      <div class="home-schedule-grid">
+        <div class="home-schedule-card">
+          <h4>Mesón</h4>
+          <p>Lunes a Viernes</p>
+          <p>09:00 a 14:00 hrs</p>
+        </div>
+
+        <div class="home-schedule-card">
+          <h4>Escrituras</h4>
+          <p>Lunes a Viernes</p>
+          <p>09:00 a 14:00 hrs</p>
+        </div>
+
+        <div class="home-schedule-card">
+          <h4>Consultas</h4>
+          <p>Atención por contacto</p>
+          <p>Respuesta en horario hábil</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-section home-contact">
+    <div class="home-container">
+      <h2 class="home-section-title">Contáctanos y Encuéntranos</h2>
+
+      <div class="home-contact-grid">
+        <div class="home-card home-info-card">
+          <h3>Información de contacto</h3>
+          <p><strong>Dirección:</strong> 31 de Enero 195, Alto del Carmen, Atacama</p>
+          <p><strong>Teléfono:</strong> +512788240.</p>
+          <p><strong>Correo:</strong> notaria.altodelcarmen@gmail.com.</p>
+          <p><strong>Horario:</strong> Lunes a Viernes, horario hábil.</p>
+          <a href="{% url 'contact' %}" class="home-link">Ir a contacto</a>
+        </div>
+
+        <div class="home-map">
+          <iframe
+              src="https://www.google.com/maps?q=-28.7602469,-70.4863608&hl=es&z=17&output=embed"
+              width="100%"
+              height="360"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
 {% endblock %}

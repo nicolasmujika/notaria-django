@@ -153,6 +153,9 @@ def tramite_detail(request, tramite_id: int):
     tramite = Tramite.objects.get(pk=tramite_id)
     return render(request, "pages/tramite_detail.html", {"tramite": tramite})
 
+def documentos_privados(request):
+    return render(request, 'pages/documentos_privados.html')
+
 def seguimiento_escrituras(request):
     resultado = None
     error = None

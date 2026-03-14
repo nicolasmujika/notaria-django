@@ -1,14 +1,566 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="max-w-4xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold mb-6">Escrituras publicas</h1>
-    <p class="text-gray-700 leading-relaxed">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis
-        ligula id mi ultrices varius. Integer consequat felis vel gravida
-        pulvinar. Donec posuere pulvinar ex vel pharetra.
-    </p>
-</div>
+<style>
+  .ep-modern-page {
+    background: #f3f3f3;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+  }
+
+  .ep-modern-banner {
+    background: #f5f5f5;
+    border-top: 1px solid #dcdcdc;
+    border-bottom: 1px solid #e7e7e7;
+    padding: 28px 0;
+  }
+
+  .ep-modern-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ep-modern-banner h1 {
+    margin: 0 0 8px 0;
+    font-size: 52px;
+    font-weight: 400;
+    color: #111;
+  }
+
+  .ep-modern-breadcrumb {
+    font-size: 14px;
+    color: #888;
+  }
+
+  .ep-modern-breadcrumb a {
+    color: #0b84d8;
+    text-decoration: none;
+  }
+
+  .ep-modern-content {
+    padding: 45px 0 70px;
+  }
+
+  .ep-modern-explicacion {
+    margin-bottom: 50px;
+  }
+
+  .ep-modern-explicacion h2 {
+    font-size: 36px;
+    margin: 0 0 20px 0;
+    font-weight: 400;
+    color: #111;
+  }
+
+  .ep-modern-explicacion h2 strong {
+    font-weight: 700;
+  }
+
+  .ep-modern-explicacion p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #666;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+  }
+
+  .ep-highlight {
+    color: #0b84d8;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .ep-modern-explicacion ul {
+    margin: 20px 0 20px 0;
+    padding-left: 22px;
+  }
+
+  .ep-modern-explicacion li {
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 16px;
+    line-height: 1.7;
+    font-weight: 600;
+  }
+
+  .ep-section-title {
+    font-size: 32px;
+    margin: 40px 0 25px 0;
+    font-weight: 700;
+    color: #232f8c;
+    text-align: center;
+  }
+
+  .ep-modern-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .ep-card {
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10);
+    overflow: hidden;
+    border: 1px solid #e6e6e6;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .ep-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+  }
+
+  .ep-card-header {
+    padding: 26px 22px 18px;
+    text-align: center;
+  }
+
+  .ep-card-icon {
+    font-size: 42px;
+    color: #232f8c;
+    margin-bottom: 14px;
+  }
+
+  .ep-card-title {
+    font-size: 28px;
+    color: #232f8c;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+  }
+
+  .ep-card-short {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #666;
+    font-weight: 700;
+    min-height: 72px;
+    margin: 0;
+  }
+
+  .ep-card-price-wrap {
+    text-align: center;
+    padding: 0 22px 18px;
+  }
+
+  .ep-card-price {
+    display: inline-block;
+    background: #232f8c;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .ep-card-actions {
+    padding: 0 22px 22px;
+    text-align: center;
+  }
+
+  .ep-card-btn {
+    border: none;
+    background: #0b84d8;
+    color: white;
+    padding: 11px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .ep-card-btn:hover {
+    background: #086eb3;
+  }
+
+  .ep-card-detail {
+    display: none;
+    padding: 0 22px 24px;
+    border-top: 1px solid #ececec;
+    background: #fafafa;
+  }
+
+  .ep-card.active .ep-card-detail {
+    display: block;
+  }
+
+  .ep-card-detail p {
+    margin: 16px 0 0 0;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #666;
+    font-weight: 700;
+  }
+
+  .ep-note {
+    margin-top: 40px;
+    background: #ffffff;
+    border-left: 5px solid #232f8c;
+    padding: 20px 22px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  }
+
+  .ep-note h3 {
+    margin: 0 0 10px 0;
+    font-size: 22px;
+    color: #111;
+  }
+
+  .ep-note p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #666;
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    .ep-modern-banner h1 {
+      font-size: 38px;
+    }
+
+    .ep-modern-explicacion h2 {
+      font-size: 30px;
+    }
+
+    .ep-card-title {
+      font-size: 24px;
+    }
+
+    .ep-section-title {
+      font-size: 28px;
+    }
+  }
+</style>
+
+<section class="ep-modern-page">
+  <div class="ep-modern-banner">
+    <div class="ep-modern-container">
+      <h1>Escrituras Públicas</h1>
+      <div class="ep-modern-breadcrumb">
+        <a href="/">Home</a> / <span>Escrituras Públicas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ep-modern-container ep-modern-content">
+
+    <div class="ep-modern-explicacion">
+    
+      <p>
+        La escritura pública está definida en el artículo 403 del Código Orgánico de Tribunales
+        como "el instrumento público o auténtico otorgado con las solemnidades legales que fija
+        esta ley, por el competente notario, e incorporada en su protocolo o registro público".
+      </p>
+
+      <p>
+        <span class="ep-highlight">Fecha de la escritura.-</span>
+        La fecha de la escritura es la que corresponde al día en que ha sido suscrita por el
+        primero de los otorgantes. En ese momento se incorpora a un Registro especial que recibe
+        el nombre de Repertorio, en el cual se le asigna un número correlativo anual.
+        (Art. 405 y 430 COT)
+      </p>
+
+      <p>
+        <span class="ep-highlight">Plazo para firmar.-</span>
+        Una vez que la escritura es suscrita por el primer otorgante, el resto de los comparecientes
+        deben suscribirla dentro de los 60 días siguientes. Si transcurre este plazo y ello no ocurre,
+        la escritura se deja sin efecto y carecerá de valor como tal.
+        (Art. 426 Nº 6 COT)
+      </p>
+
+      <p>
+        <span class="ep-highlight">Retiro de firma.-</span>
+        Sólo es posible efectuar el retiro de una firma puesta en una escritura hasta mientras no la haya
+        suscrito otro de los otorgantes. Luego, si ya existe firma alguna, carece de valor cualquier retiro.
+      </p>
+
+      <p>
+        <span class="ep-highlight">Firma a ruego.-</span>
+        Cuando una persona, o todos los otorgantes, no saben o no pueden firmar una escritura,
+        lo hará a su ruego un tercero que no tenga interés contrario, según el texto de la escritura.
+      </p>
+
+      <p>
+        <span class="ep-highlight">La protocolización.-</span>
+        Consiste en agregar o archivar un documento al final de un registro de notario a pedido
+        de quien lo solicita.
+        (Art. 415 COT)
+      </p>
+
+      <p>
+        <span class="ep-highlight">El testamento cerrado.-</span>
+        Una de las formas en que se puede otorgar testamento solemne es la de Testamento Cerrado.
+        Consiste en una actuación en que el testador entrega al notario un sobre cerrado en el cual
+        expresa que contiene su testamento, cumpliéndose además las solemnidades legales correspondientes.
+      </p>
+
+      <ul>
+        <li>Presentar cédula de identidad vigente.</li>
+        <li>Entregar nombres y apellidos completos.</li>
+        <li>Nacionalidad, estado civil, profesión y domicilio.</li>
+        <li>Ser mayores de edad, si son menores, deben comparecer en la forma que determina la ley para cada caso.</li>
+      </ul>
+
+      <p>
+        Los valores mostrados a continuación pueden dejarse como referenciales o ajustarse
+        según la tarifa vigente de la notaría.
+      </p>
+    </div>
+
+    <h3 class="ep-section-title">Tipos de Escrituras y Valores</h3>
+
+    <div class="ep-modern-grid">
+
+      <div class="ep-card">
+        <div class="ep-card-header">
+          <div class="ep-card-icon">📘</div>
+          <h3 class="ep-card-title">Alzamiento</h3>
+          <p class="ep-card-short">
+            Escritura otorgada cuando se extingue una garantía hipotecaria o prendaria.
+          </p>
+        </div>
+        <div class="ep-card-price-wrap">
+          <span class="ep-card-price">$XXXXXXXX + imp.</span>
+        </div>
+        <div class="ep-card-actions">
+          <button class="ep-card-btn" type="button">Ver más</button>
+        </div>
+        <div class="ep-card-detail">
+          <p>
+            Es la escritura que otorga el acreedor cuando el deudor cumple íntegramente
+            las obligaciones garantizadas a su favor, permitiendo dejar el bien libre
+            de esos gravámenes.
+          </p>
+        </div>
+      </div>
+
+      <div class="ep-card">
+        <div class="ep-card-header">
+          <div class="ep-card-icon">🏠</div>
+          <h3 class="ep-card-title">Compraventa</h3>
+          <p class="ep-card-short">
+            Escritura utilizada para formalizar la venta y transferencia de un bien raíz.
+          </p>
+        </div>
+        <div class="ep-card-price-wrap">
+          <span class="ep-card-price">$XXXXXXXX + imp.</span>
+        </div>
+        <div class="ep-card-actions">
+          <button class="ep-card-btn" type="button">Ver más</button>
+        </div>
+        <div class="ep-card-detail">
+          <p>
+            Permite formalizar la transferencia de dominio de una propiedad entre vendedor
+            y comprador, incorporando las cláusulas y antecedentes legales correspondientes.
+          </p>
+        </div>
+      </div>
+
+      <div class="ep-card">
+        <div class="ep-card-header">
+          <div class="ep-card-icon">💰</div>
+          <h3 class="ep-card-title">Mutuo</h3>
+          <p class="ep-card-short">
+            Documento mediante el cual una parte entrega dinero a otra bajo ciertas condiciones.
+          </p>
+        </div>
+        <div class="ep-card-price-wrap">
+          <span class="ep-card-price">$XXXXXXXX + imp.</span>
+        </div>
+        <div class="ep-card-actions">
+          <button class="ep-card-btn" type="button">Ver más</button>
+        </div>
+        <div class="ep-card-detail">
+          <p>
+            Corresponde a un préstamo de dinero u otra cosa fungible, estableciendo montos,
+            forma de pago, intereses y demás estipulaciones que acuerden las partes.
+          </p>
+        </div>
+      </div>
+
+      <div class="ep-card">
+        <div class="ep-card-header">
+          <div class="ep-card-icon">🧾</div>
+          <h3 class="ep-card-title">Hipoteca</h3>
+          <p class="ep-card-short">
+            Garantía constituida sobre un inmueble para asegurar una obligación.
+          </p>
+        </div>
+        <div class="ep-card-price-wrap">
+          <span class="ep-card-price">$XXXXXXXX + imp.</span>
+        </div>
+        <div class="ep-card-actions">
+          <button class="ep-card-btn" type="button">Ver más</button>
+        </div>
+        <div class="ep-card-detail">
+          <p>
+            Permite caucionar una obligación mediante la constitución de un gravamen
+            sobre un bien raíz, manteniendo el propietario la posesión del inmueble.
+          </p>
+        </div>
+      </div>
+
+      <div class="ep-card">
+        <div class="ep-card-header">
+          <div class="ep-card-icon">🔒</div>
+          <h3 class="ep-card-title">Prenda</h3>
+          <p class="ep-card-short">
+            Garantía que recae sobre bienes muebles para respaldar una deuda u obligación.
+          </p>
+        </div>
+        <div class="ep-card-price-wrap">
+          <span class="ep-card-price">$XXXXXXXX + imp.</span>
+        </div>
+        <div class="ep-card-actions">
+          <button class="ep-card-btn" type="button">Ver más</button>
+        </div>
+        <div class="ep-card-detail">
+          <p>
+            Se utiliza para asegurar el cumplimiento de una obligación mediante la afectación
+            de bienes muebles, bajo las condiciones que establezca la legislación aplicable.
+          </p>
+        </div>
+      </div>
+
+      <div class="ep-card">
+        <div class="ep-card-header">
+          <div class="ep-card-icon">🤝</div>
+          <h3 class="ep-card-title">Resciliación</h3>
+          <p class="ep-card-short">
+            Acuerdo por el cual las partes dejan sin efecto un acto o contrato previo.
+          </p>
+        </div>
+        <div class="ep-card-price-wrap">
+          <span class="ep-card-price">$XXXXXXXX + imp.</span>
+        </div>
+        <div class="ep-card-actions">
+          <button class="ep-card-btn" type="button">Ver más</button>
+        </div>
+        <div class="ep-card-detail">
+          <p>
+            Procede cuando ambas partes consienten en poner término a un contrato,
+            dejando sin efecto sus obligaciones en la forma que se pacte.
+          </p>
+        </div>
+      </div>
+
+      <div class="ep-card">
+        <div class="ep-card-header">
+          <div class="ep-card-icon">🏦</div>
+          <h3 class="ep-card-title">Mutuo Hipotecario</h3>
+          <p class="ep-card-short">
+            Escritura que combina un préstamo con la constitución de garantía hipotecaria.
+          </p>
+        </div>
+        <div class="ep-card-price-wrap">
+          <span class="ep-card-price">$XXXXXXXX + imp.</span>
+        </div>
+        <div class="ep-card-actions">
+          <button class="ep-card-btn" type="button">Ver más</button>
+        </div>
+        <div class="ep-card-detail">
+          <p>
+            Se utiliza cuando el préstamo queda garantizado con hipoteca sobre un inmueble,
+            detallando obligación principal, plazos, intereses y cauciones.
+          </p>
+        </div>
+      </div>
+
+      <div class="ep-card">
+        <div class="ep-card-header">
+          <div class="ep-card-icon">✏️</div>
+          <h3 class="ep-card-title">Rectificación o Aclaración</h3>
+          <p class="ep-card-short">
+            Permite corregir errores u omisiones en un instrumento previamente otorgado.
+          </p>
+        </div>
+        <div class="ep-card-price-wrap">
+          <span class="ep-card-price">$XXXXXXXX + imp.</span>
+        </div>
+        <div class="ep-card-actions">
+          <button class="ep-card-btn" type="button">Ver más</button>
+        </div>
+        <div class="ep-card-detail">
+          <p>
+            Se usa para complementar, precisar o corregir datos de una escritura ya suscrita,
+            siempre conforme a los antecedentes y voluntad de las partes.
+          </p>
+        </div>
+      </div>
+
+      <div class="ep-card">
+        <div class="ep-card-header">
+          <div class="ep-card-icon">🏢</div>
+          <h3 class="ep-card-title">Sociedades</h3>
+          <p class="ep-card-short">
+            Escrituras relacionadas con constitución, modificación o saneamiento societario.
+          </p>
+        </div>
+        <div class="ep-card-price-wrap">
+          <span class="ep-card-price">$XXXXXXXX + imp.</span>
+        </div>
+        <div class="ep-card-actions">
+          <button class="ep-card-btn" type="button">Ver más</button>
+        </div>
+        <div class="ep-card-detail">
+          <p>
+            Incluye actos vinculados a la creación o modificación de sociedades,
+            conforme al tipo societario y a la minuta presentada por las partes.
+          </p>
+        </div>
+      </div>
+
+      <div class="ep-card">
+        <div class="ep-card-header">
+          <div class="ep-card-icon">🔄</div>
+          <h3 class="ep-card-title">Permuta</h3>
+          <p class="ep-card-short">
+            Acto por el cual las partes intercambian bienes o derechos entre sí.
+          </p>
+        </div>
+        <div class="ep-card-price-wrap">
+          <span class="ep-card-price">$XXXXXXXX + imp.</span>
+        </div>
+        <div class="ep-card-actions">
+          <button class="ep-card-btn" type="button">Ver más</button>
+        </div>
+        <div class="ep-card-detail">
+          <p>
+            La permuta permite el intercambio de bienes entre dos o más partes,
+            dejando constancia formal de las condiciones y de los bienes involucrados.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.ep-card-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const card = this.closest('.ep-card');
+      const isActive = card.classList.contains('active');
+
+      document.querySelectorAll('.ep-card').forEach(function(item) {
+        item.classList.remove('active');
+        const button = item.querySelector('.ep-card-btn');
+        if (button) {
+          button.textContent = 'Ver más';
+        }
+      });
+
+      if (!isActive) {
+        card.classList.add('active');
+        this.textContent = 'Ver menos';
+      }
+    });
+  });
+</script>
 
 {% endblock %}
 

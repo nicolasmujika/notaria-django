@@ -23,6 +23,6 @@ urlpatterns = [
     path('notaria-en-linea/', views.notaria_en_linea, name='notaria_en_linea'),
     path("tramites/", views.tramites_list, name="tramites_list"),
     path("tramites/<int:tramite_id>/", views.tramite_detail, name="tramite_detail"),
-    
+    path('documentos-privados/', views.documentos_privados, name='documentos_privados'),
     path('admin/', admin.site.urls),
 ]

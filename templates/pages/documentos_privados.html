@@ -1,0 +1,462 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<style>
+  .dp-page {
+    background: #f3f3f3;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+  }
+
+  .dp-hero {
+    background: #d9eef4;
+    border-bottom-left-radius: 42px;
+    border-bottom-right-radius: 42px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    padding: 42px 20px 32px;
+    text-align: center;
+  }
+
+  .dp-hero h1 {
+    margin: 0;
+    font-size: 56px;
+    color: #232f8c;
+    font-weight: 700;
+  }
+
+  .dp-hero p {
+    margin: 18px 0 0;
+    font-size: 18px;
+    color: #31479b;
+    font-weight: 500;
+  }
+
+  .dp-container {
+    width: 90%;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .dp-main {
+    padding: 48px 0 24px;
+  }
+
+  .dp-top {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 30px;
+    align-items: stretch;
+  }
+
+  .dp-image-card img {
+    width: 100%;
+    height: 100%;
+    max-height: 630px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  }
+
+  .dp-info h2 {
+    margin: 0 0 10px;
+    font-size: 28px;
+    color: #232f8c;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .dp-info p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #4f5d73;
+    margin: 0 0 16px;
+  }
+
+  .dp-info strong {
+    color: #2f3d4f;
+  }
+
+  .dp-quote {
+    background: #d9eef4;
+    color: #31479b;
+    font-style: italic;
+    border-radius: 10px;
+    padding: 18px 16px;
+    margin: 18px 0 20px;
+    font-size: 16px;
+  }
+
+  .dp-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 16px;
+    margin-top: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    border-top: 5px solid #232f8c;
+  }
+
+  .dp-box.red {
+    border-top: 5px solid #d83b3b;
+  }
+
+  .dp-box h3 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    color: #232f8c;
+    font-weight: 700;
+  }
+
+  .dp-box.red h3 {
+    color: #1f2b7b;
+  }
+
+  .dp-solution {
+    background: #edf5ea;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 14px;
+  }
+
+  .dp-solution strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #486b34;
+  }
+
+  .dp-types {
+    padding: 60px 0 50px;
+    text-align: center;
+  }
+
+  .dp-types h2 {
+    font-size: 28px;
+    color: #232f8c;
+    margin: 0 0 28px;
+    font-weight: 700;
+  }
+
+  .dp-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap: 22px;
+    justify-content: center;
+  }
+
+  .dp-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    padding: 28px 18px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .dp-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+  }
+
+  .dp-icon {
+    font-size: 46px;
+    color: #232f8c;
+    margin-bottom: 18px;
+    line-height: 1;
+  }
+
+  .dp-card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #222;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .dp-cta {
+    text-align: center;
+    padding-bottom: 34px;
+  }
+
+  .dp-cta p {
+    font-size: 18px;
+    color: #232f8c;
+    margin-bottom: 20px;
+  }
+
+  .dp-cta a {
+    display: inline-block;
+    background: #232f8c;
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 32px;
+    border-radius: 999px;
+    font-size: 17px;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+
+  .dp-cta a:hover {
+    background: #1b246e;
+  }
+
+  @media (max-width: 992px) {
+    .dp-hero h1 {
+      font-size: 42px;
+    }
+
+    .dp-top {
+      grid-template-columns: 1fr;
+    }
+
+    .dp-grid {
+      grid-template-columns: repeat(2, minmax(180px, 1fr));
+    }
+  }
+
+  @media (max-width: 576px) {
+    .dp-hero h1 {
+      font-size: 34px;
+    }
+
+    .dp-hero p {
+      font-size: 16px;
+    }
+
+    .dp-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .dp-card-featured {
+  background: #232f8c;
+  color: #fff;
+}
+
+.dp-card-featured .dp-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  height: 100%;
+}
+
+.dp-card-text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 700;
+  text-align: center;
+  max-width: 240px;
+}
+
+.dp-price-pill {
+  background: #fff;
+  color: #232f8c;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.dp-card-expand {
+  position: relative;
+}
+
+.dp-card-price-text {
+  margin: 10px 0 14px;
+  color: #232f8c;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.dp-toggle-btn {
+  border: none;
+  background: #232f8c;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dp-toggle-btn:hover {
+  background: #1b246e;
+}
+
+.dp-card-detail {
+  display: none;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #e6e6e6;
+  width: 100%;
+}
+
+.dp-card-detail p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #4f5d73;
+  text-align: center;
+}
+
+.dp-card-expand.active .dp-card-detail {
+  display: block;
+}
+</style>
+
+<section class="dp-page">
+  <div class="dp-hero">
+    <div class="dp-container">
+      <h1>Documentos Privados</h1>
+      <p>Instrumentos ágiles para tus trámites cotidianos, con la garantía y seguridad notarial.</p>
+    </div>
+  </div>
+
+  <div class="dp-container dp-main">
+    <div class="dp-top">
+      <div class="dp-image-card">
+        <img src="{% static 'img/doc-priv1.jpg' %}" alt="Documentos privados">
+      </div>
+
+      <div class="dp-info">
+        <h2>¿Qué son?</h2>
+
+        <p>
+          En el oficio notarial se otorgan, aparte de las escrituras públicas, los llamados
+          <strong>instrumentos privados</strong>.
+        </p>
+
+        <p>
+          Su característica general es que <strong>no quedan archivados o guardados en el oficio</strong>.
+          Son documentos que las partes suscriben ante el notario y retiran inmediatamente.
+        </p>
+
+        <div class="dp-quote">
+          “Es todo documento que da cuenta de un acto o contrato y que no es instrumento público.”
+        </div>
+
+        <div class="dp-box">
+          <h3>🛡️ La Ventaja Notarial</h3>
+          <p>
+            Aunque estos documentos no requieren necesariamente intervención notarial por ley,
+            realizarlos ante notario otorga una <strong>suficiente garantía de autenticidad</strong>.
+          </p>
+          <p>
+            Esto conlleva importantes consecuencias probatorias, asegurando que las identidades
+            y firmas son verdaderas. Pueden otorgarse bajo esta forma todo tipo de actos,
+            salvo aquellos que exigen solemnidad de escritura pública.
+          </p>
+        </div>
+
+        <div class="dp-box red">
+          <h3>⚠️ Desventaja y Solución</h3>
+          <p>
+            Al ser retirados por los interesados y no quedar archivados en la notaría,
+            estos documentos corren el riesgo de <strong>deteriorarse o perderse</strong> con el tiempo.
+          </p>
+
+          <div class="dp-solution">
+            <strong>✅ Solución recomendada</strong>
+            Para evitar pérdidas, se recomienda su protocolización, ya sea en el mismo
+            oficio del otorgamiento o en otro cualquiera, para que quede un registro permanente.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dp-types">
+  <h2>Tipos de Actuaciones y Valores</h2>
+
+  <div class="dp-grid">
+
+    <div class="dp-card dp-card-expand">
+      <div class="dp-icon">🚗</div>
+      <h3>Compraventa de Vehículos</h3>
+      <p class="dp-card-price-text">$XXXX + imp.</p>
+      <button class="dp-toggle-btn" type="button">Ver más</button>
+      <div class="dp-card-detail">
+        <p>
+          Contrato privado para la transferencia de dominio de un vehículo..
+        </p>
+      </div>
+    </div>
+
+    <div class="dp-card dp-card-expand">
+      <div class="dp-icon">✈️</div>
+      <h3>Autorizaciones de Viaje</h3>
+      <p class="dp-card-price-text">$XXXX + imp.</p>
+      <button class="dp-toggle-btn" type="button">Ver más</button>
+      <div class="dp-card-detail">
+        <p>
+          Documento requerido para autorizar la salida del país de un menor de edad,
+          o permitir determinados traslados cuando corresponde formalizar dicha autorización.
+        </p>
+      </div>
+    </div>
+
+    <div class="dp-card dp-card-expand">
+      <div class="dp-icon">⚖️</div>
+      <h3>Declaraciones Juradas</h3>
+      <p class="dp-card-price-text">$XXXX + imp.</p>
+      <button class="dp-toggle-btn" type="button">Ver más</button>
+      <div class="dp-card-detail">
+        <p>
+          Instrumento en que una persona declara formalmente un hecho o situación bajo juramento,
+          para distintos fines administrativos, personales o legales.
+        </p>
+      </div>
+    </div>
+
+    <div class="dp-card dp-card-expand">
+      <div class="dp-icon">📄</div>
+      <h3>Cartas Poder</h3>
+      <p class="dp-card-price-text">$XXXX + imp.</p>
+      <button class="dp-toggle-btn" type="button">Ver más</button>
+      <div class="dp-card-detail">
+        <p>
+          Documento mediante el cual una persona autoriza a otra para actuar en su nombre
+          en gestiones determinadas, según las facultades expresamente indicadas.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="dp-cta">
+  <p>¿Necesitas legalizar un documento privado?</p>
+  <a href="{% url 'contact' %}">Agendar Hora</a>
+</div>
+
+<script>
+  document.querySelectorAll('.dp-toggle-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const card = this.closest('.dp-card-expand');
+      const isActive = card.classList.contains('active');
+
+      document.querySelectorAll('.dp-card-expand').forEach(function(item) {
+        item.classList.remove('active');
+        const button = item.querySelector('.dp-toggle-btn');
+        if (button) {
+          button.textContent = 'Ver más';
+        }
+      });
+
+      if (!isActive) {
+        card.classList.add('active');
+        this.textContent = 'Ver menos';
+      }
+    });
+  });
+</script>
+
+{% endblock %}
