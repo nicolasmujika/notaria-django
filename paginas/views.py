@@ -3,10 +3,17 @@ from django.shortcuts import render, redirect, get_object_or_404 # type: ignore
 from django.contrib import messages# type: ignore
 from django.core.mail import send_mail # type: ignore
 from django.conf import settings# type: ignore
-from .forms import ContactForm, SeguimientoForm,SolicitudEscrituraForm
-from .models import Service, Tramite, Expediente,SolicitudEscritura
+from .forms import ContactForm, SeguimientoForm,SolicitudEscrituraForm,RegistroUsuarioForm, LoginUsuarioForm, ExpedienteGestionForm
+from .models import Service, Tramite, Expediente,SolicitudEscritura, IndiceEscritura
 from django.utils import timezone # type: ignore
 from datetime import timedelta
+from django.contrib.auth import login, logout
+from django.contrib.auth.views import LoginView
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 def home(request):
     return render(request, "pages/home.html")
@@ -183,3 +190,219 @@ def seguimiento_escrituras(request):
         "error": error,
     }
     return render(request, "pages/seguimiento_escrituras.html", context)
+
+
+class CustomLoginView(LoginView):
+    template_name = "pages/login.html"
+    authentication_form = LoginUsuarioForm
+
+    def form_valid(self, form):
+        user = form.get_user()
+        login(self.request, user)
+
+        next_url = self.request.POST.get("next") or self.request.GET.get("next")
+        if next_url:
+            return redirect(next_url)
+
+        if hasattr(user, "perfil") and user.perfil.tipo == "funcionario":
+            return redirect("panel_funcionario")
+
+        return redirect("home")
+
+    def form_invalid(self, form):
+        username = self.request.POST.get("username", "").strip()
+        password = self.request.POST.get("password", "").strip()
+
+        if username:
+            existe = User.objects.filter(email__iexact=username).exists() or User.objects.filter(username__iexact=username).exists()
+
+            if not existe:
+                messages.error(self.request, "El usuario o correo no existe.")
+            else:
+                messages.error(self.request, "La contraseña es incorrecta.")
+        else:
+            messages.error(self.request, "Debes ingresar correo o nombre de usuario y contraseña.")
+
+        return super().form_invalid(form)
+def registro_usuario(request):
+    if request.method == "POST":
+        form = RegistroUsuarioForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("home")
+    else:
+        form = RegistroUsuarioForm()
+
+    return render(request, "pages/registro.html", {"form": form})
+
+def logout_view(request):
+    logout(request)
+    return redirect("home")
+
+def es_funcionario(user):
+    return user.is_authenticated and hasattr(user, "perfil") and user.perfil.tipo == "funcionario"
+
+
+
+from django.core.paginator import Paginator
+
+@login_required
+@user_passes_test(es_funcionario)
+def panel_funcionario(request):
+    solicitudes = (
+        SolicitudEscritura.objects
+        .filter(expediente__isnull=True)
+        .order_by("-creado_en")
+    )
+
+    expedientes_lista = (
+        Expediente.objects
+        .select_related("solicitud")
+        .order_by("-fecha_ingreso")
+    )
+
+    paginator = Paginator(expedientes_lista, 10)
+    page_number = request.GET.get("page")
+    expedientes = paginator.get_page(page_number)
+
+    context = {
+        "solicitudes": solicitudes,
+        "expedientes": expedientes,
+        "total_solicitudes": SolicitudEscritura.objects.count(),
+        "total_expedientes": Expediente.objects.count(),
+        "solicitudes_pendientes": SolicitudEscritura.objects.filter(expediente__isnull=True).count(),
+    }
+
+    return render(request, "pages/panel_funcionario.html", context)
+
+@login_required
+@user_passes_test(es_funcionario)
+def crear_expediente_desde_solicitud(request, solicitud_id):
+    solicitud = get_object_or_404(SolicitudEscritura, id=solicitud_id)
+
+    if hasattr(solicitud, "expediente"):
+        messages.warning(request, "Esta solicitud ya tiene un expediente asociado.")
+        return redirect("panel_funcionario")
+
+    expediente = Expediente.objects.create(
+        solicitud=solicitud,
+        tipo=solicitud.get_tipo_escritura_display(),
+        rut_cliente="",
+        estado="recibido",
+        observaciones_publicas=""
+    )
+
+    messages.success(
+        request,
+        f"Expediente {expediente.codigo_seguimiento} creado correctamente."
+    )
+    return redirect("panel_funcionario")
+
+@login_required
+@user_passes_test(es_funcionario)
+def editar_expediente(request, expediente_id):
+    expediente = get_object_or_404(Expediente, id=expediente_id)
+
+    if request.method == "POST":
+        form = ExpedienteGestionForm(request.POST, instance=expediente)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Expediente actualizado correctamente.")
+            return redirect("panel_funcionario")
+    else:
+        form = ExpedienteGestionForm(instance=expediente)
+
+    return render(request, "pages/editar_expediente.html", {
+        "expediente": expediente,
+        "form": form,
+    })
+
+
+@login_required
+@user_passes_test(es_funcionario)
+def notificar_expediente_listo(request, expediente_id):
+    expediente = get_object_or_404(Expediente, id=expediente_id)
+
+    if not expediente.solicitud or not expediente.solicitud.email:
+        messages.error(request, "Este expediente no tiene un correo asociado para notificar.")
+        return redirect("panel_funcionario")
+
+    asunto = f"Su escritura {expediente.codigo_seguimiento} está lista"
+    mensaje = (
+        f"Estimado/a {expediente.solicitud.nombre_completo},\n\n"
+        f"Le informamos que su escritura asociada al código {expediente.codigo_seguimiento} "
+        f"se encuentra actualmente en estado: {expediente.get_estado_display()}.\n\n"
+        f"Observaciones:\n"
+        f"{expediente.observaciones_publicas or 'Sin observaciones adicionales.'}\n\n"
+        f"Si necesita más información, puede responder este correo o contactarse con la notaría.\n\n"
+        f"Saludos,\n"
+        f"Notaría Felipe Velásquez"
+    )
+
+    send_mail(
+        subject=asunto,
+        message=mensaje,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[expediente.solicitud.email],
+        fail_silently=False,
+    )
+
+    expediente.notificado_cliente = True
+    expediente.fecha_notificacion = timezone.now()
+    expediente.save(update_fields=["notificado_cliente", "fecha_notificacion"])
+
+    messages.success(request, f"Se notificó al cliente en {expediente.solicitud.email}.")
+    return redirect("panel_funcionario")
+
+@login_required
+def indices_escrituras(request):
+    q = request.GET.get("q", "").strip()
+    campo = request.GET.get("campo", "todos")
+    anio = request.GET.get("anio", "").strip()
+
+    indices = IndiceEscritura.objects.all()
+
+    if anio:
+        indices = indices.filter(anio=anio)
+
+    if q:
+        if campo == "comparecientes":
+            indices = indices.filter(comparecientes__icontains=q)
+        elif campo == "materia":
+            indices = indices.filter(materia__icontains=q)
+        elif campo == "repertorio":
+            indices = indices.filter(numero_repertorio__icontains=q)
+        elif campo == "foja":
+            indices = indices.filter(foja__icontains=q)
+        elif campo == "anio":
+            indices = indices.filter(anio__icontains=q)
+        else:
+            indices = indices.filter(
+                Q(comparecientes__icontains=q) |
+                Q(materia__icontains=q) |
+                Q(numero_repertorio__icontains=q) |
+                Q(foja__icontains=q) |
+                Q(anio__icontains=q)
+            )
+
+    anios = (
+        IndiceEscritura.objects
+        .values_list("anio", flat=True)
+        .distinct()
+        .order_by("-anio")
+    )
+
+    paginator = Paginator(indices, 20)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "page_obj": page_obj,
+        "q": q,
+        "campo": campo,
+        "anio": anio,
+        "anios": anios,
+        "total_registros": indices.count(),
+    }
+    return render(request, "pages/indices_escrituras.html", context)

@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "paginas",
+    "django_recaptcha",
 ]
 
 MIDDLEWARE = [
@@ -85,7 +86,26 @@ CONTACT_RECIPIENT = os.getenv("CONTACT_RECIPIENT", EMAIL_HOST_USER or "admin@not
 
 
 # Email a consola en desarrollo (para probar el formulario de contacto)
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-DEFAULT_FROM_EMAIL = "notaria-demo@prueba.cl"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-CONTACT_RECIPIENT = ["prueba_destino@demo.cl"]
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = "nicolasmujicacortes12@gmail.com"
+EMAIL_HOST_PASSWORD = "lfsj vhup olff ebll"
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+
+RECAPTCHA_PUBLIC_KEY = os.getenv("RECAPTCHA_PUBLIC_KEY", "")
+RECAPTCHA_PRIVATE_KEY = os.getenv("RECAPTCHA_PRIVATE_KEY", "")
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
+
+AUTHENTICATION_BACKENDS = [
+    "paginas.backends.EmailOrUsernameBackend",
+]

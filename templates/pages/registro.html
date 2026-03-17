@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Crear Cuenta{% endblock %}
+
+{% block content %}
+<style>
+.auth-wrap{
+  min-height:70vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.auth-card{
+  width:100%;
+  max-width:520px;
+  background:#fff;
+  border:1px solid #d1d5db;
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  padding:32px;
+}
+.auth-card h1{
+  text-align:center;
+  font-size:2rem;
+  color:#1e3a8a;
+  margin-bottom:24px;
+}
+.auth-card input{
+  width:100%;
+  padding:14px;
+  margin-bottom:14px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+}
+.auth-btn{
+  width:100%;
+  padding:14px;
+  background:#1e3a8a;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-weight:700;
+  cursor:pointer;
+}
+</style>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+    <h1>Crear Cuenta</h1>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.nombre_completo }}
+      {{ form.rut }}
+      {{ form.email }}
+      {{ form.password1 }}
+      {{ form.password2 }}
+      <div style="margin: 14px 0;">
+        {{ form.captcha }}
+      </div>
+      <button type="submit" class="auth-btn">Registrarse</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

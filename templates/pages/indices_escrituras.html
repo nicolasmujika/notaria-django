@@ -1,0 +1,374 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Índices de Escrituras Públicas{% endblock %}
+
+{% block content %}
+<style>
+.indices-page{
+
+  padding:40px 0;
+}
+
+.indices-wrap{
+  max-width:1200px;
+  margin:0 auto;
+}
+
+.indices-hero{
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(6px);
+  border-radius:22px;
+  padding:32px;
+  box-shadow:0 20px 50px rgba(0,0,0,.12);
+  margin-bottom:24px;
+  border-bottom:4px solid #2563eb;
+}
+
+.indices-hero-grid{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  text-align:center;
+}
+
+.indices-logo-box{
+  display:flex;
+  justify-content:center;
+}
+
+.indices-logo-box img{
+  max-height:70px;
+  opacity:0.2;
+}
+
+.indices-title{
+  text-align:center;
+  max-width:650px;
+  margin:0 auto;
+}
+.indices-title h1{
+  font-size:2rem;
+  font-weight:800;
+  color:#0f172a;
+  margin:0 0 8px;
+}
+
+.indices-title p{
+  margin:0;
+  color:#64748b;
+}
+
+.indices-counter{
+  display:inline-block;
+  margin-top:12px;
+  background:#e0ecff;
+  color:#2563eb;
+  padding:8px 14px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:14px;
+}
+
+.indices-search-card{
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 8px 24px rgba(0,0,0,.05);
+  margin-bottom:20px;
+  border:1px solid #e5e7eb;
+}
+
+.indices-search-top{
+  display:grid;
+  grid-template-columns: 1fr auto;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.indices-input,
+.indices-select{
+  width:100%;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  padding:12px 14px;
+  font-size:14px;
+}
+
+.indices-btn{
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:12px 22px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.indices-filters{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.indices-filter-box{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  padding:8px 10px;
+}
+
+.indices-tip{
+  background:#f1f5f9;
+  border-left:4px solid #2563eb;
+  color:#64748b;
+  padding:10px 14px;
+  border-radius:8px;
+  font-size:14px;
+}
+
+.indices-table-card{
+  background:#fff;
+  border-radius:18px;
+  box-shadow:0 8px 24px rgba(0,0,0,.05);
+  border:1px solid #e5e7eb;
+  overflow:hidden;
+}
+
+.indices-table-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 18px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.indices-table-header h2{
+  margin:0;
+  font-size:1.35rem;
+  font-weight:800;
+  color:#111827;
+}
+
+.indices-table-count{
+  background:#e0ecff;
+  color:#2563eb;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.indices-table-wrap{
+  overflow-x:auto;
+}
+
+.indices-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:950px;
+}
+
+.indices-table th{
+  background:#f8fafc;
+  color:#64748b;
+  text-align:left;
+  font-size:12px;
+  letter-spacing:.03em;
+  padding:14px 16px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.indices-table td{
+  padding:14px 16px;
+  border-bottom:1px solid #eef2f7;
+  color:#0f172a;
+  font-size:14px;
+  vertical-align:top;
+}
+
+.indices-table tbody tr:hover{
+  background:#f8fbff;
+}
+
+.indices-empty{
+  padding:28px;
+  text-align:center;
+  color:#64748b;
+}
+
+.indices-pagination{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  padding:18px;
+  flex-wrap:wrap;
+}
+
+.indices-page-link{
+  display:inline-block;
+  padding:8px 14px;
+  border-radius:10px;
+  background:#eef2ff;
+  color:#1f3c88;
+  text-decoration:none;
+  font-weight:700;
+}
+
+.indices-page-link.active{
+  background:#1f3c88;
+  color:#fff;
+}
+
+@media (max-width: 900px){
+  .indices-hero-grid{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+  }
+
+  .indices-title{
+    text-align:center;
+  }
+
+  .indices-search-top{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
+<section class="indices-page">
+  <div class="indices-wrap">
+
+    <div class="indices-hero">
+      <div class="indices-hero-grid">
+        <div class="indices-logo-box">
+          <img src="{% static 'img/notaria.png' %}" alt="Notaría">
+        </div>
+
+        <div class="indices-title">
+          <h1>Índice de Escrituras Públicas</h1>
+          <p>Notaría Felipe Velásquez</p>
+          <p>Alto del Carmen, Chile</p>
+          <div class="indices-counter">{{ total_registros }} registros</div>
+        </div>
+      </div>
+    </div>
+
+    <form method="get" class="indices-search-card">
+      <div class="indices-search-top">
+        <input
+          type="text"
+          name="q"
+          value="{{ q }}"
+          class="indices-input"
+          placeholder="Ej: Navarro, Díaz, compraventa, 2024..."
+        >
+        <button type="submit" class="indices-btn">Buscar</button>
+      </div>
+
+      <div class="indices-filters">
+        <div class="indices-filter-box">
+          <label for="campo"><strong>Campo:</strong></label>
+          <select name="campo" id="campo" class="indices-select">
+            <option value="todos" {% if campo == "todos" %}selected{% endif %}>Todos los campos</option>
+            <option value="comparecientes" {% if campo == "comparecientes" %}selected{% endif %}>Comparecientes</option>
+            <option value="materia" {% if campo == "materia" %}selected{% endif %}>Materia</option>
+            <option value="repertorio" {% if campo == "repertorio" %}selected{% endif %}>N° Repertorio</option>
+            <option value="foja" {% if campo == "foja" %}selected{% endif %}>Foja</option>
+            <option value="anio" {% if campo == "anio" %}selected{% endif %}>Año</option>
+          </select>
+        </div>
+
+        <div class="indices-filter-box">
+          <label for="anio"><strong>Año:</strong></label>
+          <select name="anio" id="anio" class="indices-select">
+            <option value="">Todos</option>
+            {% for a in anios %}
+              <option value="{{ a }}" {% if anio == a|stringformat:"s" %}selected{% endif %}>{{ a }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="indices-tip">
+        Usa la búsqueda general o combina filtros para encontrar escrituras más fácilmente.
+      </div>
+    </form>
+
+    <div class="indices-table-card">
+      <div class="indices-table-header">
+        <h2>Índice completo</h2>
+        <div class="indices-table-count">{{ total_registros }} registros</div>
+      </div>
+
+      <div class="indices-table-wrap">
+        <table class="indices-table">
+          <thead>
+            <tr>
+              <th>COMPARECIENTES</th>
+              <th>MATERIA</th>
+              <th>FECHA</th>
+              <th>N° REP.</th>
+              <th>FOJA</th>
+              <th>AÑO</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if page_obj %}
+              {% for item in page_obj %}
+                <tr>
+                    <td>{{ item.comparecientes }}</td>
+
+                    <td>
+                        <strong>{{ item.acto }}</strong><br>
+                        <small>{{ item.objeto }}</small>
+                    </td>
+
+                    <td>{{ item.fecha|default:"—" }}</td>
+                    <td>{{ item.numero_repertorio }}</td>
+                    <td>{{ item.foja }}</td>
+                    <td>{{ item.anio }}</td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td colspan="6" class="indices-empty">No se encontraron registros.</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+
+      {% if page_obj.has_other_pages %}
+        <div class="indices-pagination">
+          {% if page_obj.has_previous %}
+            <a class="indices-page-link" href="?q={{ q }}&campo={{ campo }}&anio={{ anio }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <span class="indices-page-link active">{{ num }}</span>
+            {% else %}
+              <a class="indices-page-link" href="?q={{ q }}&campo={{ campo }}&anio={{ anio }}&page={{ num }}">{{ num }}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a class="indices-page-link" href="?q={{ q }}&campo={{ campo }}&anio={{ anio }}&page={{ page_obj.next_page_number }}">Siguiente</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+{% endblock %}

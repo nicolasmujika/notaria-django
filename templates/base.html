@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Notaría Felipe Velásquez{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body class="min-h-screen bg-gray-100 text-gray-900 flex flex-col">
 
@@ -49,7 +51,7 @@
           <ul id="nav-list" class="site-nav-list">
 
             <li class="nav-item">
-              <a href="/" class="nav-link">HOME</a>
+              <a href="/" class="nav-link">INICIO</a>
             </li>
 
             <li class="nav-item relative">
@@ -79,16 +81,32 @@
             </li>
 
             <li class="nav-item">
-              <a href="#" class="nav-link">GALERÍA IMÁGENES</a>
+              <a href="{% url 'indices_escrituras' %}" class="nav-link">INDICES</a>
             </li>
 
             <li class="nav-item">
-              <a href="/contacto/#ubicacion" class="nav-link">INGRESAR</a>
+              <a href="{% url 'contact' %}" class="nav-link">CONTACTO</a>
             </li>
 
-            <li class="nav-item nav-item-right">
-              <a href="/contacto/" class="nav-link">CONTACTO</a>
-            </li>
+            {% if user.is_authenticated %}
+              {% if user.perfil.tipo == "funcionario" %}
+                <li class="nav-item">
+                  <a href="{% url 'panel_funcionario' %}" class="nav-link">PANEL FUNCIONARIO</a>
+                </li>
+              {% endif %}
+
+              <li class="nav-item usuario-menu">
+                <span class="usuario-nombre">{{ user.first_name|default:user.username }}</span>
+                <a href="{% url 'logout' %}" class="logout-icon" title="Salir">
+                  <i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+              </li>
+
+            {% else %}
+              <li class="nav-item usuario-menu">
+                <a href="{% url 'login' %}" class="nav-link">INICIAR SESIÓN</a>
+              </li>
+            {% endif %}
 
           </ul>
         </div>
@@ -97,6 +115,43 @@
   </header>
 
   <style>
+    .messages-wrap{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .message-alert{
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+
+    .message-alert.success{
+      background: #ecfdf3;
+      color: #166534;
+      border-color: #bbf7d0;
+    }
+
+    .message-alert.warning{
+      background: #fff7e6;
+      color: #a16207;
+      border-color: #fde68a;
+    }
+
+    .message-alert.error{
+      background: #fef2f2;
+      color: #b91c1c;
+      border-color: #fecaca;
+    }
+
+    .message-alert.info{
+      background: #eff6ff;
+      color: #1d4ed8;
+      border-color: #bfdbfe;
+    }
     .site-header {
       background: #1f2c8c;
       color: #fff;
@@ -137,8 +192,8 @@
     }
 
     .site-brand-logo {
-      width: 82px;
-      height: 82px;
+      width: 92px;
+      height: 92px;
       border-radius: 9999px;
       border: 2px solid rgba(255,255,255,0.85);
       display: flex;
@@ -234,14 +289,14 @@
       display: block;
     }
 
-    .site-nav-list {
+    .site-nav-list{
       display: flex;
-      align-items: stretch;
-      justify-content: center;
-      gap: 0;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
       margin: 0;
       padding: 0;
-      list-style: none;
+      width: 100%;
     }
 
     .nav-item {
@@ -308,6 +363,36 @@
 
     .submenu-link:hover {
       background: #eff6ff;
+    }
+
+    .usuario-menu{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+    }
+
+    .usuario-nombre{
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .logout-icon{
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+    }
+
+    .logout-icon:hover{
+      opacity: 0.8;
+    }
+
+    .nav-item-login{
+      margin-left: auto;
     }
 
     @media (max-width: 767px) {
@@ -381,12 +466,51 @@
         background: rgba(255,255,255,0.08);
       }
     }
+
+      .whatsapp-float {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        width: 58px;
+        height: 58px;
+        background: #25d366;
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 5px 14px rgba(0, 0, 0, 0.22);
+        z-index: 9999;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+      .whatsapp-float i {
+        font-size: 32px;
+        line-height: 1;
+    }
+
+      .whatsapp-float:hover {
+        transform: scale(1.08);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+     }
   </style>
 
 
   <!-- Contenido -->
   <main class="flex-1">
-    <div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="max-w-6xl mx-auto px-4 py-8">
+
+    {% if messages %}
+      <div class="messages-wrap">
+        {% for message in messages %}
+          <div class="message-alert {{ message.tags }}">
+            {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
       {% block content %}{% endblock %}
     </div>
   </main>
@@ -415,9 +539,7 @@
       <div class="site-footer-col">
         <h3 class="site-footer-title">Menú Principal</h3>
         <ul class="site-footer-list">
-          <li><a href="{% url 'home' %}">Página Principal</a></li>
-          
-          <li><a href="{% url 'contact' %}">Nuestra Ubicación</a></li>
+          <li><a href="{% url 'home' %}">Página Principal</a></li>         
           <li><a href="{% url 'contact' %}">Contáctenos</a></li>
         </ul>
       </div>
@@ -430,7 +552,6 @@
           
           <li><a href="{% url 'tramites_comunes' %}">Trámites más Comunes</a></li>
           <li><a href="{% url 'preguntas_frecuentes' %}">Preguntas Frecuentes</a></li>
-          <li><a href="{% url 'enlaces_interes' %}">Mapa del Sitio</a></li>
         </ul>
       </div>
 
@@ -449,7 +570,15 @@
     </div>
   </div>
 </footer>
-
+<a
+  href="https://wa.me/56912345678?text=Hola%2C%20quisiera%20hacer%20una%20consulta%20a%20la%20notaria"
+  class="whatsapp-float"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Contactar por WhatsApp"
+>
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
 
 
 <script>

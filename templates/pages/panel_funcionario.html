@@ -1,0 +1,642 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+.panel-funcionario-page{
+  background: #f4f6fb;
+  min-height: calc(100vh - 140px);
+  padding: 32px 20px;
+
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.panel-funcionario-container{
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  padding: 0 20px;
+}
+
+.panel-sidebar{
+  background: #1f3c88;
+  color: #fff;
+  border-radius: 18px;
+  padding: 24px 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  height: fit-content;
+}
+
+.panel-sidebar-header h2{
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.panel-sidebar-header p{
+  margin: 0 0 24px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.panel-sidebar-nav{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-nav-link{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.panel-nav-link:hover,
+.panel-nav-link.active{
+  background: rgba(255,255,255,0.14);
+}
+
+.panel-main{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.panel-topbar{
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.panel-topbar h1{
+  margin: 0 0 8px;
+  font-size: 28px;
+  color: #1a1a1a;
+}
+
+.panel-topbar p{
+  margin: 0;
+  color: #5f6b7a;
+  line-height: 1.5;
+}
+
+.panel-user-badge{
+  background: #e8eefc;
+  color: #1f3c88;
+  font-weight: 700;
+  padding: 10px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.panel-stats{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.panel-stat-card{
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.panel-stat-label{
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.panel-stat-value{
+  font-size: 34px;
+  font-weight: 800;
+  color: #1f3c88;
+  margin-bottom: 8px;
+}
+
+.panel-stat-help{
+  font-size: 13px;
+  color: #8892a0;
+}
+
+.panel-block{
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.panel-block-header{
+  margin-bottom: 18px;
+}
+
+.panel-block-header h2{
+  margin: 0 0 6px;
+  font-size: 22px;
+  color: #1b1b1b;
+}
+
+.panel-block-header p{
+  margin: 0;
+  color: #6b7280;
+}
+
+.panel-quick-actions{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.panel-actions-cell{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+
+.panel-action-card{
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: #f8faff;
+  border: 1px solid #e6ebf5;
+  border-radius: 16px;
+  padding: 20px;
+  transition: 0.2s ease;
+}
+
+.panel-action-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.panel-action-icon{
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.panel-action-card h3{
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: #1f3c88;
+}
+
+.panel-action-card p{
+  margin: 0;
+  color: #5f6b7a;
+  line-height: 1.5;
+}
+
+.panel-table-wrap{
+  overflow-x: auto;
+}
+
+.panel-table{
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.panel-table thead th{
+  text-align: left;
+  font-size: 14px;
+  color: #475569;
+  padding: 14px 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.panel-table tbody td{
+  padding: 14px 12px;
+  border-bottom: 1px solid #eef2f7;
+  color: #1f2937;
+  vertical-align: middle;
+}
+
+.panel-empty{
+  text-align: center;
+  color: #6b7280;
+  padding: 26px 12px !important;
+}
+
+.estado-badge{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.estado-pendiente{
+  background: #fff7e6;
+  color: #a16207;
+}
+
+.estado-ok{
+  background: #ecfdf3;
+  color: #166534;
+}
+
+.estado-info{
+  background: #eaf2ff;
+  color: #1d4ed8;
+}
+
+.table-action-link{
+  color: #1f3c88;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.table-action-link:hover{
+  text-decoration: underline;
+}
+
+.table-muted{
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.panel-pagination{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.panel-page-link{
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: #1f3c88;
+  text-decoration: none;
+  font-weight: 700;
+  min-width: 40px;
+  text-align: center;
+}
+
+.panel-page-link:hover{
+  background: #dbe7ff;
+}
+
+.panel-page-link.active{
+  background: #1f3c88;
+  color: #fff;
+}
+
+@media (max-width: 1100px){
+  .panel-funcionario-container{
+    grid-template-columns: 1fr;
+  }
+
+  .panel-stats{
+    grid-template-columns: 1fr;
+  }
+
+  .panel-quick-actions{
+    grid-template-columns: 1fr;
+  }
+
+  .panel-topbar{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+</style>
+
+<section class="panel-funcionario-page">
+  <div class="panel-funcionario-container">
+
+    <!-- Sidebar -->
+    <aside class="panel-sidebar">
+      <div class="panel-sidebar-header">
+        <h2>Panel Funcionario</h2>
+        <p>Gestión interna notarial</p>
+      </div>
+
+      <nav class="panel-sidebar-nav">
+        <a href="{% url 'panel_funcionario' %}" class="panel-nav-link active">
+          <span>🏠</span>
+          <span>Inicio</span>
+        </a>
+
+        <a href="{% url 'panel_funcionario' %}#solicitudes" class="panel-nav-link">
+            <span>📝</span>
+            <span>Solicitudes de escrituras</span>
+        </a>
+
+        <a href="#" class="panel-nav-link">
+          <span>📁</span>
+          <span>Expedientes</span>
+        </a>
+
+        <a href="{% url 'seguimiento_escrituras' %}" class="panel-nav-link">
+          <span>🔎</span>
+          <span>Consulta seguimiento</span>
+        </a>
+
+        <a href="{% url 'home' %}" class="panel-nav-link">
+          <span>🌐</span>
+          <span>Ir al sitio público</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="panel-main">
+
+      <!-- Encabezado -->
+      <div class="panel-topbar">
+        <div>
+          <h1>Bienvenido, {{ user.first_name|default:user.username }}</h1>
+          <p>
+            Aquí podrás revisar solicitudes, gestionar expedientes y administrar futuras funciones del sistema.
+          </p>
+        </div>
+
+        <div class="panel-topbar-user">
+          <span class="panel-user-badge">
+            {{ user.perfil.tipo|title }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Tarjetas resumen -->
+      <section class="panel-stats">
+        <article class="panel-stat-card">
+          <div class="panel-stat-label">Solicitudes nuevas</div>
+          <div class="panel-stat-value">
+            {% if total_solicitudes %}
+              {{ total_solicitudes }}
+            {% else %}
+              0
+            {% endif %}
+          </div>
+          <div class="panel-stat-help">Ingresadas desde el formulario web</div>
+        </article>
+
+        <article class="panel-stat-card">
+          <div class="panel-stat-label">Expedientes creados</div>
+          <div class="panel-stat-value">
+            {% if total_expedientes %}
+              {{ total_expedientes }}
+            {% else %}
+              0
+            {% endif %}
+          </div>
+          <div class="panel-stat-help">Con código de seguimiento</div>
+        </article>
+
+        <article class="panel-stat-card">
+          <div class="panel-stat-label">Pendientes de revisión</div>
+          <div class="panel-stat-value">
+            {% if solicitudes_pendientes %}
+              {{ solicitudes_pendientes }}
+            {% else %}
+              0
+            {% endif %}
+          </div>
+          <div class="panel-stat-help">Aún sin expediente asociado</div>
+        </article>
+      </section>
+
+      <!-- Accesos rápidos -->
+        <section class="panel-block">
+            <div class="panel-block-header">
+            <h2>Accesos rápidos</h2>
+            <p>Funciones principales del panel</p>
+            </div>
+
+            <div class="panel-quick-actions">
+            <a href="#" class="panel-action-card">
+                <div class="panel-action-icon">📝</div>
+                <h3>Ver solicitudes</h3>
+                <p>Revisa las solicitudes enviadas por los usuarios desde la web.</p>
+            </a>
+
+            <a href="#" class="panel-action-card">
+                <div class="panel-action-icon">📁</div>
+                <h3>Gestionar expedientes</h3>
+                <p>Administra códigos de seguimiento, estados y observaciones.</p>
+            </a>
+
+            <a href="{% url 'seguimiento_escrituras' %}" class="panel-action-card">
+                <div class="panel-action-icon">🔎</div>
+                <h3>Probar seguimiento</h3>
+                <p>Revisa cómo ve el usuario la consulta de seguimiento.</p>
+            </a>
+            </div>
+        </section>
+
+        <!-- Solicitudes recientes -->
+        <section class="panel-block" id="solicitudes">
+            <div class="panel-block-header">
+                <h2>Solicitudes de escrituras</h2>
+                <p>Solicitudes enviadas desde el formulario web</p>
+            </div>
+
+            <div class="panel-table-wrap">
+                <table class="panel-table">
+                <thead>
+                    <tr>
+                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% if solicitudes %}
+                    {% for solicitud in solicitudes %}
+                        <tr>
+
+                        <td>{{ solicitud.creado_en|date:"d/m/Y H:i" }}</td>
+
+                        <td>{{ solicitud.nombre_completo }}</td>
+
+                        <td>{{ solicitud.email }}</td>
+
+                        <td>{{ solicitud.get_tipo_escritura_display }}</td>
+
+                        <td>
+                            {% if solicitud.expediente %}
+                            <span class="estado-badge estado-ok">
+                                Expediente creado
+                            </span>
+                            {% else %}
+                            <span class="estado-badge estado-pendiente">
+                                Pendiente
+                            </span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if solicitud.expediente %}
+                            <a href="{% url 'editar_expediente' solicitud.expediente.id %}" class="table-action-link">
+                                Gestionar expediente
+                            </a>
+                            {% else %}
+                            <a href="{% url 'crear_expediente_desde_solicitud' solicitud.id %}" class="table-action-link">
+                                Crear expediente
+                            </a>
+                            {% endif %}
+                        </td>
+
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="panel-empty">
+                        No hay solicitudes registradas.
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+                </table>
+            </div>
+        </section>
+
+      <!-- Expedientes recientes -->
+        <section class="panel-block">
+            <div class="panel-block-header">
+                <h2>Expedientes recientes</h2>
+                <p>Últimos expedientes creados en el sistema</p>
+            </div>
+
+            <div class="panel-table-wrap">
+                <table class="panel-table">
+                <thead>
+                    <tr>
+                    <th>Código</th>
+                    <th>Cliente</th>
+                    <th>Tipo</th>
+                    <th>RUT cliente</th>
+                    <th>Estado</th>
+                    <th>Última actualización</th>
+                    <th>Aviso cliente</th>
+                    <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if expedientes %}
+                    {% for expediente in expedientes %}
+                        <tr>
+                        <td>{{ expediente.codigo_seguimiento }}</td>
+
+                        <td>
+                            {% if expediente.solicitud %}
+                            {{ expediente.solicitud.nombre_completo }}
+                            {% else %}
+                            —
+                            {% endif %}
+                        </td>
+
+                        <td>{{ expediente.tipo }}</td>
+                        <td>{{ expediente.rut_cliente|default:"—" }}</td>
+
+                        <td>
+                            <span class="estado-badge estado-info">
+                            {% if expediente.estado == "recibido" %}
+                                Recibido
+                            {% elif expediente.estado == "en_redaccion" %}
+                                Redacción
+                            {% elif expediente.estado == "en_firma" %}
+                                Firma
+                            {% elif expediente.estado == "listo_retiro" %}
+                                Retiro
+                            {% elif expediente.estado == "entregado" %}
+                                Entregado
+                            {% elif expediente.estado == "anulado" %}
+                                Anulado
+                            {% else %}
+                                {{ expediente.get_estado_display }}
+                            {% endif %}
+                            </span>
+                        </td>
+
+                        <td>{{ expediente.fecha_ultima_actualizacion|date:"d/m/Y H:i" }}</td>
+
+                        <td>
+                            {% if expediente.notificado_cliente %}
+                            <span class="estado-badge estado-ok">Enviado</span>
+                            {% else %}
+                            <span class="estado-badge estado-pendiente">No enviado</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="panel-actions-cell">
+                            <a href="{% url 'editar_expediente' expediente.id %}" class="table-action-link">
+                            Editar
+                            </a>
+
+                            {% if expediente.solicitud and expediente.solicitud.email %}
+                            <a href="{% url 'notificar_expediente_listo' expediente.id %}" class="table-action-link">
+                                Notificar cliente
+                            </a>
+                            {% endif %}
+                        </td>
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="panel-empty">
+                        Aún no hay expedientes creados.
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+                </table>
+                {% if expedientes.has_other_pages %}
+                    <div class="panel-pagination">
+                        {% if expedientes.has_previous %}
+                        <a href="?page={{ expedientes.previous_page_number }}" class="panel-page-link">
+                            Anterior
+                        </a>
+                        {% endif %}
+
+                        {% for num in expedientes.paginator.page_range %}
+                        {% if expedientes.number == num %}
+                            <span class="panel-page-link active">{{ num }}</span>
+                        {% else %}
+                            <a href="?page={{ num }}" class="panel-page-link">{{ num }}</a>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if expedientes.has_next %}
+                        <a href="?page={{ expedientes.next_page_number }}" class="panel-page-link">
+                            Siguiente
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+            </div>
+        </section>
+
+    </main>
+  </div>
+</section>
+{% endblock %}

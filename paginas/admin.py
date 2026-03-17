@@ -1,5 +1,5 @@
 from django.contrib import admin # type: ignore
-from .models import ContactMessage, Service, Tramite, Expediente, SolicitudEscritura
+from .models import ContactMessage, Service, Tramite, Expediente, SolicitudEscritura, PerfilUsuario
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
@@ -29,3 +29,9 @@ class SolicitudEscrituraAdmin(admin.ModelAdmin):
     list_display = ("id", "nombre_completo", "tipo_escritura", "email", "creado_en")
     list_filter = ("tipo_escritura", "creado_en")
     search_fields = ("nombre_completo", "email")
+
+@admin.register(PerfilUsuario)
+class PerfilUsuarioAdmin(admin.ModelAdmin):
+    list_display = ("user", "tipo", "rut")
+    search_fields = ("user__username", "user__email", "rut")
+    list_filter = ("tipo",)

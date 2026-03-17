@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>.panel-primary-btn{
+  display: inline-block;
+  background: #1f3c88;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.panel-primary-btn:hover{
+  opacity: .92;
+}
+
+.panel-secondary-btn{
+  display: inline-block;
+  background: #eef2ff;
+  color: #1f3c88;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+</style>
+<section class="panel-funcionario-page">
+  <div class="panel-funcionario-container">
+    <main class="panel-main" style="grid-column: 1 / -1;">
+      <div class="panel-block">
+        <div class="panel-block-header">
+          <h2>Editar expediente</h2>
+          <p>{{ expediente.codigo_seguimiento }}</p>
+        </div>
+
+        {% if expediente.solicitud %}
+          <div style="margin-bottom: 20px;">
+            <p><strong>Cliente:</strong> {{ expediente.solicitud.nombre_completo }}</p>
+            <p><strong>Correo:</strong> {{ expediente.solicitud.email }}</p>
+            <p><strong>Teléfono:</strong> {{ expediente.solicitud.telefono|default:"—" }}</p>
+            <p><strong>Tipo de escritura:</strong> {{ expediente.solicitud.get_tipo_escritura_display }}</p>
+          </div>
+        {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+
+          <div style="display:grid; gap:16px;">
+            {{ form.as_p }}
+          </div>
+
+          <div style="margin-top: 20px; display:flex; gap:12px; flex-wrap:wrap;">
+            <button type="submit" class="panel-primary-btn">Guardar cambios</button>
+            <a href="{% url 'panel_funcionario' %}" class="panel-secondary-btn">Volver al panel</a>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</section>
+{% endblock %}

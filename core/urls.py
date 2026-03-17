@@ -25,4 +25,25 @@ urlpatterns = [
     path("tramites/<int:tramite_id>/", views.tramite_detail, name="tramite_detail"),
     path('documentos-privados/', views.documentos_privados, name='documentos_privados'),
     path('admin/', admin.site.urls),
+
+    path("ingresar/", views.CustomLoginView.as_view(), name="login"),
+    path("registrarse/", views.registro_usuario, name="registro"),
+    path("salir/", views.logout_view, name="logout"),
+    path("panel-funcionario/", views.panel_funcionario, name="panel_funcionario"),
+    path(
+    "panel-funcionario/solicitudes/<int:solicitud_id>/crear-expediente/",
+    views.crear_expediente_desde_solicitud,
+    name="crear_expediente_desde_solicitud"
+    ),
+    path(
+    "panel-funcionario/expedientes/<int:expediente_id>/editar/",
+    views.editar_expediente,
+    name="editar_expediente"
+    ),
+    path(
+        "panel-funcionario/expedientes/<int:expediente_id>/notificar/",
+        views.notificar_expediente_listo,
+        name="notificar_expediente_listo"
+    ),
+    path("indices/", views.indices_escrituras, name="indices_escrituras"),
 ]
