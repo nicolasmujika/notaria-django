@@ -46,4 +46,7 @@ urlpatterns = [
         name="notificar_expediente_listo"
     ),
     path("indices/", views.indices_escrituras, name="indices_escrituras"),
+    path("panel-funcionario/indices/", views.gestion_indices, name="gestion_indices"),
+    path("panel-funcionario/indices/nuevo/", views.crear_indice, name="crear_indice"),
+    path("panel-funcionario/indices/<int:indice_id>/editar/", views.editar_indice, name="editar_indice"),
 ]

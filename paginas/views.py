@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404 # type: ignore
 from django.contrib import messages# type: ignore
 from django.core.mail import send_mail # type: ignore
 from django.conf import settings# type: ignore
-from .forms import ContactForm, SeguimientoForm,SolicitudEscrituraForm,RegistroUsuarioForm, LoginUsuarioForm, ExpedienteGestionForm
+from .forms import ContactForm, SeguimientoForm,SolicitudEscrituraForm,RegistroUsuarioForm, LoginUsuarioForm, ExpedienteGestionForm, IndiceEscrituraForm
 from .models import Service, Tramite, Expediente,SolicitudEscritura, IndiceEscritura
 from django.utils import timezone # type: ignore
 from datetime import timedelta
@@ -245,7 +245,7 @@ def es_funcionario(user):
 
 
 
-from django.core.paginator import Paginator
+
 
 @login_required
 @user_passes_test(es_funcionario)
@@ -406,3 +406,50 @@ def indices_escrituras(request):
         "total_registros": indices.count(),
     }
     return render(request, "pages/indices_escrituras.html", context)
+
+@login_required
+@user_passes_test(es_funcionario)
+def gestion_indices(request):
+    indices = IndiceEscritura.objects.all().order_by("-anio", "foja", "numero_repertorio")
+    return render(request, "pages/gestion_indices.html", {
+        "indices": indices
+    })
+
+
+@login_required
+@user_passes_test(es_funcionario)
+def crear_indice(request):
+    if request.method == "POST":
+        form = IndiceEscrituraForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Índice creado correctamente.")
+            return redirect("gestion_indices")
+    else:
+        form = IndiceEscrituraForm()
+
+    return render(request, "pages/editar_indice.html", {
+        "form": form,
+        "titulo": "Crear índice",
+    })
+
+
+@login_required
+@user_passes_test(es_funcionario)
+def editar_indice(request, indice_id):
+    indice = get_object_or_404(IndiceEscritura, id=indice_id)
+
+    if request.method == "POST":
+        form = IndiceEscrituraForm(request.POST, instance=indice)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Índice actualizado correctamente.")
+            return redirect("gestion_indices")
+    else:
+        form = IndiceEscrituraForm(instance=indice)
+
+    return render(request, "pages/editar_indice.html", {
+        "form": form,
+        "titulo": "Editar índice",
+        "indice": indice,
+    })

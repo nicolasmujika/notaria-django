@@ -1,5 +1,5 @@
 from django import forms # type: ignore
-from .models import ContactMessage,Expediente, SolicitudEscritura
+from .models import ContactMessage,Expediente, SolicitudEscritura,IndiceEscritura
 from django.core.exceptions import ValidationError
 from django import forms
 from django.contrib.auth.models import User
@@ -226,3 +226,27 @@ class ExpedienteGestionForm(forms.ModelForm):
         if not rut:
             return rut
         return validar_rut_chileno(rut)
+
+class IndiceEscrituraForm(forms.ModelForm):
+    class Meta:
+        model = IndiceEscritura
+        fields = [
+            "comparecientes",
+            "materia",
+            "acto",
+            "objeto",
+            "fecha",
+            "numero_repertorio",
+            "foja",
+            "anio",
+        ]
+        widgets = {
+            "comparecientes": forms.Textarea(attrs={"rows": 3}),
+            "materia": forms.TextInput(),
+            "acto": forms.TextInput(),
+            "objeto": forms.Textarea(attrs={"rows": 3}),
+            "fecha": forms.TextInput(attrs={"placeholder": "Ej: 31-12 o dejar vacío"}),
+            "numero_repertorio": forms.TextInput(),
+            "foja": forms.TextInput(),
+            "anio": forms.NumberInput(),
+        }

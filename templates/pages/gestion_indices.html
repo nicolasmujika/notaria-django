@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="panel-funcionario-page">
+  <div class="panel-funcionario-container">
+    <main class="panel-main" style="grid-column: 1 / -1;">
+      <div class="panel-block">
+        <div class="panel-block-header" style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
+          <div>
+            <h2>Gestión de índices</h2>
+            <p>Administra los registros del índice de escrituras públicas.</p>
+          </div>
+
+          <a href="{% url 'crear_indice' %}" class="panel-primary-btn">Nuevo índice</a>
+        </div>
+
+        <div class="panel-table-wrap">
+          <table class="panel-table">
+            <thead>
+              <tr>
+                <th>Comparecientes</th>
+                <th>Acto</th>
+                <th>Objeto</th>
+                <th>Fecha</th>
+                <th>N° Rep.</th>
+                <th>Foja</th>
+                <th>Año</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if indices %}
+                {% for item in indices %}
+                  <tr>
+                    <td>{{ item.comparecientes }}</td>
+                    <td>{{ item.acto|default:"—" }}</td>
+                    <td>{{ item.objeto|default:"—" }}</td>
+                    <td>{{ item.fecha|default:"—" }}</td>
+                    <td>{{ item.numero_repertorio|default:"—" }}</td>
+                    <td>{{ item.foja|default:"—" }}</td>
+                    <td>{{ item.anio }}</td>
+                    <td>
+                      <a href="{% url 'editar_indice' item.id %}" class="table-action-link">Editar</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="8" class="panel-empty">No hay índices registrados.</td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+{% endblock %}
