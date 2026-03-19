@@ -241,12 +241,12 @@ class IndiceEscrituraForm(forms.ModelForm):
             "anio",
         ]
         widgets = {
-            "comparecientes": forms.Textarea(attrs={"rows": 3}),
-            "materia": forms.TextInput(),
-            "acto": forms.TextInput(),
-            "objeto": forms.Textarea(attrs={"rows": 3}),
+            "comparecientes": forms.Textarea(attrs={"rows": 3, "placeholder": "Ej: Juan Pérez / María Soto"}),
+            "materia": forms.TextInput(attrs={"placeholder": "Resumen de la materia"}),
+            "acto": forms.TextInput(attrs={"placeholder": "Ej: Compraventa, Permuta"}),
+            "objeto": forms.Textarea(attrs={"rows": 3, "placeholder": "Detalle del objeto o antecedente"}),
             "fecha": forms.TextInput(attrs={"placeholder": "Ej: 31-12 o dejar vacío"}),
-            "numero_repertorio": forms.TextInput(),
-            "foja": forms.TextInput(),
-            "anio": forms.NumberInput(),
+            "numero_repertorio": forms.TextInput(attrs={"placeholder": "Ej: 1234"}),
+            "foja": forms.TextInput(attrs={"placeholder": "Ej: 56"}),
+            "anio": forms.NumberInput(attrs={"placeholder": "Ej: 2022"}),
         }

@@ -20,21 +20,25 @@
   grid-template-columns: 280px 1fr;
   gap: 24px;
   padding: 0 20px;
+  align-items: start;
 }
 
 .panel-sidebar{
-  background: #1f3c88;
+  background: linear-gradient(180deg, #1f3c88, #162c63);
   color: #fff;
-  border-radius: 18px;
-  padding: 24px 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border-radius: 20px;
+  padding: 26px 20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.12);
   height: fit-content;
+  position: sticky;
+  top: 24px;
 }
 
 .panel-sidebar-header h2{
   margin: 0 0 6px;
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
 }
 
 .panel-sidebar-header p{
@@ -53,17 +57,26 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 14px;
-  border-radius: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
   color: #fff;
   text-decoration: none;
   font-weight: 600;
-  transition: 0.2s ease;
+  transition: all 0.2s ease;
+  opacity: 0.85;
 }
 
-.panel-nav-link:hover,
+.panel-nav-link:hover{
+  background: rgba(255,255,255,0.12);
+  opacity: 1;
+  transform: translateX(3px);
+}
+
 .panel-nav-link.active{
-  background: rgba(255,255,255,0.14);
+  background: #fff;
+  color: #1f3c88;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
 }
 
 .panel-main{
@@ -323,6 +336,12 @@
     align-items: flex-start;
   }
 }
+
+  .panel-sidebar-nav{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 </style>
 
 <section class="panel-funcionario-page">
