@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
 <body class="min-h-screen bg-gray-100 text-gray-900 flex flex-col">
 
@@ -242,7 +243,11 @@
     }
 
     .site-header-nav-wrap {
-      background: #1f2c8c;
+      background: rgba(31, 44, 140, 0.96);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
 
     .site-nav {
@@ -253,7 +258,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 58px;
+      min-height: 48px;
     }
 
     .site-nav-mobile-title {
@@ -292,10 +297,11 @@
     .site-nav-list{
       display: flex;
       align-items: center;
-      gap: 28px;
+      justify-content: center;
+      gap: 12px;
       list-style: none;
       margin: 0;
-      padding: 0;
+      padding: 4px 0;
       width: 100%;
     }
 
@@ -308,26 +314,39 @@
     }
 
     .nav-link {
-      display: block;
-      padding: 0.25rem 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
       cursor: pointer;
       color: #fff;
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       font-weight: 700;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
       text-decoration: none;
       background: transparent;
       border: none;
+      border-radius: 999px;
+      transition: all 0.2s ease;
     }
 
     .nav-link:hover {
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-1px);
     }
+
+    .nav-link.active {
+      background: #ffffff;
+      color: #1f2c8c;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
 
     .caret {
       display: inline-block;
-      margin-left: .35rem;
-      transition: transform .15s;
+      margin-left: .2rem;
+      font-size: 0.7rem;
+      transition: transform .18s ease;
     }
 
     .submenu {
@@ -341,28 +360,31 @@
     .submenu {
       position: absolute;
       left: 0;
-      top: 100%;
-      min-width: 250px;
-      background: #fff;
+      top: calc(100% + 10px);
+      min-width: 260px;
+      background: rgba(255,255,255,0.98);
       color: #111827;
-      border: 1px solid #e2e8f0;
-      border-radius: 0.35rem;
-      box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(0,0,0,.14);
       z-index: 50;
-      padding: 0.35rem 0;
+      padding: 10px;
     }
 
     .submenu-link {
       display: block;
-      padding: 0.75rem 1rem;
+      padding: 12px 14px;
       color: #0f172a;
       text-decoration: none;
-      font-size: 0.78rem;
+      font-size: 0.84rem;
       font-weight: 600;
+      border-radius: 10px;
+      transition: 0.2s ease;
     }
 
     .submenu-link:hover {
       background: #eff6ff;
+      color: #1f2c8c;
     }
 
     .usuario-menu{
@@ -370,11 +392,15 @@
       align-items: center;
       gap: 10px;
       margin-left: auto;
+      background: rgba(255,255,255,0.10);
+      padding: 5px 10px;
+      border-radius: 999px;
+      
     }
 
     .usuario-nombre{
       color: white;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 14px;
       white-space: nowrap;
     }
@@ -384,11 +410,16 @@
       text-decoration: none;
       display: flex;
       align-items: center;
-      font-size: 16px;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      font-size: 15px;
+      transition: 0.2s ease;
     }
 
     .logout-icon:hover{
-      opacity: 0.8;
+      background: rgba(255,255,255,0.14);
     }
 
     .nav-item-login{
@@ -418,26 +449,29 @@
     }
 
     @media (max-width: 767px) {
-      .site-brand-row {
+       .site-brand-row {
         min-height: auto;
         padding-top: 1rem;
         padding-bottom: 1rem;
       }
 
+      .site-brand {
+        flex-direction: column;
+        gap: 10px;
+      }
+
       .site-brand-title {
-        font-size: 1.45rem;
+        font-size: 1.5rem;
       }
 
       .site-brand-subtitle {
-        font-size: 0.9rem;
-      }
-
-      .site-header-actions {
-        display: none;
+        font-size: 0.92rem;
       }
 
       .site-nav-mobile-title {
         display: block;
+        color: #fff;
+        font-weight: 700;
       }
 
       .site-nav-toggle {
@@ -446,8 +480,8 @@
 
       .site-nav-menu {
         display: none;
-        border-top: 1px solid rgba(255,255,255,0.12);
-        padding-bottom: 0.5rem;
+        border-top: 1px solid rgba(255,255,255,0.10);
+        padding: 10px 0 14px;
       }
 
       .site-nav-menu.show {
@@ -457,37 +491,43 @@
       .site-nav-list {
         flex-direction: column;
         align-items: stretch;
-      }
-
-      .nav-item-right {
-        margin-left: 0;
+        gap: 8px;
+        padding: 10px 0 0;
       }
 
       .nav-link {
         width: 100%;
+        justify-content: space-between;
         text-align: left;
-        padding: 0.9rem 0.25rem;
+        border-radius: 12px;
+        padding: 14px 16px;
+      }
+
+      .usuario-menu {
+        margin-left: 0;
+        justify-content: space-between;
+        border-radius: 12px;
       }
 
       .submenu {
         position: static;
         min-width: 100%;
         border: none;
-        border-radius: 0;
+        border-radius: 12px;
         box-shadow: none;
         background: rgba(255,255,255,0.08);
-        padding: 0.25rem 0;
+        padding: 6px;
+        margin-top: 6px;
       }
 
       .submenu-link {
         color: #fff;
-        padding: 0.7rem 1rem;
       }
 
       .submenu-link:hover {
-        background: rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.10);
+        color: #fff;
       }
-    }
 
       .whatsapp-float {
         position: fixed;
@@ -516,6 +556,7 @@
         transform: scale(1.08);
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
      }
+    }
   </style>
 
 
@@ -720,9 +761,11 @@
   }
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-
+{% block scripts %}{% endblock %}
 </body>
 
 </html>

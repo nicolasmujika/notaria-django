@@ -6,23 +6,27 @@
   background:#f4f6fb;
   min-height:calc(100vh - 140px);
   padding:32px 20px;
+  width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
 }
 
 .gestion-indices-container{
   max-width:1400px;
   margin:0 auto;
   display:grid;
-  grid-template-columns:280px minmax(0, 1fr);
+  grid-template-columns:280px 1fr;
   gap:24px;
+  padding:0 20px;
   align-items:start;
 }
 
 .panel-sidebar{
-  background:#1f3c88;
+  background: linear-gradient(180deg, #1f3c88, #162c63);
   color:#fff;
   border-radius:20px;
-  padding:24px 20px;
-  box-shadow:0 12px 30px rgba(0,0,0,0.10);
+  padding:26px 20px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.12);
   height:fit-content;
   position:sticky;
   top:24px;
@@ -30,15 +34,15 @@
 
 .panel-sidebar-header h2{
   margin:0 0 6px;
-  font-size:30px;
+  font-size:22px;
   font-weight:800;
-  line-height:1.1;
+  letter-spacing:0.3px;
 }
 
 .panel-sidebar-header p{
   margin:0 0 24px;
-  font-size:15px;
-  opacity:0.9;
+  font-size:14px;
+  opacity:0.85;
 }
 
 .panel-sidebar-nav{
@@ -51,17 +55,26 @@
   display:flex;
   align-items:center;
   gap:12px;
-  padding:13px 14px;
+  padding:14px 16px;
   border-radius:14px;
   color:#fff;
   text-decoration:none;
-  font-weight:700;
-  transition:0.2s ease;
+  font-weight:600;
+  transition:all 0.2s ease;
+  opacity:0.85;
 }
 
-.panel-nav-link:hover,
+.panel-nav-link:hover{
+  background:rgba(255,255,255,0.12);
+  opacity:1;
+  transform:translateX(3px);
+}
+
 .panel-nav-link.active{
-  background:rgba(255,255,255,0.16);
+  background:#fff;
+  color:#1f3c88;
+  font-weight:700;
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);
 }
 
 .gestion-main{
@@ -72,23 +85,23 @@
 }
 
 .gestion-topbar{
-  background:#ffffff;
-  border:1px solid #e7ebf3;
-  border-radius:20px;
-  padding:28px;
+  background:#fff;
+  border-radius:18px;
+  padding:24px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:20px;
-  box-shadow:0 12px 28px rgba(15,23,42,0.06);
+  box-shadow:0 10px 30px rgba(0,0,0,0.06);
   flex-wrap:wrap;
+  border:none;
 }
 
 .gestion-topbar h1{
-  margin:0 0 10px;
-  font-size:34px;
-  color:#0f172a;
-  font-weight:800;
+  margin:0 0 8px;
+  font-size:28px;
+  color:#1a1a1a;
+  font-weight:700;
 }
 
 .gestion-topbar p{
@@ -101,19 +114,19 @@
 .gestion-badge{
   background:#e8eefc;
   color:#1f3c88;
-  font-weight:800;
-  padding:12px 16px;
+  font-weight:700;
+  padding:10px 14px;
   border-radius:999px;
   white-space:nowrap;
-  font-size:15px;
+  font-size:14px;
 }
 
 .gestion-block{
-  background:#ffffff;
-  border:1px solid #e7ebf3;
-  border-radius:20px;
-  padding:28px;
-  box-shadow:0 12px 28px rgba(15,23,42,0.06);
+  background:#fff;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.06);
+  border:none;
 }
 
 .gestion-block-header{
@@ -127,9 +140,9 @@
 
 .gestion-block-header h2{
   margin:0 0 6px;
-  font-size:24px;
-  color:#111827;
-  font-weight:800;
+  font-size:22px;
+  color:#1b1b1b;
+  font-weight:700;
 }
 
 .gestion-block-header p{
@@ -146,8 +159,8 @@
   color:#fff;
   border:none;
   border-radius:12px;
-  padding:13px 20px;
-  font-weight:800;
+  padding:12px 18px;
+  font-weight:700;
   text-decoration:none;
   cursor:pointer;
   transition:0.2s ease;
@@ -155,7 +168,7 @@
 }
 
 .panel-primary-btn:hover{
-  transform:translateY(-1px);
+  transform:translateY(-2px);
   opacity:.96;
 }
 
@@ -310,23 +323,23 @@
         </a>
 
         <a href="{% url 'panel_funcionario' %}#solicitudes" class="panel-nav-link">
-          <span>📝</span>
-          <span>Solicitudes de escrituras</span>
+            <span>📝</span>
+            <span>Solicitudes de escrituras</span>
         </a>
 
-        <a href="{% url 'panel_funcionario' %}#expedientes" class="panel-nav-link">
-          <span>📁</span>
-          <span>Expedientes</span>
+        <a href="{% url 'panel_funcionario' %}#mensajes-contacto" class="panel-nav-link">
+          <span>📨</span>
+          <span>Mensajes</span>
+        </a>
+
+        <a href="{% url 'gestionar_valores' %}" class="panel-nav-link">
+          <span>🔎</span>
+          <span>Modificar valores</span>
         </a>
 
         <a href="{% url 'gestion_indices' %}" class="panel-nav-link active">
           <span>📚</span>
           <span>Gestionar índices</span>
-        </a>
-
-        <a href="{% url 'seguimiento_escrituras' %}" class="panel-nav-link">
-          <span>🔎</span>
-          <span>Consulta seguimiento</span>
         </a>
 
       </nav>
