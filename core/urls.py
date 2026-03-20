@@ -12,7 +12,7 @@ urlpatterns = [
     path('horario-atencion/', views.horario_atencion, name='horario_atencion'),
     path('tramites-mas-comunes/', views.tramites_comunes, name='tramites_comunes'),
     path('preguntas-frecuentes/', views.preguntas_frecuentes, name='preguntas_frecuentes'),
-    path('enlaces-interes/', views.enlaces_interes, name='enlaces_interes'),
+    
 
     # SERVICIOS NOTARIALES
     path('servicios-notariales/', views.servicios_notariales, name='servicios_notariales'),
@@ -49,4 +49,7 @@ urlpatterns = [
     path("panel-funcionario/indices/", views.gestion_indices, name="gestion_indices"),
     path("panel-funcionario/indices/nuevo/", views.crear_indice, name="crear_indice"),
     path("panel-funcionario/indices/<int:indice_id>/editar/", views.editar_indice, name="editar_indice"),
+    path("panel/valores/", views.gestionar_valores, name="gestionar_valores"),
+    path("panel/valores/<int:valor_id>/editar/", views.editar_valor, name="editar_valor"),
+    
 ]

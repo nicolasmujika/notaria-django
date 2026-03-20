@@ -1,5 +1,5 @@
 from django import forms # type: ignore
-from .models import ContactMessage,Expediente, SolicitudEscritura,IndiceEscritura
+from .models import ContactMessage,Expediente, SolicitudEscritura,IndiceEscritura, ValorServicio
 from django.core.exceptions import ValidationError
 from django import forms
 from django.contrib.auth.models import User
@@ -46,7 +46,17 @@ def validar_rut_chileno(value: str) -> str:
     return f"{int(cuerpo)}-{dv}"
 
 class ContactForm(forms.ModelForm):
+    SUBJECT_CHOICES = [
+        ("Consulta", "Consultas"),
+        ("Reclamo", "Reclamos"),
+        ("Sugerencia", "Sugerencias"),
+    ]
+
     honeypot = forms.CharField(required=False, widget=forms.HiddenInput)
+    subject = forms.ChoiceField(
+        choices=SUBJECT_CHOICES,
+        widget=forms.Select
+    )
 
     class Meta:
         model = ContactMessage
@@ -85,7 +95,6 @@ class ContactForm(forms.ModelForm):
         })
         self.fields["subject"].widget.attrs.update({
             "class": base_classes,
-            "placeholder": "Motivo de tu mensaje",
         })
         self.fields["message"].widget.attrs.update({
             "class": base_classes + " resize-none",
@@ -98,7 +107,7 @@ class ContactForm(forms.ModelForm):
         if value:
             raise forms.ValidationError("Bot detectado.")
         return value
-# importa Escritura si la vas a usar después, por ahora no es necesario aquí
+
 
 
 class SeguimientoForm(forms.Form):
@@ -144,7 +153,7 @@ class RegistroUsuarioForm(forms.ModelForm):
     )
     rut = forms.CharField(
         max_length=12,
-        widget=forms.TextInput(attrs={"placeholder": "RUT"})
+        widget=forms.TextInput(attrs={"placeholder": "RUT (ej: 12345678-5)"})
     )
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={"placeholder": "Correo Electrónico"})
@@ -155,15 +164,19 @@ class RegistroUsuarioForm(forms.ModelForm):
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "Confirmar Contraseña"})
     )
-    #captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
     class Meta:
         model = User
-        fields = ["username", "email"]
+        fields = []
+
+    def clean_rut(self):
+        rut = self.cleaned_data.get("rut", "").strip()
+        return validar_rut_chileno(rut)
 
     def clean_email(self):
-        email = self.cleaned_data["email"]
-        if User.objects.filter(email=email).exists():
+        email = self.cleaned_data["email"].strip().lower()
+        if User.objects.filter(email__iexact=email).exists():
             raise forms.ValidationError("Ya existe un usuario con ese correo.")
         return email
 
@@ -175,9 +188,11 @@ class RegistroUsuarioForm(forms.ModelForm):
         return p2
 
     def save(self, commit=True):
-        user = super().save(commit=False)
-        nombre_completo = self.cleaned_data["nombre_completo"]
-        partes = nombre_completo.strip().split(" ", 1)
+        user = User()
+
+        nombre_completo = self.cleaned_data["nombre_completo"].strip()
+        partes = nombre_completo.split(" ", 1)
+
         user.first_name = partes[0]
         user.last_name = partes[1] if len(partes) > 1 else ""
         user.email = self.cleaned_data["email"]
@@ -192,6 +207,7 @@ class RegistroUsuarioForm(forms.ModelForm):
 
         return user
 
+
 class LoginUsuarioForm(AuthenticationForm):
     username = forms.CharField(
         label="Correo Electrónico",
@@ -201,6 +217,8 @@ class LoginUsuarioForm(AuthenticationForm):
         label="Contraseña",
         widget=forms.PasswordInput(attrs={"placeholder": "Contraseña"})
     )
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+    
 
 class ExpedienteGestionForm(forms.ModelForm):
     class Meta:
@@ -249,4 +267,26 @@ class IndiceEscrituraForm(forms.ModelForm):
             "numero_repertorio": forms.TextInput(attrs={"placeholder": "Ej: 1234"}),
             "foja": forms.TextInput(attrs={"placeholder": "Ej: 56"}),
             "anio": forms.NumberInput(attrs={"placeholder": "Ej: 2022"}),
+        }
+
+class ValorServicioForm(forms.ModelForm):
+    class Meta:
+        model = ValorServicio
+        fields = [
+            "categoria",
+            "nombre",
+            "valor",
+            "descripcion_corta",
+            "descripcion_larga",
+            "orden",
+            "activo",
+        ]
+        widgets = {
+            "categoria": forms.TextInput(attrs={"class": "gv-input", "placeholder": "Ej: Escrituras Públicas"}),
+            "nombre": forms.TextInput(attrs={"class": "gv-input", "placeholder": "Ej: Compraventa"}),
+            "icono": forms.TextInput(attrs={"class": "gv-input", "placeholder": "Ej: 🏠"}),
+            "valor": forms.TextInput(attrs={"class": "gv-input", "placeholder": "Ej: $45.000 + imp."}),
+            "descripcion_corta": forms.Textarea(attrs={"class": "gv-input", "rows": 3, "placeholder": "Texto corto visible en la tarjeta"}),
+            "descripcion_larga": forms.Textarea(attrs={"class": "gv-input", "rows": 6, "placeholder": "Texto más completo para el detalle"}),
+            "orden": forms.NumberInput(attrs={"class": "gv-input", "min": "0"}),
         }

@@ -318,6 +318,106 @@
   color: #fff;
 }
 
+.pf-card{
+  background: #fff;
+  border-radius: 24px;
+  padding: 22px 24px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  border: 1px solid #e5e7eb;
+  margin-top: 22px;
+}
+
+.pf-card-head{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.pf-card-head h2{
+  margin: 0;
+  font-size: 1.7rem;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.pf-card-head p{
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: .95rem;
+}
+
+.pf-count{
+  background: #eef2ff;
+  color: #1d4ed8;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: .9rem;
+}
+
+.pf-table-wrap{
+  overflow-x: auto;
+}
+
+.pf-table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pf-table th,
+.pf-table td{
+  padding: 16px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: top;
+}
+
+.pf-table th{
+  color: #334155;
+  font-size: .95rem;
+  font-weight: 700;
+}
+
+.pf-table td{
+  color: #0f172a;
+  font-size: .95rem;
+}
+
+.pf-badge{
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.pf-badge-blue{
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.pf-badge-orange{
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.pf-badge-green{
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.pf-empty{
+  text-align: center;
+  color: #64748b;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 @media (max-width: 1100px){
   .panel-funcionario-container{
     grid-template-columns: 1fr;
@@ -365,14 +465,14 @@
             <span>Solicitudes de escrituras</span>
         </a>
 
-        <a href="#" class="panel-nav-link">
-          <span>📁</span>
-          <span>Expedientes</span>
+        <a href="#mensajes-contacto" class="panel-nav-link">
+          <span>📨</span>
+          <span>Mensajes</span>
         </a>
 
-        <a href="{% url 'seguimiento_escrituras' %}" class="panel-nav-link">
+        <a href="{% url 'gestionar_valores' %}" class="panel-nav-link">
           <span>🔎</span>
-          <span>Consulta seguimiento</span>
+          <span>Modificar valores</span>
         </a>
 
         <a href="{% url 'gestion_indices' %}" class="panel-nav-link">
@@ -454,10 +554,10 @@
                 <p>Revisa las solicitudes enviadas por los usuarios desde la web.</p>
             </a>
 
-            <a href="#" class="panel-action-card">
-                <div class="panel-action-icon">📁</div>
-                <h3>Gestionar expedientes</h3>
-                <p>Administra códigos de seguimiento, estados y observaciones.</p>
+            <a href="#mensajes-contacto" class="panel-action-card">
+                <div class="panel-action-icon">📨</div>
+                <h3>Consultas usuarios</h3>
+                <p>Ver consultas, reclamos y observaciones.</p>
             </a>
 
             <a href="{% url 'gestion_indices' %}" class="panel-action-card">
@@ -654,7 +754,53 @@
                     {% endif %}
             </div>
         </section>
+        <section id="mensajes-contacto" class="pf-card">
+          <div class="pf-card-head">
+            <div>
+              <h2>Consultas, reclamos y sugerencias</h2>
+              <p>Mensajes enviados desde el formulario de contacto</p>
+            </div>
+            <span class="pf-count">{{ total_mensajes_contacto }} registros</span>
+          </div>
 
+          <div class="pf-table-wrap">
+            <table class="pf-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Teléfono</th>
+                  <th>Tipo</th>
+                  <th>Mensaje</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for msg in mensajes_contacto %}
+                  <tr>
+                    <td>{{ msg.created_at|date:"d/m/Y H:i" }}</td>
+                    <td>{{ msg.full_name }}</td>
+                    <td>{{ msg.email }}</td>
+                    <td>{{ msg.phone }}</td>
+                    <td>
+                      <span class="pf-badge
+                        {% if msg.subject == 'Consulta' %}pf-badge-blue
+                        {% elif msg.subject == 'Reclamo' %}pf-badge-orange
+                        {% else %}pf-badge-green{% endif %}">
+                        {{ msg.subject }}
+                      </span>
+                    </td>
+                    <td>{{ msg.message|truncatechars:90 }}</td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="6" class="pf-empty">Aún no hay mensajes registrados.</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
     </main>
   </div>
 </section>

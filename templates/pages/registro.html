@@ -1,64 +1,471 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Crear Cuenta{% endblock %}
 
 {% block content %}
 <style>
-.auth-wrap{
-  min-height:70vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-.auth-card{
-  width:100%;
-  max-width:520px;
-  background:#fff;
-  border:1px solid #d1d5db;
-  border-radius:14px;
-  box-shadow:0 8px 24px rgba(0,0,0,.08);
-  padding:32px;
-}
-.auth-card h1{
-  text-align:center;
-  font-size:2rem;
-  color:#1e3a8a;
-  margin-bottom:24px;
-}
-.auth-card input{
-  width:100%;
-  padding:14px;
-  margin-bottom:14px;
-  border:1px solid #d1d5db;
-  border-radius:8px;
-}
-.auth-btn{
-  width:100%;
-  padding:14px;
-  background:#1e3a8a;
-  color:#fff;
-  border:none;
-  border-radius:8px;
-  font-weight:700;
-  cursor:pointer;
-}
+  .registro-page{
+    min-height: calc(100vh - 220px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 16px 64px;
+    background:
+      radial-gradient(circle at top, rgba(30, 58, 138, 0.08), transparent 35%),
+      linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  }
+
+  .registro-shell{
+    width: 100%;
+    max-width: 1080px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.10);
+  }
+
+  .registro-info{
+    background:
+      linear-gradient(135deg, rgba(19, 43, 116, 0.95), rgba(30, 58, 138, 0.92)),
+      url("/static/img/Alto-del-carmen.jpg");
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 680px;
+  }
+
+  .registro-badge{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: .2px;
+  }
+
+  .registro-info h1{
+    font-size: 2.2rem;
+    line-height: 1.15;
+    margin: 22px 0 16px;
+    font-weight: 800;
+  }
+
+  .registro-info p{
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.92);
+    max-width: 460px;
+    margin: 0;
+  }
+
+  .registro-beneficios{
+    display: grid;
+    gap: 14px;
+    margin-top: 34px;
+  }
+
+  .registro-beneficio{
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(3px);
+  }
+
+  .registro-beneficio-icon{
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .registro-beneficio strong{
+    display: block;
+    font-size: .98rem;
+    margin-bottom: 3px;
+  }
+
+  .registro-beneficio span{
+    font-size: .92rem;
+    color: rgba(255,255,255,0.88);
+  }
+
+  .registro-form-wrap{
+    padding: 44px 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+
+  .registro-card{
+    width: 100%;
+    max-width: 430px;
+  }
+
+  .registro-head{
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .registro-head h2{
+    font-size: 2rem;
+    color: #163b8c;
+    margin: 0 0 8px;
+    font-weight: 800;
+  }
+
+  .registro-head p{
+    margin: 0;
+    color: #64748b;
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+
+  .registro-alert{
+    margin-bottom: 18px;
+    padding: 13px 14px;
+    border-radius: 14px;
+    font-size: .95rem;
+    line-height: 1.5;
+    border: 1px solid;
+  }
+
+  .registro-alert.error{
+    background: #fff1f2;
+    color: #b42318;
+    border-color: #fecdd3;
+  }
+
+  .registro-alert.success{
+    background: #ecfdf3;
+    color: #027a48;
+    border-color: #a6f4c5;
+  }
+
+  .registro-group{
+    margin-bottom: 16px;
+  }
+
+  .registro-label{
+    display: block;
+    margin-bottom: 7px;
+    font-size: .92rem;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  .registro-input input{
+    width: 100%;
+    height: 52px;
+    padding: 0 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    background: #f8fafc;
+    font-size: 0.98rem;
+    color: #0f172a;
+    transition: .2s ease;
+    box-sizing: border-box;
+  }
+
+  .registro-input input:focus{
+    outline: none;
+    border-color: #1d4ed8;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+  }
+
+  .registro-input input::placeholder{
+    color: #94a3b8;
+  }
+
+  .registro-errors{
+    list-style: none;
+    margin: 7px 0 0;
+    padding: 0;
+  }
+
+  .registro-errors li{
+    color: #b42318;
+    font-size: .88rem;
+    line-height: 1.4;
+  }
+
+  .registro-captcha{
+    margin: 18px 0 20px;
+    padding: 14px;
+    background: #f8fafc;
+    border: 1px solid #dbe3ef;
+    border-radius: 16px;
+    overflow-x: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .registro-captcha > div{
+    margin: 0 auto;
+  }
+
+  .registro-btn{
+    width: 100%;
+    height: 54px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: .2px;
+    cursor: pointer;
+    box-shadow: 0 14px 28px rgba(37, 99, 235, 0.18);
+    transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+  }
+
+  .registro-btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 18px 30px rgba(37, 99, 235, 0.22);
+  }
+
+  .registro-btn:active{
+    transform: translateY(0);
+  }
+
+  .registro-footer{
+    margin-top: 18px;
+    text-align: center;
+    color: #64748b;
+    font-size: .95rem;
+  }
+
+  .registro-footer a{
+    color: #1d4ed8;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .registro-footer a:hover{
+    text-decoration: underline;
+  }
+
+  @media (max-width: 920px){
+    .registro-shell{
+      grid-template-columns: 1fr;
+      max-width: 560px;
+    }
+
+    .registro-info{
+      min-height: auto;
+      padding: 34px 28px;
+    }
+
+    .registro-form-wrap{
+      padding: 34px 24px 36px;
+    }
+  }
+
+  @media (max-width: 520px){
+    .registro-page{
+      padding: 26px 12px 40px;
+    }
+
+    .registro-info{
+      padding: 26px 20px;
+    }
+
+    .registro-info h1{
+      font-size: 1.75rem;
+    }
+
+    .registro-form-wrap{
+      padding: 28px 18px 30px;
+    }
+
+    .registro-head h2{
+      font-size: 1.7rem;
+    }
+
+    .registro-input input{
+      height: 50px;
+      border-radius: 12px;
+    }
+
+    .registro-btn{
+      height: 52px;
+      border-radius: 12px;
+    }
+  }
 </style>
 
-<div class="auth-wrap">
-  <div class="auth-card">
-    <h1>Crear Cuenta</h1>
+<div class="registro-page">
+  <div class="registro-shell">
 
-    <form method="post">
-      {% csrf_token %}
-      {{ form.nombre_completo }}
-      {{ form.rut }}
-      {{ form.email }}
-      {{ form.password1 }}
-      {{ form.password2 }}
-      <div style="margin: 14px 0;">
-        {{ form.captcha }}
+    <div class="registro-info">
+      <div>
+        <div class="registro-badge">Notaría Felipe Velásquez</div>
+        <h1>Crea tu cuenta y gestiona tus trámites con mayor facilidad</h1>
+        <p>
+          Regístrate para acceder a funciones de seguimiento, consultas y futuros servicios
+          en línea de la notaría de manera más rápida, ordenada y segura.
+        </p>
+
+        <div class="registro-beneficios">
+          <div class="registro-beneficio">
+            <div class="registro-beneficio-icon">✓</div>
+            <div>
+              <strong>Acceso más rápido</strong>
+              <span>Centraliza tus datos para futuras gestiones y solicitudes.</span>
+            </div>
+          </div>
+
+          <div class="registro-beneficio">
+            <div class="registro-beneficio-icon">🔒</div>
+            <div>
+              <strong>Información protegida</strong>
+              <span>Tu cuenta queda resguardada con acceso seguro y validaciones.</span>
+            </div>
+          </div>
+
+          <div class="registro-beneficio">
+            <div class="registro-beneficio-icon">📄</div>
+            <div>
+              <strong>Mejor experiencia</strong>
+              <span>Facilita el uso de servicios digitales y consultas notariales.</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <button type="submit" class="auth-btn">Registrarse</button>
-    </form>
+    </div>
+
+    <div class="registro-form-wrap">
+      <div class="registro-card">
+
+        <div class="registro-head">
+          <h2>Crear Cuenta</h2>
+          <p>Completa tus datos para registrarte en la plataforma.</p>
+        </div>
+
+        {% if messages %}
+          {% for message in messages %}
+            <div class="registro-alert {% if message.tags == 'success' %}success{% else %}error{% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        {% if form.non_field_errors %}
+          <div class="registro-alert error">
+            {% for error in form.non_field_errors %}
+              <div>{{ error }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <div class="registro-group">
+            <label class="registro-label" for="{{ form.nombre_completo.id_for_label }}">Nombre completo</label>
+            <div class="registro-input">{{ form.nombre_completo }}</div>
+            {% if form.nombre_completo.errors %}
+              <ul class="registro-errors">
+                {% for error in form.nombre_completo.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="registro-group">
+            <label class="registro-label" for="{{ form.rut.id_for_label }}">RUT</label>
+            <div class="registro-input">{{ form.rut }}</div>
+            {% if form.rut.errors %}
+              <ul class="registro-errors">
+                {% for error in form.rut.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="registro-group">
+            <label class="registro-label" for="{{ form.email.id_for_label }}">Correo electrónico</label>
+            <div class="registro-input">{{ form.email }}</div>
+            {% if form.email.errors %}
+              <ul class="registro-errors">
+                {% for error in form.email.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="registro-group">
+            <label class="registro-label" for="{{ form.password1.id_for_label }}">Contraseña</label>
+            <div class="registro-input">{{ form.password1 }}</div>
+            {% if form.password1.errors %}
+              <ul class="registro-errors">
+                {% for error in form.password1.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="registro-group">
+            <label class="registro-label" for="{{ form.password2.id_for_label }}">Confirmar contraseña</label>
+            <div class="registro-input">{{ form.password2 }}</div>
+            {% if form.password2.errors %}
+              <ul class="registro-errors">
+                {% for error in form.password2.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="registro-captcha">
+            {{ form.captcha }}
+            {% if form.captcha.errors %}
+              <ul class="registro-errors">
+                {% for error in form.captcha.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="registro-btn">Registrarse</button>
+        </form>
+
+        <div class="registro-footer">
+          ¿Ya tienes cuenta?
+          <a href="{% url 'login' %}">Inicia sesión aquí</a>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 {% endblock %}

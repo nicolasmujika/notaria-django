@@ -313,228 +313,25 @@
     <h3 class="ep-section-title">Tipos de Escrituras y Valores</h3>
 
     <div class="ep-modern-grid">
+      {% for servicio in servicios %}
+        <div class="ep-card">
+          <div class="ep-card-header">
+            <div class="ep-card-icon">📄</div>
+            <h3 class="ep-card-title">{{ servicio.nombre }}</h3>
+            <p class="ep-card-short"></p>
+          </div>
 
-      <div class="ep-card">
-        <div class="ep-card-header">
-          <div class="ep-card-icon">📘</div>
-          <h3 class="ep-card-title">Alzamiento</h3>
-          <p class="ep-card-short">
-            Escritura otorgada cuando se extingue una garantía hipotecaria o prendaria.
-          </p>
-        </div>
-        <div class="ep-card-price-wrap">
-          <span class="ep-card-price">$XXXXXXXX + imp.</span>
-        </div>
-        <div class="ep-card-actions">
-          <button class="ep-card-btn" type="button">Ver más</button>
-        </div>
-        <div class="ep-card-detail">
-          <p>
-            Es la escritura que otorga el acreedor cuando el deudor cumple íntegramente
-            las obligaciones garantizadas a su favor, permitiendo dejar el bien libre
-            de esos gravámenes.
-          </p>
-        </div>
-      </div>
+          <div class="ep-card-price-wrap">
+            <span class="ep-card-price">{{ servicio.valor }}</span>
+          </div>
 
-      <div class="ep-card">
-        <div class="ep-card-header">
-          <div class="ep-card-icon">🏠</div>
-          <h3 class="ep-card-title">Compraventa</h3>
-          <p class="ep-card-short">
-            Escritura utilizada para formalizar la venta y transferencia de un bien raíz.
-          </p>
+          <div class="ep-card-actions">
+            <button class="ep-card-btn" type="button">Ver más</button>
+          </div>
         </div>
-        <div class="ep-card-price-wrap">
-          <span class="ep-card-price">$XXXXXXXX + imp.</span>
-        </div>
-        <div class="ep-card-actions">
-          <button class="ep-card-btn" type="button">Ver más</button>
-        </div>
-        <div class="ep-card-detail">
-          <p>
-            Permite formalizar la transferencia de dominio de una propiedad entre vendedor
-            y comprador, incorporando las cláusulas y antecedentes legales correspondientes.
-          </p>
-        </div>
-      </div>
-
-      <div class="ep-card">
-        <div class="ep-card-header">
-          <div class="ep-card-icon">💰</div>
-          <h3 class="ep-card-title">Mutuo</h3>
-          <p class="ep-card-short">
-            Documento mediante el cual una parte entrega dinero a otra bajo ciertas condiciones.
-          </p>
-        </div>
-        <div class="ep-card-price-wrap">
-          <span class="ep-card-price">$XXXXXXXX + imp.</span>
-        </div>
-        <div class="ep-card-actions">
-          <button class="ep-card-btn" type="button">Ver más</button>
-        </div>
-        <div class="ep-card-detail">
-          <p>
-            Corresponde a un préstamo de dinero u otra cosa fungible, estableciendo montos,
-            forma de pago, intereses y demás estipulaciones que acuerden las partes.
-          </p>
-        </div>
-      </div>
-
-      <div class="ep-card">
-        <div class="ep-card-header">
-          <div class="ep-card-icon">🧾</div>
-          <h3 class="ep-card-title">Hipoteca</h3>
-          <p class="ep-card-short">
-            Garantía constituida sobre un inmueble para asegurar una obligación.
-          </p>
-        </div>
-        <div class="ep-card-price-wrap">
-          <span class="ep-card-price">$XXXXXXXX + imp.</span>
-        </div>
-        <div class="ep-card-actions">
-          <button class="ep-card-btn" type="button">Ver más</button>
-        </div>
-        <div class="ep-card-detail">
-          <p>
-            Permite caucionar una obligación mediante la constitución de un gravamen
-            sobre un bien raíz, manteniendo el propietario la posesión del inmueble.
-          </p>
-        </div>
-      </div>
-
-      <div class="ep-card">
-        <div class="ep-card-header">
-          <div class="ep-card-icon">🔒</div>
-          <h3 class="ep-card-title">Prenda</h3>
-          <p class="ep-card-short">
-            Garantía que recae sobre bienes muebles para respaldar una deuda u obligación.
-          </p>
-        </div>
-        <div class="ep-card-price-wrap">
-          <span class="ep-card-price">$XXXXXXXX + imp.</span>
-        </div>
-        <div class="ep-card-actions">
-          <button class="ep-card-btn" type="button">Ver más</button>
-        </div>
-        <div class="ep-card-detail">
-          <p>
-            Se utiliza para asegurar el cumplimiento de una obligación mediante la afectación
-            de bienes muebles, bajo las condiciones que establezca la legislación aplicable.
-          </p>
-        </div>
-      </div>
-
-      <div class="ep-card">
-        <div class="ep-card-header">
-          <div class="ep-card-icon">🤝</div>
-          <h3 class="ep-card-title">Resciliación</h3>
-          <p class="ep-card-short">
-            Acuerdo por el cual las partes dejan sin efecto un acto o contrato previo.
-          </p>
-        </div>
-        <div class="ep-card-price-wrap">
-          <span class="ep-card-price">$XXXXXXXX + imp.</span>
-        </div>
-        <div class="ep-card-actions">
-          <button class="ep-card-btn" type="button">Ver más</button>
-        </div>
-        <div class="ep-card-detail">
-          <p>
-            Procede cuando ambas partes consienten en poner término a un contrato,
-            dejando sin efecto sus obligaciones en la forma que se pacte.
-          </p>
-        </div>
-      </div>
-
-      <div class="ep-card">
-        <div class="ep-card-header">
-          <div class="ep-card-icon">🏦</div>
-          <h3 class="ep-card-title">Mutuo Hipotecario</h3>
-          <p class="ep-card-short">
-            Escritura que combina un préstamo con la constitución de garantía hipotecaria.
-          </p>
-        </div>
-        <div class="ep-card-price-wrap">
-          <span class="ep-card-price">$XXXXXXXX + imp.</span>
-        </div>
-        <div class="ep-card-actions">
-          <button class="ep-card-btn" type="button">Ver más</button>
-        </div>
-        <div class="ep-card-detail">
-          <p>
-            Se utiliza cuando el préstamo queda garantizado con hipoteca sobre un inmueble,
-            detallando obligación principal, plazos, intereses y cauciones.
-          </p>
-        </div>
-      </div>
-
-      <div class="ep-card">
-        <div class="ep-card-header">
-          <div class="ep-card-icon">✏️</div>
-          <h3 class="ep-card-title">Rectificación o Aclaración</h3>
-          <p class="ep-card-short">
-            Permite corregir errores u omisiones en un instrumento previamente otorgado.
-          </p>
-        </div>
-        <div class="ep-card-price-wrap">
-          <span class="ep-card-price">$XXXXXXXX + imp.</span>
-        </div>
-        <div class="ep-card-actions">
-          <button class="ep-card-btn" type="button">Ver más</button>
-        </div>
-        <div class="ep-card-detail">
-          <p>
-            Se usa para complementar, precisar o corregir datos de una escritura ya suscrita,
-            siempre conforme a los antecedentes y voluntad de las partes.
-          </p>
-        </div>
-      </div>
-
-      <div class="ep-card">
-        <div class="ep-card-header">
-          <div class="ep-card-icon">🏢</div>
-          <h3 class="ep-card-title">Sociedades</h3>
-          <p class="ep-card-short">
-            Escrituras relacionadas con constitución, modificación o saneamiento societario.
-          </p>
-        </div>
-        <div class="ep-card-price-wrap">
-          <span class="ep-card-price">$XXXXXXXX + imp.</span>
-        </div>
-        <div class="ep-card-actions">
-          <button class="ep-card-btn" type="button">Ver más</button>
-        </div>
-        <div class="ep-card-detail">
-          <p>
-            Incluye actos vinculados a la creación o modificación de sociedades,
-            conforme al tipo societario y a la minuta presentada por las partes.
-          </p>
-        </div>
-      </div>
-
-      <div class="ep-card">
-        <div class="ep-card-header">
-          <div class="ep-card-icon">🔄</div>
-          <h3 class="ep-card-title">Permuta</h3>
-          <p class="ep-card-short">
-            Acto por el cual las partes intercambian bienes o derechos entre sí.
-          </p>
-        </div>
-        <div class="ep-card-price-wrap">
-          <span class="ep-card-price">$XXXXXXXX + imp.</span>
-        </div>
-        <div class="ep-card-actions">
-          <button class="ep-card-btn" type="button">Ver más</button>
-        </div>
-        <div class="ep-card-detail">
-          <p>
-            La permuta permite el intercambio de bienes entre dos o más partes,
-            dejando constancia formal de las condiciones y de los bienes involucrados.
-          </p>
-        </div>
-      </div>
-
+      {% empty %}
+        <p>No hay valores cargados todavía.</p>
+      {% endfor %}
     </div>
 
   </div>

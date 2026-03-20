@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .gv-form-page{
+    background: #f4f6fb;
+    min-height: calc(100vh - 140px);
+    padding: 32px 20px;
+  }
+
+  .gv-form-wrap{
+    max-width: 1050px;
+    margin: 0 auto;
+  }
+
+  .gv-form-layout{
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 22px;
+  }
+
+  .gv-form-card,
+  .gv-preview-card{
+    background: #fff;
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  }
+
+  .gv-form-card h1{
+    margin: 0 0 8px;
+    color: #1f3c88;
+  }
+
+  .gv-form-card p,
+  .gv-preview-card p{
+    margin: 0 0 22px;
+    color: #64748b;
+  }
+
+  .gv-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .gv-group{
+    margin-bottom: 16px;
+  }
+
+  .gv-group.full{
+    grid-column: 1 / -1;
+  }
+
+  .gv-label{
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  .gv-input{
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 12px 14px;
+    background: #fff;
+    font-size: 15px;
+  }
+
+  textarea.gv-input{
+    resize: vertical;
+  }
+
+  .gv-check-wrap{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 12px;
+  }
+
+  .gv-errors{
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+  }
+
+  .gv-errors li{
+    color: #b91c1c;
+    font-size: 14px;
+  }
+
+  .gv-actions{
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .gv-btn{
+    border: none;
+    background: #1f3c88;
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .gv-btn:hover{
+    background: #18306f;
+  }
+
+  .gv-btn-secondary{
+    display: inline-block;
+    text-decoration: none;
+    background: #e5e7eb;
+    color: #111827;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+  }
+
+  .gv-preview{
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 20px;
+    background: #f8faff;
+  }
+
+  .gv-preview-icon{
+    font-size: 34px;
+    margin-bottom: 10px;
+  }
+
+  .gv-preview h3{
+    margin: 0 0 10px;
+    font-size: 24px;
+    color: #1f3c88;
+  }
+
+  .gv-preview-short{
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .gv-preview-price{
+    display: inline-flex;
+    align-items: center;
+    background: #1f3c88;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+
+  .gv-preview-long{
+    margin-top: 18px;
+    color: #334155;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 960px){
+    .gv-form-layout{
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px){
+    .gv-grid{
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<section class="gv-form-page">
+  <div class="gv-form-wrap">
+    <div class="gv-form-layout">
+
+      <div class="gv-form-card">
+        <h1>Editar valor</h1>
+        <p>Modifica la información que se mostrará en la tarjeta pública.</p>
+
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="gv-grid">
+            <div class="gv-group">
+              <label class="gv-label">Categoría</label>
+              {{ form.categoria }}
+              {% if form.categoria.errors %}
+                <ul class="gv-errors">{% for e in form.categoria.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+              {% endif %}
+            </div>
+
+            <div class="gv-group">
+              <label class="gv-label">Nombre</label>
+              {{ form.nombre }}
+              {% if form.nombre.errors %}
+                <ul class="gv-errors">{% for e in form.nombre.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+              {% endif %}
+            </div>
+
+           
+
+            <div class="gv-group">
+              <label class="gv-label">Valor</label>
+              {{ form.valor }}
+              {% if form.valor.errors %}
+                <ul class="gv-errors">{% for e in form.valor.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+              {% endif %}
+            </div>
+
+            <div class="gv-group">
+              <label class="gv-label">Orden</label>
+              {{ form.orden }}
+              {% if form.orden.errors %}
+                <ul class="gv-errors">{% for e in form.orden.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+              {% endif %}
+            </div>
+
+            <div class="gv-group">
+              <label class="gv-label">Activo</label>
+              <div class="gv-check-wrap">
+                {{ form.activo }}
+                <span>Mostrar este servicio en la web</span>
+              </div>
+              {% if form.activo.errors %}
+                <ul class="gv-errors">{% for e in form.activo.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+              {% endif %}
+            </div>
+
+            <div class="gv-group full">
+              <label class="gv-label">Descripción corta</label>
+              {{ form.descripcion_corta }}
+              {% if form.descripcion_corta.errors %}
+                <ul class="gv-errors">{% for e in form.descripcion_corta.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+              {% endif %}
+            </div>
+
+            <div class="gv-group full">
+              <label class="gv-label">Descripción larga</label>
+              {{ form.descripcion_larga }}
+              {% if form.descripcion_larga.errors %}
+                <ul class="gv-errors">{% for e in form.descripcion_larga.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="gv-actions">
+            <button type="submit" class="gv-btn">Guardar cambios</button>
+            <a href="{% url 'gestionar_valores' %}" class="gv-btn-secondary">Volver</a>
+          </div>
+        </form>
+      </div>
+
+      <div class="gv-preview-card">
+        <h1 style="font-size: 24px;">Vista previa</h1>
+        <p>Así se verá aproximadamente en la tarjeta pública.</p>
+
+        <div class="gv-preview">
+          <div class="gv-preview-icon">{{ valor.icono|default:"📄" }}</div>
+          <h3>{{ valor.nombre }}</h3>
+          <div class="gv-preview-short">{{ valor.descripcion_corta|default:"Sin descripción corta." }}</div>
+          <div class="gv-preview-price">{{ valor.valor }}</div>
+          <div class="gv-preview-long">{{ valor.descripcion_larga|default:"Sin descripción larga." }}</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

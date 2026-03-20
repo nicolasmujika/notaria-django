@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404 # type: ignore
 from django.contrib import messages# type: ignore
 from django.core.mail import send_mail # type: ignore
 from django.conf import settings# type: ignore
-from .forms import ContactForm, SeguimientoForm,SolicitudEscrituraForm,RegistroUsuarioForm, LoginUsuarioForm, ExpedienteGestionForm, IndiceEscrituraForm
-from .models import Service, Tramite, Expediente,SolicitudEscritura, IndiceEscritura
+from .forms import ContactForm, SeguimientoForm,SolicitudEscrituraForm,RegistroUsuarioForm, LoginUsuarioForm, ExpedienteGestionForm, IndiceEscrituraForm, ValorServicioForm
+from .models import Service, Tramite, Expediente,SolicitudEscritura, IndiceEscritura, ContactMessage, ValorServicio
 from django.utils import timezone # type: ignore
 from datetime import timedelta
 from django.contrib.auth import login, logout
@@ -96,14 +96,19 @@ def tramites_comunes(request):
 def preguntas_frecuentes(request):
     return render(request, 'pages/preguntas_frecuentes.html')
 
-def enlaces_interes(request):
-    return render(request, 'pages/enlaces_interes.html')
 
 def servicios_notariales(request):
     return render(request, 'pages/servicios_notariales.html')
 
 def escrituras_publicas(request):
-    return render(request, 'pages/escrituras_publicas.html')
+    servicios = ValorServicio.objects.filter(
+        categoria="Escrituras Públicas",
+        activo=True
+    ).order_by("orden", "nombre")
+
+    return render(request, "pages/escrituras_publicas.html", {
+        "servicios": servicios,
+    })
 
 def solicitud_escrituras(request):
     if request.method == "POST":
@@ -161,7 +166,14 @@ def tramite_detail(request, tramite_id: int):
     return render(request, "pages/tramite_detail.html", {"tramite": tramite})
 
 def documentos_privados(request):
-    return render(request, 'pages/documentos_privados.html')
+    servicios = ValorServicio.objects.filter(
+        categoria="Documentos Privados",
+        activo=True
+    ).order_by("orden", "nombre")
+
+    return render(request, "pages/documentos_privados.html", {
+        "servicios": servicios,
+    })
 
 def seguimiento_escrituras(request):
     resultado = None
@@ -210,32 +222,29 @@ class CustomLoginView(LoginView):
         return redirect("home")
 
     def form_invalid(self, form):
-        username = self.request.POST.get("username", "").strip()
-        password = self.request.POST.get("password", "").strip()
-
-        if username:
-            existe = User.objects.filter(email__iexact=username).exists() or User.objects.filter(username__iexact=username).exists()
-
-            if not existe:
-                messages.error(self.request, "El usuario o correo no existe.")
-            else:
-                messages.error(self.request, "La contraseña es incorrecta.")
+        if "captcha" in form.errors:
+            messages.error(self.request, "Por favor, marca el reCAPTCHA.")
+        elif "__all__" in form.errors:
+            messages.error(self.request, "Usuario o contraseña incorrectos.")
         else:
-            messages.error(self.request, "Debes ingresar correo o nombre de usuario y contraseña.")
+            messages.error(self.request, "Revisa los datos ingresados.")
 
-        return super().form_invalid(form)
+        return self.render_to_response(self.get_context_data(form=form))
 def registro_usuario(request):
     if request.method == "POST":
         form = RegistroUsuarioForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(request, "Cuenta creada correctamente.")
             return redirect("home")
+        else:
+            print(form.errors)
+            messages.error(request, "No se pudo crear la cuenta. Revisa los campos.")
     else:
         form = RegistroUsuarioForm()
 
     return render(request, "pages/registro.html", {"form": form})
-
 def logout_view(request):
     logout(request)
     return redirect("home")
@@ -262,6 +271,8 @@ def panel_funcionario(request):
         .order_by("-fecha_ingreso")
     )
 
+    mensajes_contacto = ContactMessage.objects.order_by("-created_at")[:20]
+
     paginator = Paginator(expedientes_lista, 10)
     page_number = request.GET.get("page")
     expedientes = paginator.get_page(page_number)
@@ -269,9 +280,11 @@ def panel_funcionario(request):
     context = {
         "solicitudes": solicitudes,
         "expedientes": expedientes,
+        "mensajes_contacto": mensajes_contacto,
         "total_solicitudes": SolicitudEscritura.objects.count(),
         "total_expedientes": Expediente.objects.count(),
         "solicitudes_pendientes": SolicitudEscritura.objects.filter(expediente__isnull=True).count(),
+        "total_mensajes_contacto": ContactMessage.objects.count(),
     }
 
     return render(request, "pages/panel_funcionario.html", context)
@@ -452,4 +465,30 @@ def editar_indice(request, indice_id):
         "form": form,
         "titulo": "Editar índice",
         "indice": indice,
+    })
+
+@login_required
+@user_passes_test(es_funcionario)
+def gestionar_valores(request):
+    valores = ValorServicio.objects.all()
+    return render(request, "pages/gestionar_valores.html", {"valores": valores})
+
+
+@login_required
+@user_passes_test(es_funcionario)
+def editar_valor(request, valor_id):
+    valor = get_object_or_404(ValorServicio, id=valor_id)
+
+    if request.method == "POST":
+        form = ValorServicioForm(request.POST, instance=valor)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Valor actualizado correctamente.")
+            return redirect("gestionar_valores")
+    else:
+        form = ValorServicioForm(instance=valor)
+
+    return render(request, "pages/editar_valor.html", {
+        "form": form,
+        "valor": valor
     })

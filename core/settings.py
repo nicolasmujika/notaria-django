@@ -70,6 +70,8 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
+
+# Email a consola en desarrollo (para probar el formulario de contacto)
 EMAIL_BACKEND = os.getenv(
     "EMAIL_BACKEND",
     "django.core.mail.backends.console.EmailBackend",
@@ -81,21 +83,7 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "1") == "1"
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@notaria.local")
-
 CONTACT_RECIPIENT = os.getenv("CONTACT_RECIPIENT", EMAIL_HOST_USER or "admin@notaria.local")
-
-
-# Email a consola en desarrollo (para probar el formulario de contacto)
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = "nicolasmujicacortes12@gmail.com"
-EMAIL_HOST_PASSWORD = "lfsj vhup olff ebll"
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 

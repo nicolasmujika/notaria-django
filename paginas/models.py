@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.utils.text import slugify
 # Create your models here.
 class ContactMessage(models.Model):
     full_name = models.CharField(max_length=120)
@@ -179,6 +179,30 @@ class IndiceEscritura(models.Model):
 
     def __str__(self):
         return f"{self.comparecientes[:60]} - {self.materia} ({self.anio})"
+
+
+class ValorServicio(models.Model):
+    categoria = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=150)
+    slug = models.SlugField(unique=True)
+    icono = models.CharField(max_length=20, blank=True, default="📄")
+    valor = models.CharField(max_length=100)
+    descripcion_corta = models.TextField(blank=True, default="")
+    descripcion_larga = models.TextField(blank=True, default="")
+    orden = models.PositiveIntegerField(default=0)
+    activo = models.BooleanField(default=True)
+    actualizado_en = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["categoria", "orden", "nombre"]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.nombre} - {self.valor}"
     
 
 @receiver(post_save, sender=User)
@@ -190,3 +214,8 @@ def crear_perfil_usuario(sender, instance, created, **kwargs):
 def guardar_perfil_usuario(sender, instance, **kwargs):
     if hasattr(instance, "perfil"):
         instance.perfil.save()
+
+def save(self, *args, **kwargs):
+    if not self.slug:
+        self.slug = slugify(self.nombre)
+    super().save(*args, **kwargs)
