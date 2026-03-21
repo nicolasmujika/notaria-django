@@ -1,248 +1,346 @@
 {% extends "base.html" %}
 {% load static %}
-
-{% block title %}Horario de Atención - Notaría Felipe Velasquez{% endblock %}
+{% block title %}Horario de Atención y Turnos{% endblock %}
 
 {% block content %}
-
 <style>
-  .ha-top {
-    background: linear-gradient(to right, #f3f4f6, #fafafa);
-    border-top: 1px solid #e5e7eb;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 28px 0 30px;
-    margin: -2rem -1rem 2rem;
+  .horario-page{
+    background:
+      radial-gradient(circle at top, rgba(37, 99, 235, 0.06), transparent 28%),
+      linear-gradient(180deg, #f4f7fc 0%, #eef3f9 100%);
+    min-height: calc(100vh - 120px);
+    padding: 42px 18px 60px;
   }
 
-  .ha-top-inner {
-    max-width: 1120px;
+  .horario-wrap{
+    max-width: 1220px;
     margin: 0 auto;
-    padding: 0 16px;
   }
 
-  .ha-title {
-    font-size: 2.2rem;
-    line-height: 1.1;
-    color: #111827;
-    margin: 0 0 8px;
-    font-weight: 500;
+  .horario-hero{
+    background: linear-gradient(135deg, rgba(255,255,255,.98) 0%, rgba(247,250,255,.98) 100%);
+    border: 1px solid #e2eaf3;
+    border-radius: 26px;
+    padding: 34px 34px 28px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    margin-bottom: 26px;
+    position: relative;
+    overflow: hidden;
   }
 
-  .ha-breadcrumb {
-    font-size: 0.9rem;
-    color: #6b7280;
+  .horario-hero::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #1f3c88, #2563eb, #5b8cff);
   }
 
-  .ha-breadcrumb a {
-    color: #0284c7;
+  .horario-breadcrumb{
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 12px;
+  }
+
+  .horario-breadcrumb a{
+    color: #2563eb;
     text-decoration: none;
+    font-weight: 600;
   }
 
-  .ha-layout {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 16px;
-    display: flex;
-    gap: 44px;
-    align-items: flex-start;
+  .horario-hero h1{
+    margin: 0 0 10px;
+    font-size: 2.3rem;
+    line-height: 1.1;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
   }
 
-  .ha-main {
-    flex: 1 1 auto;
+  .horario-hero p{
+    margin: 0;
     max-width: 760px;
+    color: #5f6f86;
+    font-size: 15px;
+    line-height: 1.7;
   }
 
-  .ha-side {
-    width: 270px;
-    flex: 0 0 270px;
+  .horario-layout{
+    display: grid;
+    grid-template-columns: minmax(0, 1.9fr) minmax(280px, 0.9fr);
+    gap: 28px;
+    align-items: start;
   }
 
-  .ha-banner img {
+  .horario-main-card,
+  .horario-side-card{
+    background: #fff;
+    border: 1px solid #e3ebf5;
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+  }
+
+  .horario-image{
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+  }
+
+  .horario-image img{
     width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
-    border: 1px solid #d1d5db;
   }
 
-  .ha-section-title {
-    font-size: 1.15rem;
-    color: #111827;
-    font-weight: 400;
-    margin: 18px 0 14px;
+  .horario-image::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15,23,42,.30), rgba(15,23,42,.05));
   }
 
-  .ha-section-title strong {
-    font-weight: 700;
+  .horario-main-body{
+    padding: 28px;
   }
 
-  .ha-hours-table,
-  .ha-turno-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #f3f4f6;
-    border: 1px solid #d1d5db;
-  }
-
-  .ha-hours-table td,
-  .ha-turno-table th,
-  .ha-turno-table td {
-    border: 1px solid #e5e7eb;
-    padding: 18px 16px;
-    color: #374151;
-  }
-
-  .ha-hours-table td:first-child {
-    width: 35%;
-    text-align: center;
-    font-weight: 700;
-    color: #111827;
-    font-size: 1rem;
-  }
-
-  .ha-hours-table td:last-child {
-    text-align: center;
-    font-weight: 700;
-    color: #111827;
-    font-size: 1rem;
-  }
-
-  .ha-subtitle {
-    font-size: 1.25rem;
+  .horario-section-kicker{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eaf1ff;
+    color: #2554c7;
+    border: 1px solid #d8e5ff;
+    padding: 8px 13px;
+    border-radius: 999px;
+    font-size: 12px;
     font-weight: 800;
-    color: #111827;
-    margin: 18px 0 8px;
+    letter-spacing: .04em;
     text-transform: uppercase;
+    margin-bottom: 16px;
   }
 
-  .ha-turno-text {
-    font-size: 1.1rem;
-    color: #111827;
-    margin: 0 0 18px;
+  .horario-main-body h2{
+    margin: 0 0 10px;
+    color: #0f172a;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
   }
 
-  .ha-turno-table th {
+  .horario-main-body > p{
+    margin: 0 0 22px;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .horario-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 20px;
+  }
+
+  .horario-item{
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    border: 1px solid #dfe8f5;
+    border-radius: 20px;
+    padding: 22px 20px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+  }
+
+  .horario-item-label{
+    color: #1f3c88;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .08em;
     text-transform: uppercase;
-    font-size: 0.85rem;
-    color: #6b7280;
-    background: #f3f4f6;
-    text-align: center;
-    font-weight: 700;
+    margin-bottom: 10px;
   }
 
-  .ha-turno-table td {
-    background: #f9fafb;
-    text-align: center;
-    font-size: 0.95rem;
+  .horario-item-value{
+    color: #0f172a;
+    font-size: 1.25rem;
+    font-weight: 900;
+    line-height: 1.35;
   }
 
-  .ha-turno-table td.left {
-    text-align: left;
+  .horario-note{
+    background: linear-gradient(90deg, rgba(37,99,235,.08), rgba(37,99,235,.03));
+    border: 1px solid #dbe7ff;
+    border-left: 4px solid #2563eb;
+    color: #5b6b84;
+    border-radius: 16px;
+    padding: 16px 18px;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
-  .ha-menu-title {
-    font-size: 1.1rem;
-    font-weight: 400;
-    color: #111827;
-    margin: 0 0 18px;
+  .horario-side-card{
+    padding: 22px;
   }
 
-  .ha-menu-title strong {
-    font-weight: 700;
+  .horario-side-card h3{
+    margin: 0 0 16px;
+    font-size: 1.35rem;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
   }
 
-  .ha-menu {
+  .horario-side-list{
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  .ha-menu li {
-    margin-bottom: 10px;
+  .horario-side-list li + li{
+    margin-top: 10px;
   }
 
-  .ha-menu a {
-    color: #0284c7;
+  .horario-side-list a{
+    display: flex;
+    align-items: center;
+    gap: 10px;
     text-decoration: none;
-    font-size: 0.98rem;
+    color: #2563eb;
+    font-weight: 600;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    background: #f8fbff;
+    transition: all .2s ease;
   }
 
-  .ha-menu a::before {
+  .horario-side-list a::before{
     content: "›";
-    margin-right: 10px;
-    color: #0284c7;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 900;
+    color: #1f3c88;
   }
 
-  .ha-menu a:hover {
-    text-decoration: underline;
+  .horario-side-list a:hover{
+    background: #eef4ff;
+    border-color: #dbe6fb;
+    transform: translateX(2px);
   }
 
-  @media (max-width: 1024px) {
-    .ha-layout {
-      flex-direction: column;
+  .horario-side-list a.active{
+    background: linear-gradient(135deg, #1f3c88 0%, #2563eb 100%);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 12px 24px rgba(37,99,235,.16);
+  }
+
+  .horario-side-list a.active::before{
+    color: #fff;
+  }
+
+  @media (max-width: 980px){
+    .horario-layout{
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px){
+    .horario-page{
+      padding: 24px 12px 40px;
     }
 
-    .ha-main {
-      max-width: 100%;
+    .horario-hero{
+      padding: 24px 18px 20px;
+      border-radius: 20px;
     }
 
-    .ha-side {
-      width: 100%;
-      flex: 1 1 auto;
+    .horario-hero h1{
+      font-size: 1.9rem;
+    }
+
+    .horario-main-body{
+      padding: 20px 18px;
+    }
+
+    .horario-image{
+      height: 220px;
+    }
+
+    .horario-grid{
+      grid-template-columns: 1fr;
+    }
+
+    .horario-main-body h2{
+      font-size: 1.55rem;
     }
   }
 </style>
 
-<!-- CABECERA INTERNA -->
-<section class="ha-top">
-  <div class="ha-top-inner">
-    <h1 class="ha-title">Nuestra Notaría</h1>
-    <div class="ha-breadcrumb">
-      <a href="{% url 'home' %}">Home</a> / Horario de Atención y Turnos
+<section class="horario-page">
+  <div class="horario-wrap">
+
+    <div class="horario-hero">
+      <div class="horario-breadcrumb">
+        <a href="/">Home</a> / Horario de Atención y Turnos
+      </div>
+      <h1>Nuestra Notaría</h1>
+      <p>
+        Consulta el horario de atención al público y revisa la información principal de funcionamiento de la notaría de forma clara, ordenada y actualizada.
+      </p>
+    </div>
+
+    <div class="horario-layout">
+
+      <div class="horario-main-card">
+        <div class="horario-image">
+          <img src="{% static 'img/horario.jpg' %}" alt="Horario de atención">
+        </div>
+
+        <div class="horario-main-body">
+          <div class="horario-section-kicker">Información general</div>
+          <h2>Horario de Atención al Público</h2>
+          <p>
+            Nuestro horario de atención está pensado para entregar una atención continua, clara y oportuna a quienes necesiten realizar trámites notariales.
+          </p>
+
+          <div class="horario-grid">
+            <div class="horario-item">
+              <div class="horario-item-label">Días de atención</div>
+              <div class="horario-item-value">Lunes a Viernes</div>
+            </div>
+
+            <div class="horario-item">
+              <div class="horario-item-label">Horario continuo</div>
+              <div class="horario-item-value">09:00 a 16:00 hrs.</div>
+            </div>
+          </div>
+
+          <div class="horario-note">
+            Te recomendamos verificar previamente cualquier requisito específico de tu trámite y, en caso de dudas, comunicarte con la notaría antes de asistir.
+          </div>
+        </div>
+      </div>
+
+      <aside class="horario-side-card">
+        <h3>Menú principal</h3>
+        <ul class="horario-side-list">
+          <li><a href="{% url 'home' %}">Página Principal</a></li>
+          <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
+          <li><a href="{% url 'horario_atencion' %}" class="active">Horario de Atención</a></li>
+          <li><a href="{% url 'preguntas_frecuentes' %}">Preguntas más Frecuentes</a></li>
+          <li><a href="{% url 'servicios_notariales' %}">Servicios Notariales</a></li>
+          <li><a href="{% url 'escrituras_publicas' %}">Escrituras Públicas</a></li>
+          <li><a href="{% url 'solicitud_escrituras' %}">Solicitud de Escrituras Públicas</a></li>
+          <li><a href="{% url 'seguimiento_escrituras' %}">Seguimiento WEB de Escrituras</a></li>
+          <li><a href="{% url 'validar_documentos' %}">Validar Documentos</a></li>
+          <li><a href="{% url 'tramites_comunes' %}">Trámites más Comunes</a></li>
+          <li><a href="{% url 'contact' %}">Contáctenos</a></li>
+        </ul>
+      </aside>
+
     </div>
   </div>
 </section>
-
-<!-- CONTENIDO -->
-<section class="ha-layout">
-
-  <!-- COLUMNA PRINCIPAL -->
-  <div class="ha-main">
-    <div class="ha-banner">
-      <img src="{% static 'img/horario-banner.png' %}" alt="Horario de Atención">
-    </div>
-
-    <h2 class="ha-section-title">
-      Horario de <strong>Atención al Público</strong>
-    </h2>
-
-    <table class="ha-hours-table">
-      <tr>
-        <td>LUNES A VIERNES</td>
-        <td>09:00 a 16:00 hrs. (Horario Continuado)</td>
-      </tr>
-    </table>
-
-  </div>
-
-  <!-- MENÚ LATERAL -->
-  <aside class="ha-side">
-    <h3 class="ha-menu-title">Menu <strong>Principal</strong></h3>
-    <ul class="ha-menu">
-      <li><a href="{% url 'home' %}">Página Principal</a></li>
-      <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
-      <li><a href="{% url 'horario_atencion' %}">Horario de Atención</a></li>
-      <li><a href="{% url 'preguntas_frecuentes' %}">Preguntas más Frecuentes</a></li>
-      <li><a href="{% url 'servicios_notariales' %}">Servicios Notariales</a></li>
-      <li><a href="{% url 'escrituras_publicas' %}">Escrituras Públicas</a></li>
-      <li><a href="{% url 'solicitud_escrituras' %}">Solicitud de Escrituras Públicas</a></li>
-      <li><a href="{% url 'seguimiento_escrituras' %}">Seguimiento WEB de Escrituras</a></li>
-      <li><a href="{% url 'validar_documentos' %}">Validar Documentos</a></li>
-      <li><a href="{% url 'tramites_comunes' %}">Trámites más Comunes</a></li>
-      <li><a href="{% url 'notaria_en_linea' %}">Notaría en Línea</a></li>
-      <li><a href="{% url 'contact' %}">Contáctenos</a></li>
-    </ul>
-  </aside>
-
-</section>
-
 {% endblock %}

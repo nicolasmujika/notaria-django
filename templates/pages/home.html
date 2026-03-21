@@ -143,10 +143,16 @@
   .home-about-image {
     min-height: 360px;
     border-radius: 16px;
+
     background:
-      linear-gradient(rgba(31, 47, 134, 0.18), rgba(31, 47, 134, 0.18)),
-      url("{% static 'img/home/notaria-about.jpg' %}") center/cover no-repeat;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      linear-gradient(rgba(31,47,134,0.15), rgba(31,47,134,0.15)),
+      url("{% static 'img/notario1.jpg' %}");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
   }
 
   .home-about-text .home-section-title,
@@ -266,37 +272,31 @@
   .card-link {
     width: 100%;
     background: #fff;
-    border-radius: 14px;
+    border-radius: 16px;
     padding: 20px 16px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    min-height: 150px;
+    min-height: 170px; /* 👈 todas iguales */
+    
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between; /* 👈 clave */
     align-items: center;
-    text-decoration: none;
-  }
-
-  .card-link:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+    text-align: center;
   }
 
   .card-link img {
     width: 100%;
     max-width: 110px;
-    height: 52px;
+    height: 70px; /* 👈 todas las imágenes mismo alto */
     object-fit: contain;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .card-link p {
-    margin: 0;
+    margin-top: auto; /* 👈 empuja el texto abajo */
     font-weight: 600;
     color: #374151;
-    font-size: 15px;
-    line-height: 1.35;
+    font-size: 14px;
   }
 
   .swiper-button-next,
@@ -425,6 +425,15 @@
               <div class="card-link">
                 <img src="{% static 'img/blog-img21.jpg' %}" alt="Registro Civil">
                 <p>Registro Civil</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="swiper-slide">
+            <a href="https://www.fojas.cl/index2.php" target="_blank">
+              <div class="card-link">
+                <img src="{% static 'img/fojas2.png' %}" alt="Fojas">
+                <p>Fojas</p>
               </div>
             </a>
           </div>

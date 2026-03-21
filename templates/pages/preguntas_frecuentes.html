@@ -1,368 +1,503 @@
-{% extends "base.html" %}
-
-{% block title %}Preguntas Frecuentes - Notaría Felipe Velasquez{% endblock %}
+ {% extends "base.html" %}
+{% load static %}
+{% block title %}Preguntas Frecuentes - Notaría Felipe Velásquez{% endblock %}
 
 {% block content %}
 
 <style>
-  .faq-top {
-    background: linear-gradient(to right, #f3f4f6, #fafafa);
-    border-top: 1px solid #e5e7eb;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 28px 0 30px;
-    margin: -2rem -1rem 2rem;
+  .faq-page{
+    background:
+      radial-gradient(circle at top, rgba(37, 99, 235, 0.06), transparent 28%),
+      linear-gradient(180deg, #f4f7fc 0%, #eef3f9 100%);
+    min-height: calc(100vh - 120px);
+    padding: 42px 18px 60px;
   }
 
-  .faq-top-inner {
-    max-width: 1120px;
+  .faq-wrap{
+    max-width: 1220px;
     margin: 0 auto;
-    padding: 0 16px;
   }
 
-  .faq-title {
-    font-size: 2.2rem;
-    line-height: 1.1;
-    color: #111827;
-    margin: 0 0 8px;
-    font-weight: 500;
+  .faq-hero{
+    background: linear-gradient(135deg, rgba(255,255,255,.98) 0%, rgba(247,250,255,.98) 100%);
+    border: 1px solid #e2eaf3;
+    border-radius: 26px;
+    padding: 34px 34px 28px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    margin-bottom: 26px;
+    position: relative;
+    overflow: hidden;
   }
 
-  .faq-breadcrumb {
-    font-size: 0.9rem;
-    color: #6b7280;
-  }
-
-  .faq-breadcrumb a {
-    color: #0284c7;
-    text-decoration: none;
-  }
-
-  .faq-layout {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 16px;
-    display: flex;
-    gap: 44px;
-    align-items: flex-start;
-  }
-
-  .faq-main {
-    flex: 1 1 auto;
-    max-width: 760px;
-  }
-
-  .faq-side {
-    width: 270px;
-    flex: 0 0 270px;
-  }
-
-  .faq-section-title {
-    font-size: 1.15rem;
-    color: #111827;
-    font-weight: 400;
-    margin: 0 0 18px;
-  }
-
-  .faq-item {
-    border: 1px solid #e5e7eb;
-    background: #f9fafb;
-    margin-bottom: 8px;
-  }
-
-  .faq-question {
+  .faq-hero::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
-    background: #f3f4f6;
+    height: 6px;
+    background: linear-gradient(90deg, #1f3c88, #2563eb, #5b8cff);
+  }
+
+  .faq-breadcrumb{
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 12px;
+  }
+
+  .faq-breadcrumb a{
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .faq-hero h1{
+    margin: 0 0 10px;
+    font-size: 2.3rem;
+    line-height: 1.1;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .faq-hero p{
+    margin: 0;
+    max-width: 760px;
+    color: #5f6f86;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .faq-layout{
+    display: grid;
+    grid-template-columns: minmax(0, 1.9fr) minmax(280px, 0.9fr);
+    gap: 28px;
+    align-items: start;
+  }
+
+  .faq-main-card,
+  .faq-side-card{
+    background: #fff;
+    border: 1px solid #e3ebf5;
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+  }
+
+  .faq-main-body{
+    padding: 28px;
+  }
+
+  .faq-section-kicker{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eaf1ff;
+    color: #2554c7;
+    border: 1px solid #d8e5ff;
+    padding: 8px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .faq-main-body h2{
+    margin: 0 0 10px;
+    color: #0f172a;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .faq-main-body > p{
+    margin: 0 0 24px;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .faq-list{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .faq-item{
+    border: 1px solid #dfe8f5;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all .2s ease;
+  }
+
+  .faq-item:hover{
+    border-color: #d2def0;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  }
+
+  .faq-question{
+    width: 100%;
+    background: transparent;
     border: 0;
-    padding: 14px 18px;
+    padding: 18px 20px;
     text-align: left;
-    font-size: 0.98rem;
-    font-weight: 700;
-    color: #6b7280;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #334155;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     cursor: pointer;
+    transition: all .2s ease;
   }
 
-  .faq-question:hover {
-    background: #e5e7eb;
+  .faq-question:hover{
+    background: rgba(37, 99, 235, 0.03);
   }
 
-  .faq-icon {
-    width: 20px;
-    height: 20px;
-    flex: 0 0 20px;
+  .faq-icon{
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #d1d5db;
-    color: #ffffff;
-    font-weight: 700;
-    line-height: 1;
+    background: #dbe5f4;
+    color: #1f3c88;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 16px;
+    transition: all .2s ease;
   }
 
-  .faq-answer {
+  .faq-text{
+    line-height: 1.45;
+  }
+
+  .faq-answer{
     display: none;
-    padding: 18px 18px 10px 50px;
+    padding: 0 20px 18px 62px;
     background: #ffffff;
-    color: #374151;
-    line-height: 1.55;
+    color: #475569;
+    line-height: 1.7;
     font-size: 0.96rem;
   }
 
-  .faq-item.open .faq-answer {
+  .faq-item.open .faq-answer{
     display: block;
   }
 
-  .faq-item.open .faq-question {
-    color: #0284c7;
+  .faq-item.open .faq-question{
+    color: #1d4ed8;
   }
 
-  .faq-item.open .faq-icon {
-    background: #0284c7;
+  .faq-item.open .faq-icon{
+    background: linear-gradient(135deg, #1f3c88 0%, #2563eb 100%);
+    color: #fff;
   }
 
   .faq-answer p,
-  .faq-answer li {
+  .faq-answer li{
     margin-bottom: 10px;
   }
 
-  .faq-answer ol {
+  .faq-answer ol{
     padding-left: 18px;
     margin: 0;
   }
 
-  .faq-menu-title {
-    font-size: 1.1rem;
-    font-weight: 400;
-    color: #111827;
-    margin: 0 0 18px;
+  .faq-side-card{
+    padding: 22px;
   }
 
-  .faq-menu-title strong {
-    font-weight: 700;
+  .faq-side-card h3{
+    margin: 0 0 16px;
+    font-size: 1.35rem;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
   }
 
-  .faq-menu {
+  .faq-side-list{
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  .faq-menu li {
-    margin-bottom: 10px;
+  .faq-side-list li + li{
+    margin-top: 10px;
   }
 
-  .faq-menu a {
-    color: #0284c7;
+  .faq-side-list a{
+    display: flex;
+    align-items: center;
+    gap: 10px;
     text-decoration: none;
-    font-size: 0.98rem;
+    color: #2563eb;
+    font-weight: 600;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    background: #f8fbff;
+    transition: all .2s ease;
   }
 
-  .faq-menu a::before {
+  .faq-side-list a::before{
     content: "›";
-    margin-right: 10px;
-    color: #0284c7;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 900;
+    color: #1f3c88;
   }
 
-  .faq-menu a:hover {
-    text-decoration: underline;
+  .faq-side-list a:hover{
+    background: #eef4ff;
+    border-color: #dbe6fb;
+    transform: translateX(2px);
   }
 
-  @media (max-width: 1024px) {
-    .faq-layout {
-      flex-direction: column;
+  .faq-side-list a.active{
+    background: linear-gradient(135deg, #1f3c88 0%, #2563eb 100%);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 12px 24px rgba(37,99,235,.16);
+  }
+
+  .faq-side-list a.active::before{
+    color: #fff;
+  }
+
+  @media (max-width: 980px){
+    .faq-layout{
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px){
+    .faq-page{
+      padding: 24px 12px 40px;
     }
 
-    .faq-main {
-      max-width: 100%;
+    .faq-hero{
+      padding: 24px 18px 20px;
+      border-radius: 20px;
     }
 
-    .faq-side {
-      width: 100%;
-      flex: 1 1 auto;
+    .faq-hero h1{
+      font-size: 1.9rem;
+    }
+
+    .faq-main-body{
+      padding: 20px 18px;
+    }
+
+    .faq-main-body h2{
+      font-size: 1.55rem;
+    }
+
+    .faq-question{
+      padding: 16px;
+      font-size: 0.95rem;
+    }
+
+    .faq-answer{
+      padding: 0 16px 16px 16px;
     }
   }
 </style>
 
-<section class="faq-top">
-  <div class="faq-top-inner">
-    <h1 class="faq-title">Preguntas más Frecuentes</h1>
-    <div class="faq-breadcrumb">
-      <a href="{% url 'home' %}">Home</a> / Preguntas Frecuentes
+<section class="faq-page">
+  <div class="faq-wrap">
+
+    <div class="faq-hero">
+      <div class="faq-breadcrumb">
+        <a href="{% url 'home' %}">Home</a> / Preguntas Frecuentes
+      </div>
+      <h1>Preguntas más Frecuentes</h1>
+      <p>
+        Revisa respuestas claras y rápidas sobre trámites notariales, documentos, escrituras y gestiones comunes dentro de la notaría.
+      </p>
+    </div>
+
+    <div class="faq-layout">
+
+      <div class="faq-main-card">
+        <div class="faq-main-body">
+          <div class="faq-section-kicker">Ayuda e información</div>
+          <h2>Consultas frecuentes</h2>
+          <p>
+            Aquí encontrarás respuestas a dudas habituales relacionadas con documentos, escrituras, declaraciones, poderes y otros trámites notariales.
+          </p>
+
+          <div class="faq-list">
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">+</span>
+                <span class="faq-text">¿QUÉ DOCUMENTOS SON NECESARIOS PARA VENDER UN VEHÍCULO?</span>
+              </button>
+              <div class="faq-answer">
+                <ol>
+                  <li>Si se trata de un automóvil particular, se necesita el padrón del vehículo, las cédulas de identidad de vendedor y comprador y el certificado de anotaciones vigentes.</li>
+                  <li>Si se trata de taxis, camionetas o camiones destinados al transporte de carga ajena, además de lo anterior se requiere dar aviso de la venta al Servicio de Impuestos Internos.</li>
+                  <li>El certificado de anotaciones permite verificar si el vehículo tiene prenda, embargo u otro impedimento legal para la venta.</li>
+                  <li>Al momento de la compraventa, las partes deben acreditar el pago del impuesto municipal a la transferencia de vehículos motorizados.</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">+</span>
+                <span class="faq-text">¿CÓMO PUEDO OTORGAR UN TESTAMENTO?</span>
+              </button>
+              <div class="faq-answer">
+                <ol>
+                  <li>El testamento es un acto solemne por el cual una persona dispone de todo o parte de sus bienes para después de sus días.</li>
+                  <li>El testamento solemne abierto debe constar por escrito y otorgarse ante notario y testigos.</li>
+                  <li>El testamento solemne cerrado también se otorga ante notario y testigos, quedando su contenido reservado.</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">+</span>
+                <span class="faq-text">¿SE NECESITA ABOGADO PARA ENCARGAR UN TRABAJO A UNA NOTARÍA?</span>
+              </button>
+              <div class="faq-answer">
+                <ol>
+                  <li>Por regla general, no.</li>
+                  <li>Las escrituras públicas normalmente deben trabajarse sobre la base de una minuta o borrador preparado por abogado, según el tipo de acto.</li>
+                  <li>En operaciones relevantes, como compraventas de bienes raíces, es altamente recomendable contar con asesoría jurídica previa.</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">+</span>
+                <span class="faq-text">¿QUÉ SE REQUIERE PARA FORMAR UNA SOCIEDAD?</span>
+              </button>
+              <div class="faq-answer">
+                <ol>
+                  <li>Se requiere que dos o más personas acuerden constituirla, salvo casos especiales permitidos por ley.</li>
+                  <li>Debe definirse, idealmente con asesoría jurídica, el tipo de sociedad más conveniente.</li>
+                  <li>Luego se redacta un borrador y en la notaría se confecciona la escritura pública correspondiente.</li>
+                  <li>Después debe inscribirse el extracto e iniciarse actividades según corresponda.</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">+</span>
+                <span class="faq-text">¿QUÉ SE NECESITA PARA TRANSFERIR UN BIEN RAÍZ?</span>
+              </button>
+              <div class="faq-answer">
+                <ol>
+                  <li>Copia de la escritura por la cual se adquirió la propiedad.</li>
+                  <li>Certificado de dominio vigente.</li>
+                  <li>Certificado de hipotecas y gravámenes.</li>
+                  <li>Certificados de contribuciones y otros antecedentes que permitan estudiar títulos y redactar la compraventa.</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">+</span>
+                <span class="faq-text">¿QUÉ SE REQUIERE PARA OTORGAR UN PODER GENERAL?</span>
+              </button>
+              <div class="faq-answer">
+                <p>Se debe tener claro a quién se desea otorgar el poder y qué facultades se quieren entregar. Con ello se prepara un borrador y la notaría confecciona la escritura pública correspondiente para su firma.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">+</span>
+                <span class="faq-text">¿QUÉ SE REQUIERE PARA REALIZAR UNA DECLARACIÓN JURADA?</span>
+              </button>
+              <div class="faq-answer">
+                <p>La persona debe concurrir personalmente a la notaría con su cédula de identidad, salvo casos especiales de registro previo de firma. Lo mismo aplica, en general, para cartas poder y autorizaciones simples.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">+</span>
+                <span class="faq-text">¿CUÁNTOS TIPOS DE ESCRITURA CONTEMPLA LA LEGISLACIÓN CHILENA?</span>
+              </button>
+              <div class="faq-answer">
+                <p>Existen distintos tipos de escrituras según el acto o contrato de que se trate. En materias societarias, una de las formas más comunes es la sociedad de responsabilidad limitada, cuyo contrato debe celebrarse por escritura pública y cumplir con inscripción y publicación cuando corresponda.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">+</span>
+                <span class="faq-text">¿CÓMO TIENE VALIDEZ UN DOCUMENTO EMITIDO EN EL EXTRANJERO?</span>
+              </button>
+              <div class="faq-answer">
+                <p>Generalmente debe ser traducido y, si corresponde, legalizado o apostillado y protocolizado, según la naturaleza del documento y la normativa aplicable en Chile.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">+</span>
+                <span class="faq-text">¿QUÉ SON LA CERTIFICACIÓN Y LAS DILIGENCIAS PERSONALES?</span>
+              </button>
+              <div class="faq-answer">
+                <p>Son actuaciones notariales destinadas a dejar constancia de hechos o situaciones, pudiendo servir como medio de prueba. Deben coordinarse previamente con la notaría.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">+</span>
+                <span class="faq-text">¿QUÉ SON LOS DERECHOS NOTARIALES?</span>
+              </button>
+              <div class="faq-answer">
+                <p>Son los valores que perciben los notarios por sus actuaciones, conforme al arancel vigente o, en ciertos casos, a regulación especial.</p>
+              </div>
+            </div>
+
+            <div class="faq-item open">
+              <button class="faq-question" type="button">
+                <span class="faq-icon">−</span>
+                <span class="faq-text">¿QUÉ ESTABLECE LA LEY DE TIMBRES Y ESTAMPILLAS EN RELACIÓN A LOS IMPUESTOS QUE DEBEN PAGAR DOCUMENTOS MERCANTILES TALES COMO LETRAS DE CAMBIO Y PAGARÉS?</span>
+              </button>
+              <div class="faq-answer">
+                <p>Las letras de cambio y pagarés se encuentran afectos al impuesto establecido por la Ley de Timbres y Estampillas, calculado según el monto de la operación y los topes legales aplicables. También se aplica en otras operaciones, como ciertas transferencias de vehículos y mutuos.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <aside class="faq-side-card">
+        <h3>Menú principal</h3>
+        <ul class="faq-side-list">
+          <li><a href="{% url 'home' %}">Página Principal</a></li>
+          <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
+          <li><a href="{% url 'horario_atencion' %}">Horario de Atención</a></li>
+          <li><a href="{% url 'preguntas_frecuentes' %}" class="active">Preguntas más Frecuentes</a></li>
+          <li><a href="{% url 'servicios_notariales' %}">Servicios Notariales</a></li>
+          <li><a href="{% url 'escrituras_publicas' %}">Escrituras Públicas</a></li>
+          <li><a href="{% url 'solicitud_escrituras' %}">Solicitud de Escrituras Públicas</a></li>
+          <li><a href="{% url 'seguimiento_escrituras' %}">Seguimiento WEB de Escrituras</a></li>          
+          <li><a href="{% url 'tramites_comunes' %}">Trámites más Comunes</a></li>         
+          <li><a href="{% url 'contact' %}">Contáctenos</a></li>
+        </ul>
+      </aside>
+
     </div>
   </div>
-</section>
-
-<section class="faq-layout">
-
-  <div class="faq-main">
-    <h2 class="faq-section-title">Las Preguntas más Frecuentes</h2>
-
-    <div class="faq-item">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">+</span>
-        ¿ QUÉ DOCUMENTOS SON NECESARIOS PARA VENDER UN VEHÍCULO ?
-      </button>
-      <div class="faq-answer">
-        <ol>
-          <li>Si se trata de un automóvil particular, se necesita el padrón del vehículo, las cédulas de identidad de vendedor y comprador y el certificado de anotaciones vigentes.</li>
-          <li>Si se trata de taxis, camionetas o camiones destinados al transporte de carga ajena, además de lo anterior se requiere dar aviso de la venta al Servicio de Impuestos Internos.</li>
-          <li>El certificado de anotaciones permite verificar si el vehículo tiene prenda, embargo u otro impedimento legal para la venta.</li>
-          <li>Al momento de la compraventa, las partes deben acreditar el pago del impuesto municipal a la transferencia de vehículos motorizados.</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">+</span>
-        ¿ CÓMO PUEDO OTORGAR UN TESTAMENTO ?
-      </button>
-      <div class="faq-answer">
-        <ol>
-          <li>El testamento es un acto solemne por el cual una persona dispone de todo o parte de sus bienes para después de sus días.</li>
-          <li>El testamento solemne abierto debe constar por escrito y otorgarse ante notario y testigos.</li>
-          <li>El testamento solemne cerrado también se otorga ante notario y testigos, quedando su contenido reservado.</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">+</span>
-        ¿ SE NECESITA ABOGADO PARA ENCARGAR UN TRABAJO A UNA NOTARÍA ?
-      </button>
-      <div class="faq-answer">
-        <ol>
-          <li>Por regla general, no.</li>
-          <li>Las escrituras públicas normalmente deben trabajarse sobre la base de una minuta o borrador preparado por abogado, según el tipo de acto.</li>
-          <li>En operaciones relevantes, como compraventas de bienes raíces, es altamente recomendable contar con asesoría jurídica previa.</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">+</span>
-        ¿ QUÉ SE REQUIERE PARA FORMAR UNA SOCIEDAD ?
-      </button>
-      <div class="faq-answer">
-        <ol>
-          <li>Se requiere que dos o más personas acuerden constituirla, salvo casos especiales permitidos por ley.</li>
-          <li>Debe definirse, idealmente con asesoría jurídica, el tipo de sociedad más conveniente.</li>
-          <li>Luego se redacta un borrador y en la notaría se confecciona la escritura pública correspondiente.</li>
-          <li>Después debe inscribirse el extracto e iniciarse actividades según corresponda.</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">+</span>
-        ¿ QUÉ SE NECESITA PARA TRANSFERIR UN BIEN RAÍZ ?
-      </button>
-      <div class="faq-answer">
-        <ol>
-          <li>Copia de la escritura por la cual se adquirió la propiedad.</li>
-          <li>Certificado de dominio vigente.</li>
-          <li>Certificado de hipotecas y gravámenes.</li>
-          <li>Certificados de contribuciones y otros antecedentes que permitan estudiar títulos y redactar la compraventa.</li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">+</span>
-        ¿ QUÉ SE REQUIERE PARA OTORGAR UN PODER GENERAL ?
-      </button>
-      <div class="faq-answer">
-        <p>Se debe tener claro a quién se desea otorgar el poder y qué facultades se quieren entregar. Con ello se prepara un borrador y la notaría confecciona la escritura pública correspondiente para su firma.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">+</span>
-        ¿ QUÉ SE REQUIERE PARA REALIZAR UNA DECLARACIÓN JURADA ?
-      </button>
-      <div class="faq-answer">
-        <p>La persona debe concurrir personalmente a la notaría con su cédula de identidad, salvo casos especiales de registro previo de firma. Lo mismo aplica, en general, para cartas poder y autorizaciones simples.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">+</span>
-        ¿ CUÁNTOS TIPOS DE ESCRITURA CONTEMPLA LA LEGISLACIÓN CHILENA ?
-      </button>
-      <div class="faq-answer">
-        <p>Existen distintos tipos de escrituras según el acto o contrato de que se trate. En materias societarias, una de las formas más comunes es la sociedad de responsabilidad limitada, cuyo contrato debe celebrarse por escritura pública y cumplir con inscripción y publicación cuando corresponda.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">+</span>
-        ¿ CÓMO TIENE VALIDEZ UN DOCUMENTO EMITIDO EN EL EXTRANJERO ?
-      </button>
-      <div class="faq-answer">
-        <p>Generalmente debe ser traducido y, si corresponde, legalizado o apostillado y protocolizado, según la naturaleza del documento y la normativa aplicable en Chile.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">+</span>
-        ¿ QUÉ SON LA CERTIFICACIÓN Y LAS DILIGENCIAS PERSONALES ?
-      </button>
-      <div class="faq-answer">
-        <p>Son actuaciones notariales destinadas a dejar constancia de hechos o situaciones, pudiendo servir como medio de prueba. Deben coordinarse previamente con la notaría.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">+</span>
-        ¿ QUÉ SON LOS DERECHOS NOTARIALES ?
-      </button>
-      <div class="faq-answer">
-        <p>Son los valores que perciben los notarios por sus actuaciones, conforme al arancel vigente o, en ciertos casos, a regulación especial.</p>
-      </div>
-    </div>
-
-    <div class="faq-item open">
-      <button class="faq-question" type="button">
-        <span class="faq-icon">−</span>
-        ¿ QUÉ ESTABLECE LA LEY DE TIMBRES Y ESTAMPILLAS EN RELACIÓN A LOS IMPUESTOS QUE DEBEN PAGAR DOCUMENTOS MERCANTILES TALES COMO LETRAS DE CAMBIO Y PAGARÉS ?
-      </button>
-      <div class="faq-answer">
-        <p>Las letras de cambio y pagarés se encuentran afectos al impuesto establecido por la Ley de Timbres y Estampillas, calculado según el monto de la operación y los topes legales aplicables. También se aplica en otras operaciones, como ciertas transferencias de vehículos y mutuos.</p>
-      </div>
-    </div>
-  </div>
-
-  <aside class="faq-side">
-    <h3 class="faq-menu-title">Menú <strong>Principal</strong></h3>
-    <ul class="faq-menu">
-      <li><a href="{% url 'home' %}">Página Principal</a></li>
-      <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
-      <li><a href="{% url 'horario_atencion' %}">Horario de Atención</a></li>
-      <li><a href="{% url 'preguntas_frecuentes' %}">Preguntas más Frecuentes</a></li>
-      <li><a href="{% url 'servicios_notariales' %}">Servicios Notariales</a></li>
-      <li><a href="{% url 'escrituras_publicas' %}">Escrituras Públicas</a></li>
-      <li><a href="{% url 'solicitud_escrituras' %}">Solicitud de Escrituras Públicas</a></li>
-      <li><a href="{% url 'seguimiento_escrituras' %}">Seguimiento WEB de Escrituras</a></li>
-      <li><a href="{% url 'validar_documentos' %}">Validar Documentos</a></li>
-      <li><a href="{% url 'tramites_comunes' %}">Trámites más Comunes</a></li>
-      <li><a href="{% url 'notaria_en_linea' %}">Notaría en Línea</a></li>
-      <li><a href="/contacto/#ubicacion">Nuestra Ubicación</a></li>
-      <li><a href="{% url 'contact' %}">Contáctenos</a></li>
-    </ul>
-  </aside>
-
 </section>
 
 <script>

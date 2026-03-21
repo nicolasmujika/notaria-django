@@ -414,6 +414,333 @@
   color: #64748b;
 }
 
+.pf-table-mensajes th,
+.pf-table-mensajes td {
+  vertical-align: top;
+}
+
+.pf-message-cell {
+  min-width: 280px;
+  max-width: 340px;
+}
+
+.pf-message-text {
+  white-space: normal;
+  line-height: 1.6;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.pf-message-cell {
+  min-width: 280px;
+  max-width: 380px;
+}
+
+.pf-message-text {
+  white-space: normal;
+  line-height: 1.6;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.pf-reply-action {
+  min-width: 180px;
+}
+
+.pf-open-reply-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 96px;
+  height: 38px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 10px;
+  background: #1f3c88;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.pf-open-reply-btn:hover {
+  background: #162c63;
+  transform: translateY(-1px);
+}
+
+.pf-replied-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.pf-action-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pf-action-row form {
+  margin: 0;
+}
+
+.pf-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 82px;
+  height: 36px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.pf-action-btn-view {
+  background: #eef2ff;
+  color: #1d4ed8;
+}
+
+.pf-action-btn-view:hover {
+  background: #dbeafe;
+  transform: translateY(-1px);
+}
+
+.pf-action-btn-delete {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.pf-action-btn-delete:hover {
+  background: #fee2e2;
+  transform: translateY(-1px);
+}
+
+.pf-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 3000;
+}
+
+.pf-modal-backdrop.show {
+  display: flex;
+}
+
+.pf-modal {
+  width: 100%;
+  max-width: 760px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.25);
+  padding: 24px;
+  position: relative;
+}
+
+.pf-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.pf-modal-header h3 {
+  margin: 0;
+  font-size: 28px;
+  color: #0f172a;
+}
+
+.pf-modal-header p {
+  margin: 6px 0 0;
+  color: #64748b;
+}
+
+.pf-modal-close {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #1f3c88;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pf-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.pf-modal-info {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+
+.pf-modal-info-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.pf-modal-info-value {
+  color: #0f172a;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.pf-modal-message {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.pf-modal-message h4 {
+  margin: 0 0 10px;
+  color: #0f172a;
+  font-size: 16px;
+}
+
+.pf-modal-message p {
+  margin: 0;
+  line-height: 1.7;
+  color: #334155;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+.pf-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pf-modal-textarea {
+  width: 100%;
+  min-height: 180px;
+  border: 1px solid #dbe3f0;
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  background: #fff;
+}
+
+.pf-modal-textarea:focus {
+  border-color: #1f3c88;
+  box-shadow: 0 0 0 3px rgba(31, 60, 136, 0.10);
+}
+
+.pf-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.pf-modal-cancel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: none;
+  background: #eef2ff;
+  color: #1f3c88;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pf-delete-btn:hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+}
+
+.pf-action-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+/* badge más chico */
+.pf-badge-sm {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+/* botones tipo icono */
+.pf-icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+/* ver */
+.pf-icon-btn-view {
+  background: #eef2ff;
+  color: #1d4ed8;
+}
+
+.pf-icon-btn-view:hover {
+  background: #dbeafe;
+}
+
+/* eliminar */
+.pf-icon-btn-delete {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.pf-icon-btn-delete:hover {
+  background: #fee2e2;
+}
+
+@media (max-width: 768px) {
+  .pf-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pf-modal {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .pf-modal-header h3 {
+    font-size: 22px;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -764,7 +1091,7 @@ html {
           </div>
 
           <div class="pf-table-wrap">
-            <table class="pf-table">
+            <table class="pf-table pf-table-mensajes">
               <thead>
                 <tr>
                   <th>Fecha</th>
@@ -773,6 +1100,7 @@ html {
                   <th>Teléfono</th>
                   <th>Tipo</th>
                   <th>Mensaje</th>
+                  <th>Acción</th>
                 </tr>
               </thead>
               <tbody>
@@ -790,11 +1118,60 @@ html {
                         {{ msg.subject }}
                       </span>
                     </td>
-                    <td>{{ msg.message|truncatechars:90 }}</td>
+                    <td class="pf-message-cell">
+                      <div class="pf-message-text">{{ msg.message }}</div>
+                    </td>
+                    <td class="pf-reply-action">
+                    {% if msg.replied %}
+                      <div class="pf-action-inline">
+
+                        <span class="pf-badge pf-badge-green pf-badge-sm">
+                          Respondido
+                        </span>
+
+                        <a href="#"
+                          class="pf-icon-btn pf-icon-btn-view open-reply-modal"
+                          data-msg-id="{{ msg.id }}"
+                          data-msg-name="{{ msg.full_name }}"
+                          data-msg-email="{{ msg.email }}"
+                          data-msg-phone="{{ msg.phone }}"
+                          data-msg-subject="{{ msg.subject }}"
+                          data-msg-message="{{ msg.message|escape }}"
+                          data-msg-replied="1"
+                          data-msg-reply="{{ msg.reply_message|default:''|escape }}">
+                          👁
+                        </a>
+
+                        <form method="post"
+                              action="{% url 'eliminar_mensaje_contacto' msg.id %}"
+                              onsubmit="return confirm('¿Eliminar mensaje?');">
+                          {% csrf_token %}
+                          <button type="submit" class="pf-icon-btn pf-icon-btn-delete">
+                            🗑
+                          </button>
+                        </form>
+
+                      </div>
+                    {% else %}
+                      <button
+                        type="button"
+                        class="pf-open-reply-btn open-reply-modal"
+                        data-msg-id="{{ msg.id }}"
+                        data-msg-name="{{ msg.full_name }}"
+                        data-msg-email="{{ msg.email }}"
+                        data-msg-phone="{{ msg.phone }}"
+                        data-msg-subject="{{ msg.subject }}"
+                        data-msg-message="{{ msg.message|escape }}"
+                        data-msg-replied="0"
+                      >
+                        Responder
+                      </button>
+                    {% endif %}
+                  </td>
                   </tr>
                 {% empty %}
                   <tr>
-                    <td colspan="6" class="pf-empty">Aún no hay mensajes registrados.</td>
+                    <td colspan="7" class="pf-empty">Aún no hay mensajes registrados.</td>
                   </tr>
                 {% endfor %}
               </tbody>
@@ -804,4 +1181,138 @@ html {
     </main>
   </div>
 </section>
+
+<div id="replyModalBackdrop" class="pf-modal-backdrop">
+  <div class="pf-modal">
+    <div class="pf-modal-header">
+      <div>
+        <h3>Responder mensaje</h3>
+        <p>Escribe una respuesta y envíala al correo del usuario.</p>
+      </div>
+      <button type="button" class="pf-modal-close" id="closeReplyModal">×</button>
+    </div>
+
+    <div class="pf-modal-grid">
+      <div class="pf-modal-info">
+        <span class="pf-modal-info-label">Nombre</span>
+        <div class="pf-modal-info-value" id="modalMsgName"></div>
+      </div>
+
+      <div class="pf-modal-info">
+        <span class="pf-modal-info-label">Correo</span>
+        <div class="pf-modal-info-value" id="modalMsgEmail"></div>
+      </div>
+
+      <div class="pf-modal-info">
+        <span class="pf-modal-info-label">Teléfono</span>
+        <div class="pf-modal-info-value" id="modalMsgPhone"></div>
+      </div>
+
+      <div class="pf-modal-info">
+        <span class="pf-modal-info-label">Tipo</span>
+        <div class="pf-modal-info-value" id="modalMsgSubject"></div>
+      </div>
+    </div>
+
+    <div class="pf-modal-message">
+      <h4>Mensaje original</h4>
+      <p id="modalMsgMessage"></p>
+    </div>
+
+    <form method="post" id="replyModalForm" class="pf-modal-form">
+      {% csrf_token %}
+      <textarea
+        name="respuesta"
+        id="modalReplyTextarea"
+        class="pf-modal-textarea"
+        placeholder="Escribe aquí la respuesta para el usuario..."
+        required
+      ></textarea>
+
+      <div class="pf-modal-actions">
+        <button type="button" class="pf-modal-cancel" id="cancelReplyModal">Cancelar</button>
+        <button type="submit" class="panel-primary-btn" id="submitReplyBtn">
+          Enviar respuesta
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const modalBackdrop = document.getElementById("replyModalBackdrop");
+  const closeBtn = document.getElementById("closeReplyModal");
+  const cancelBtn = document.getElementById("cancelReplyModal");
+  const form = document.getElementById("replyModalForm");
+  const textarea = document.getElementById("modalReplyTextarea");
+
+  const nameEl = document.getElementById("modalMsgName");
+  const emailEl = document.getElementById("modalMsgEmail");
+  const phoneEl = document.getElementById("modalMsgPhone");
+  const subjectEl = document.getElementById("modalMsgSubject");
+  const messageEl = document.getElementById("modalMsgMessage");
+  const submitBtn = document.getElementById("submitReplyBtn");
+
+  function openModal(button) {
+    const id = button.dataset.msgId;
+    const name = button.dataset.msgName || "";
+    const email = button.dataset.msgEmail || "";
+    const phone = button.dataset.msgPhone || "";
+    const subject = button.dataset.msgSubject || "";
+    const message = button.dataset.msgMessage || "";
+    const replied = button.dataset.msgReplied === "1";
+    const reply = button.dataset.msgReply || "";
+
+    nameEl.textContent = name;
+    emailEl.textContent = email;
+    phoneEl.textContent = phone || "—";
+    subjectEl.textContent = subject;
+    messageEl.textContent = message;
+
+    form.action = `/panel/mensajes/${id}/responder/`;
+
+    if (replied) {
+      textarea.value = reply;
+      textarea.setAttribute("readonly", "readonly");
+      submitBtn.style.display = "none";
+    } else {
+      textarea.value = "";
+      textarea.removeAttribute("readonly");
+      submitBtn.style.display = "inline-flex";
+    }
+
+    modalBackdrop.classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    modalBackdrop.classList.remove("show");
+    document.body.style.overflow = "";
+  }
+
+  document.querySelectorAll(".open-reply-modal").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      openModal(this);
+    });
+  });
+
+  closeBtn.addEventListener("click", closeModal);
+  cancelBtn.addEventListener("click", closeModal);
+
+  modalBackdrop.addEventListener("click", function (e) {
+    if (e.target === modalBackdrop) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && modalBackdrop.classList.contains("show")) {
+      closeModal();
+    }
+  });
+});
+</script>
+
 {% endblock %}

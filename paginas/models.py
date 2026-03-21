@@ -3,14 +3,35 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.text import slugify
+from django.conf import settings
+from datetime import timedelta
+from django.utils import timezone
+
 # Create your models here.
 class ContactMessage(models.Model):
+    SUBJECT_CHOICES = [
+        ("Consulta", "Consulta"),
+        ("Reclamo", "Reclamo"),
+        ("Sugerencia", "Sugerencia"),
+    ]
+    
     full_name = models.CharField(max_length=120)
     email = models.EmailField()
     phone = models.CharField(max_length=30, blank=True)
     subject = models.CharField(max_length=150)
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    replied = models.BooleanField(default=False)
+    reply_message = models.TextField(blank=True, null=True)
+    replied_at = models.DateTimeField(blank=True, null=True)
+    replied_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="contact_messages_replied",
+    )
 
     class Meta:
         ordering = ["-created_at"]
@@ -203,7 +224,34 @@ class ValorServicio(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.valor}"
-    
+
+class VerificacionCorreo(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="verificacion_correo")
+    codigo = models.CharField(max_length=6)
+    creado_en = models.DateTimeField(auto_now_add=True)
+    vence_en = models.DateTimeField()
+    intentos = models.PositiveIntegerField(default=0)
+    verificado = models.BooleanField(default=False)
+
+    def esta_vencido(self):
+        return timezone.now() > self.vence_en
+
+    def __str__(self):
+        return f"Verificación de {self.user.username}"
+
+class RecuperacionClave(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recuperaciones_clave")
+    codigo = models.CharField(max_length=6)
+    creado_en = models.DateTimeField(auto_now_add=True)
+    vence_en = models.DateTimeField()
+    usado = models.BooleanField(default=False)
+    intentos = models.PositiveIntegerField(default=0)
+
+    def esta_vencido(self):
+        return timezone.now() > self.vence_en
+
+    def __str__(self):
+        return f"Recuperación de {self.user.email}"
 
 @receiver(post_save, sender=User)
 def crear_perfil_usuario(sender, instance, created, **kwargs):

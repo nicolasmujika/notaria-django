@@ -51,5 +51,21 @@ urlpatterns = [
     path("panel-funcionario/indices/<int:indice_id>/editar/", views.editar_indice, name="editar_indice"),
     path("panel/valores/", views.gestionar_valores, name="gestionar_valores"),
     path("panel/valores/<int:valor_id>/editar/", views.editar_valor, name="editar_valor"),
+    path(
+        "panel/mensajes/<int:mensaje_id>/responder/",
+        views.responder_mensaje_contacto,
+        name="responder_mensaje_contacto",
+    ),
+
+    path(
+    "panel/mensajes/<int:mensaje_id>/eliminar/",
+    views.eliminar_mensaje_contacto,
+    name="eliminar_mensaje_contacto",
+    ),
+    path("verificar-correo/<int:user_id>/", views.verificar_correo, name="verificar_correo"),
+    path("reenviar-codigo/<int:user_id>/", views.reenviar_codigo, name="reenviar_codigo"),
+    path("olvide-clave/", views.olvide_clave, name="olvide_clave"),
+    path("verificar-codigo-recuperacion/<int:user_id>/", views.verificar_codigo_recuperacion, name="verificar_codigo_recuperacion"),
+    path("restablecer-clave/", views.restablecer_clave, name="restablecer_clave"),
     
 ]

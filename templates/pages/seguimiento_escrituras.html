@@ -1,182 +1,369 @@
 {% extends "base.html" %}
+{% block title %}Seguimiento de Escrituras{% endblock %}
+
 {% block content %}
 
 <style>
+  .seguimiento-page{
+    background:
+      radial-gradient(circle at top, rgba(37, 99, 235, 0.06), transparent 28%),
+      linear-gradient(180deg, #f4f7fc 0%, #eef3f9 100%);
+    min-height: calc(100vh - 120px);
+    padding: 42px 18px 60px;
+  }
 
-.seguimiento-page{
-  background:#f4f6fb;
-  padding:60px 20px;
-}
+  .seguimiento-wrap{
+    max-width: 980px;
+    margin: 0 auto;
+  }
 
-.seguimiento-container{
-  max-width:700px;
-  margin:auto;
-}
+  .seguimiento-hero{
+    background: linear-gradient(135deg, rgba(255,255,255,.98) 0%, rgba(247,250,255,.98) 100%);
+    border: 1px solid #e2eaf3;
+    border-radius: 26px;
+    padding: 34px 34px 28px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    margin-bottom: 26px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
 
-.seguimiento-header{
-  text-align:center;
-  margin-bottom:35px;
-}
+  .seguimiento-hero::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #1f3c88, #2563eb, #5b8cff);
+  }
 
-.seguimiento-header h1{
-  font-size:32px;
-  font-weight:700;
-  color:#1f3c88;
-  margin-bottom:10px;
-}
+  .seguimiento-kicker{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eaf1ff;
+    color: #2554c7;
+    border: 1px solid #d8e5ff;
+    padding: 8px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
 
-.seguimiento-header p{
-  color:#6b7280;
-  font-size:15px;
-}
+  .seguimiento-hero h1{
+    margin: 0 0 10px;
+    font-size: 2.3rem;
+    line-height: 1.1;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
 
-.seguimiento-card{
-  background:white;
-  border-radius:18px;
-  padding:32px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
+  .seguimiento-hero p{
+    margin: 0 auto;
+    max-width: 720px;
+    color: #5f6f86;
+    font-size: 15px;
+    line-height: 1.7;
+  }
 
-.seguimiento-field{
-  margin-bottom:20px;
-}
+  .seguimiento-card{
+    background: #fff;
+    border: 1px solid #e3ebf5;
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+  }
 
-.seguimiento-field label{
-  font-weight:600;
-  font-size:14px;
-  color:#374151;
-  display:block;
-  margin-bottom:6px;
-}
+  .seguimiento-card-head{
+    padding: 26px 28px 12px;
+  }
 
-.seguimiento-field input{
-  width:100%;
-  padding:12px 14px;
-  border-radius:10px;
-  border:1px solid #e5e7eb;
-  font-size:14px;
-}
+  .seguimiento-card-head h2{
+    margin: 0 0 8px;
+    font-size: 1.7rem;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
 
-.seguimiento-btn{
-  background:#1f3c88;
-  color:white;
-  border:none;
-  padding:12px 20px;
-  border-radius:10px;
-  font-weight:700;
-  cursor:pointer;
-  transition:0.2s;
-}
+  .seguimiento-card-head p{
+    margin: 0;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.7;
+  }
 
-.seguimiento-btn:hover{
-  background:#162c63;
-}
+  .seguimiento-card-body{
+    padding: 18px 28px 28px;
+  }
 
-.resultado-box{
-  margin-top:30px;
-  padding:20px;
-  border-radius:14px;
-  background:#f8fafc;
-  border:1px solid #e5e7eb;
-}
+  .seguimiento-form{
+    display: grid;
+    gap: 18px;
+  }
 
-.estado-badge{
-  display:inline-block;
-  padding:6px 12px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:700;
-}
+  .seguimiento-field{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-.estado-recibido{background:#e0f2fe;color:#0369a1;}
-.estado-redaccion{background:#ede9fe;color:#5b21b6;}
-.estado-firma{background:#fef3c7;color:#92400e;}
-.estado-retiro{background:#eaf2ff;color:#1d4ed8;}
-.estado-entregado{background:#ecfdf3;color:#166534;}
-.estado-anulado{background:#fee2e2;color:#991b1b;}
+  .seguimiento-field label{
+    font-weight: 800;
+    font-size: 14px;
+    color: #1e293b;
+  }
 
-.error-box{
-  margin-top:20px;
-  padding:14px;
-  background:#fee2e2;
-  border-radius:10px;
-  color:#991b1b;
-  font-weight:600;
-}
+  .seguimiento-field input{
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid #d7e2f0;
+    background: #f8fbff;
+    font-size: 15px;
+    color: #0f172a;
+    box-sizing: border-box;
+    transition: .2s ease;
+  }
 
+  .seguimiento-field input:focus{
+    outline: none;
+    border-color: #2563eb;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+  }
+
+  .seguimiento-help{
+    font-size: 13px;
+    color: #64748b;
+    margin-top: -4px;
+  }
+
+  .seguimiento-btn{
+    width: fit-content;
+    min-width: 180px;
+    background: linear-gradient(135deg, #1f3c88 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: .2s ease;
+    box-shadow: 0 14px 28px rgba(37, 99, 235, 0.18);
+  }
+
+  .seguimiento-btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 18px 30px rgba(37, 99, 235, 0.24);
+  }
+
+  .resultado-box{
+    margin-top: 28px;
+    padding: 22px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    border: 1px solid #dfe8f5;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+  }
+
+  .resultado-title{
+    margin: 0 0 16px;
+    font-size: 1.15rem;
+    color: #0f172a;
+    font-weight: 900;
+  }
+
+  .resultado-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 20px;
+  }
+
+  .resultado-item{
+    background: #fff;
+    border: 1px solid #e7edf6;
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+
+  .resultado-item-label{
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 6px;
+  }
+
+  .resultado-item-value{
+    font-size: 15px;
+    line-height: 1.6;
+    color: #0f172a;
+    font-weight: 700;
+    word-break: break-word;
+  }
+
+  .resultado-full{
+    grid-column: 1 / -1;
+  }
+
+  .estado-badge{
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  .estado-recibido{ background:#e0f2fe; color:#0369a1; }
+  .estado-redaccion{ background:#ede9fe; color:#5b21b6; }
+  .estado-firma{ background:#fef3c7; color:#92400e; }
+  .estado-retiro{ background:#eaf2ff; color:#1d4ed8; }
+  .estado-entregado{ background:#ecfdf3; color:#166534; }
+  .estado-anulado{ background:#fee2e2; color:#991b1b; }
+
+  .error-box{
+    margin-top: 22px;
+    padding: 16px 18px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-left: 4px solid #dc2626;
+    border-radius: 14px;
+    color: #991b1b;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 700px){
+    .seguimiento-page{
+      padding: 24px 12px 40px;
+    }
+
+    .seguimiento-hero{
+      padding: 24px 18px 20px;
+      border-radius: 20px;
+    }
+
+    .seguimiento-hero h1{
+      font-size: 1.9rem;
+    }
+
+    .seguimiento-card-head,
+    .seguimiento-card-body{
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+
+    .seguimiento-card-head h2{
+      font-size: 1.4rem;
+    }
+
+    .resultado-grid{
+      grid-template-columns: 1fr;
+    }
+
+    .seguimiento-btn{
+      width: 100%;
+    }
+  }
 </style>
 
-
 <section class="seguimiento-page">
+  <div class="seguimiento-wrap">
 
-<div class="seguimiento-container">
+    <div class="seguimiento-hero">
+      <div class="seguimiento-kicker">Consulta en línea</div>
+      <h1>Seguimiento de Escrituras</h1>
+      <p>
+        Ingresa el código de seguimiento entregado por la notaría para consultar el estado actual de tu trámite de manera rápida y segura.
+      </p>
+    </div>
 
-<div class="seguimiento-header">
-<h1>Seguimiento de Escrituras</h1>
-<p>Ingresa el código entregado por la notaría para consultar el estado de tu trámite.</p>
-</div>
+    <div class="seguimiento-card">
+      <div class="seguimiento-card-head">
+        <h2>Consulta tu trámite</h2>
+        <p>
+          Puedes buscar tu escritura usando el código de seguimiento. Si lo deseas, también puedes ingresar tu RUT para una validación adicional.
+        </p>
+      </div>
 
-<div class="seguimiento-card">
+      <div class="seguimiento-card-body">
+        <form method="POST" class="seguimiento-form">
+          {% csrf_token %}
 
-<form method="POST">
-{% csrf_token %}
+          <div class="seguimiento-field">
+            <label for="{{ form.codigo.id_for_label }}">Código de seguimiento</label>
+            {{ form.codigo }}
+            <div class="seguimiento-help">Ejemplo: NOTA-000123</div>
+          </div>
 
-<div class="seguimiento-field">
-<label>Código de seguimiento</label>
-{{ form.codigo }}
-</div>
+          <button type="submit" class="seguimiento-btn">
+            Buscar escritura
+          </button>
+        </form>
 
-<div class="seguimiento-field">
-<label>RUT (opcional)</label>
-{{ form.rut }}
-</div>
+        {% if resultado %}
+          <div class="resultado-box">
+            <h3 class="resultado-title">Resultado de la búsqueda</h3>
 
-<button class="seguimiento-btn">
-Buscar escritura
-</button>
+            <div class="resultado-grid">
+              <div class="resultado-item">
+                <span class="resultado-item-label">Código</span>
+                <div class="resultado-item-value">{{ resultado.codigo_seguimiento }}</div>
+              </div>
 
-</form>
+              <div class="resultado-item">
+                <span class="resultado-item-label">Tipo</span>
+                <div class="resultado-item-value">{{ resultado.tipo }}</div>
+              </div>
 
-{% if resultado %}
+              <div class="resultado-item resultado-full">
+                <span class="resultado-item-label">Estado</span>
+                <div class="resultado-item-value">
+                  <span class="estado-badge
+                    {% if resultado.estado == 'recibido' %}estado-recibido{% endif %}
+                    {% if resultado.estado == 'en_redaccion' %}estado-redaccion{% endif %}
+                    {% if resultado.estado == 'en_firma' %}estado-firma{% endif %}
+                    {% if resultado.estado == 'listo_retiro' %}estado-retiro{% endif %}
+                    {% if resultado.estado == 'entregado' %}estado-entregado{% endif %}
+                    {% if resultado.estado == 'anulado' %}estado-anulado{% endif %}
+                  ">
+                    {{ resultado.get_estado_display }}
+                  </span>
+                </div>
+              </div>
 
-<div class="resultado-box">
+              {% if resultado.observaciones_publicas %}
+                <div class="resultado-item resultado-full">
+                  <span class="resultado-item-label">Observaciones</span>
+                  <div class="resultado-item-value">{{ resultado.observaciones_publicas }}</div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
 
-<strong>Código:</strong> {{ resultado.codigo_seguimiento }} <br><br>
+        {% if error %}
+          <div class="error-box">
+            {{ error }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
 
-<strong>Tipo:</strong> {{ resultado.tipo }} <br><br>
-
-<strong>Estado:</strong>
-
-<span class="estado-badge
-{% if resultado.estado == 'recibido' %}estado-recibido{% endif %}
-{% if resultado.estado == 'en_redaccion' %}estado-redaccion{% endif %}
-{% if resultado.estado == 'en_firma' %}estado-firma{% endif %}
-{% if resultado.estado == 'listo_retiro' %}estado-retiro{% endif %}
-{% if resultado.estado == 'entregado' %}estado-entregado{% endif %}
-{% if resultado.estado == 'anulado' %}estado-anulado{% endif %}
-">
-{{ resultado.get_estado_display }}
-</span>
-
-<br><br>
-
-{% if resultado.observaciones_publicas %}
-<strong>Observaciones:</strong><br>
-{{ resultado.observaciones_publicas }}
-{% endif %}
-
-</div>
-
-{% endif %}
-
-{% if error %}
-<div class="error-box">
-{{ error }}
-</div>
-{% endif %}
-
-</div>
-</div>
+  </div>
 </section>
 
 {% endblock %}

@@ -1,327 +1,513 @@
 {% extends "base.html" %}
+{% block title %}Servicios Notariales{% endblock %}
+
 {% block content %}
 <style>
+  .servicios-page{
+    background:
+      radial-gradient(circle at top, rgba(37, 99, 235, 0.06), transparent 28%),
+      linear-gradient(180deg, #f4f7fc 0%, #eef3f9 100%);
+    min-height: calc(100vh - 120px);
+    padding: 42px 18px 60px;
+  }
 
-.servicios-notariales-page {
-  background: #f4f4f4;
-  min-height: 100vh;
-  font-family: Arial, Helvetica, sans-serif;
-}
+  .servicios-wrap{
+    max-width: 1220px;
+    margin: 0 auto;
+  }
 
-.page-header-sn {
-  background: #f5f5f5;
-  border-bottom: 1px solid #e5e5e5;
-  padding: 30px 0;
-}
+  .servicios-hero{
+    background: linear-gradient(135deg, rgba(255,255,255,.98) 0%, rgba(247,250,255,.98) 100%);
+    border: 1px solid #e2eaf3;
+    border-radius: 26px;
+    padding: 34px 34px 28px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    margin-bottom: 26px;
+    position: relative;
+    overflow: hidden;
+  }
 
-.container-sn {
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
-}
+  .servicios-hero::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #1f3c88, #2563eb, #5b8cff);
+  }
 
-.page-header-sn h1 {
-  margin: 0;
-  font-size: 48px;
-  font-weight: 400;
-}
+  .servicios-breadcrumb{
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 12px;
+  }
 
-.breadcrumb-sn {
-  font-size: 14px;
-  margin-top: 5px;
-}
+  .servicios-breadcrumb a{
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 600;
+  }
 
-.services-content {
-  padding: 40px 0;
-}
+  .servicios-hero h1{
+    margin: 0 0 10px;
+    font-size: 2.3rem;
+    line-height: 1.1;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
 
-.service-group {
-  margin-bottom: 40px;
-}
+  .servicios-hero p{
+    margin: 0;
+    max-width: 760px;
+    color: #5f6f86;
+    font-size: 15px;
+    line-height: 1.7;
+  }
 
-.service-group h2 {
-  font-size: 30px;
-  margin-bottom: 20px;
-}
+  .servicios-content{
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
 
-.accordion-item-sn {
-  border: 1px solid #ddd;
-  background: #f8f8f8;
-  margin-bottom: 5px;
-}
+  .service-group{
+    background: #fff;
+    border: 1px solid #e3ebf5;
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+  }
 
-.accordion-header-sn {
-  width: 100%;
-  border: none;
-  background: #f8f8f8;
-  padding: 15px;
-  text-align: left;
-  font-weight: bold;
-  cursor: pointer;
-}
+  .service-group-head{
+    padding: 26px 28px 10px;
+  }
 
-.icon-sn {
-  margin-right: 10px;
-}
+  .service-kicker{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eaf1ff;
+    color: #2554c7;
+    border: 1px solid #d8e5ff;
+    padding: 8px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
 
-.accordion-body-sn {
-  display: none;
-  padding: 15px 30px;
-  background: #f8f8f8;
-}
+  .service-group h2{
+    margin: 0 0 8px;
+    font-size: 2rem;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
 
-.accordion-item-sn.active .accordion-body-sn {
-  display: block;
-}
+  .service-group-desc{
+    margin: 0;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 15px;
+  }
 
-.accordion-item-sn.active .accordion-header-sn {
-  color: #0079c8;
-}
+  .accordion-sn{
+    padding: 18px 28px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
 
+  .accordion-item-sn{
+    border: 1px solid #dfe8f5;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all .2s ease;
+  }
+
+  .accordion-item-sn:hover{
+    border-color: #d2def0;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  }
+
+  .accordion-header-sn{
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 18px 20px;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+
+  .accordion-header-sn:hover{
+    background: rgba(37, 99, 235, 0.03);
+  }
+
+  .icon-sn{
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #dbe5f4;
+    color: #1f3c88;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 16px;
+    transition: all .2s ease;
+  }
+
+  .accordion-body-sn{
+    display: none;
+    padding: 0 20px 18px 62px;
+    background: #ffffff;
+    color: #475569;
+    line-height: 1.7;
+    font-size: 0.96rem;
+  }
+
+  .accordion-item-sn.active .accordion-body-sn{
+    display: block;
+  }
+
+  .accordion-item-sn.active .accordion-header-sn{
+    color: #1d4ed8;
+  }
+
+  .accordion-item-sn.active .icon-sn{
+    background: linear-gradient(135deg, #1f3c88 0%, #2563eb 100%);
+    color: #fff;
+  }
+
+  .accordion-body-sn p,
+  .accordion-body-sn li{
+    margin-bottom: 10px;
+  }
+
+  .accordion-body-sn ul,
+  .accordion-body-sn ol{
+    padding-left: 18px;
+    margin: 0;
+  }
+
+  @media (max-width: 700px){
+    .servicios-page{
+      padding: 24px 12px 40px;
+    }
+
+    .servicios-hero{
+      padding: 24px 18px 20px;
+      border-radius: 20px;
+    }
+
+    .servicios-hero h1{
+      font-size: 1.9rem;
+    }
+
+    .service-group-head{
+      padding: 20px 18px 10px;
+    }
+
+    .service-group h2{
+      font-size: 1.55rem;
+    }
+
+    .accordion-sn{
+      padding: 16px 18px 18px;
+    }
+
+    .accordion-header-sn{
+      padding: 16px;
+      font-size: 0.95rem;
+    }
+
+    .accordion-body-sn{
+      padding: 0 16px 16px 16px;
+    }
+  }
 </style>
-<section class="servicios-notariales-page">
-  <div class="page-header-sn">
-    <div class="container-sn">
+
+<section class="servicios-page">
+  <div class="servicios-wrap">
+
+    <div class="servicios-hero">
+      <div class="servicios-breadcrumb">
+        <a href="{% url 'home' %}">Home</a> / Servicios Notariales
+      </div>
       <h1>Servicios Notariales</h1>
-      <div class="breadcrumb-sn">
-        <a href="/">Home</a> / <span>Servicios Notariales</span>
-      </div>
+      <p>
+        Revisa los principales servicios disponibles en la notaría, incluyendo trámites de mesón,
+        escrituras públicas y visitas o inspecciones notariales.
+      </p>
     </div>
-  </div>
 
-  <div class="container-sn services-content">
-    <!-- TRAMITES DE MESON -->
-    <section class="service-group">
-      <h2>TRAMITES DE MESON</h2>
+    <div class="servicios-content">
 
-      <div class="accordion-sn">
-        <div class="accordion-item-sn active">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">−</span>
-            <span>1. DECLARACION JURADA</span>
-          </button>
-          <div class="accordion-body-sn" style="display:block;">
-            <p>Documento que constituye una manifestación unilateral de voluntad que hace una persona, respecto de un hecho que necesita acreditar, con la fe del atestado notarial.</p>
-            <p>Las declaraciones juradas más frecuentes son; renta, estado civil, carga familiar, extravío de licencia de conducir.</p>
-          </div>
+      <!-- TRÁMITES DE MESÓN -->
+      <section class="service-group">
+        <div class="service-group-head">
+          <div class="service-kicker">Servicios frecuentes</div>
+          <h2>Trámites de Mesón</h2>
+          <p class="service-group-desc">
+            Documentos y actuaciones notariales de atención directa, solicitados con frecuencia por personas y empresas.
+          </p>
         </div>
 
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>2. CARTA PODER</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>Documento en virtud del cual una persona encarga a otra la ejecución de alguna gestión de carácter administrativo, ante organismos públicos o privados, como por ejemplo, bancos o instituciones financieras, organismos provisionales y de salud u otros.</p>
-            <p>En general tiene por objeto conferir poder a otra persona para realizar gestiones simples, que no requieren de la solemnidad de una Escritura Pública.</p>
+        <div class="accordion-sn">
+          <div class="accordion-item-sn active">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">−</span>
+              <span>1. DECLARACIÓN JURADA</span>
+            </button>
+            <div class="accordion-body-sn" style="display:block;">
+              <p>Documento que constituye una manifestación unilateral de voluntad que hace una persona, respecto de un hecho que necesita acreditar, con la fe del atestado notarial.</p>
+              <p>Las declaraciones juradas más frecuentes son: renta, estado civil, carga familiar y extravío de licencia de conducir.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>2. CARTA PODER</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>Documento en virtud del cual una persona encarga a otra la ejecución de alguna gestión de carácter administrativo, ante organismos públicos o privados, como por ejemplo bancos o instituciones financieras, organismos previsionales y de salud, entre otros.</p>
+              <p>En general tiene por objeto conferir poder a otra persona para realizar gestiones simples, que no requieren de la solemnidad de una escritura pública.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>3. TRANSFERENCIA DE VEHÍCULOS</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>Contrato privado mediante el cual el dueño de un vehículo lo vende o transfiere a un tercero, encargando al oficio notarial el pago de los impuestos pertinentes y la inscripción en el Registro Nacional de Vehículos Motorizados.</p>
+              <p>La notaría únicamente recibe dichos fondos para remitirlos a los organismos correspondientes y, una vez finalizada la gestión, el nuevo padrón del vehículo es remitido directamente al domicilio del adquirente.</p>
+              <p>Existe la posibilidad de otorgar poder especial a otra persona para este solo efecto.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>4. CERTIFICADO DE ESTADO CIVIL</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>Documento que puede emanar del propio interesado, quien a través de una declaración jurada manifiesta cuál es su estado civil, o puede consistir en una declaración hecha por dos testigos que dan fe del actual estado civil de una persona.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>5. CONTRATO DE TRABAJO</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>El contrato individual de trabajo es una convención por la cual el empleador y el trabajador se obligan recíprocamente, este a prestar servicios personales bajo dependencia y subordinación del primero, y aquel a pagar por estos servicios una remuneración determinada.</p>
+              <p>(Art. 7 Código del Trabajo).</p>
+              <p>Puede ser redactado directamente por el cliente o puede ser producido en la notaría de acuerdo a lo señalado personalmente por los interesados.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>6. AUTORIZACIÓN DE VIAJE</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>Documento que exige Policía Internacional para permitir la salida de un menor de 18 años hacia el extranjero. El permiso debe concederlo el padre, la madre o tutor legal según corresponda, se extiende en triplicado y se exige la cédula de identidad de todos los participantes en el acto.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>7. AUTORIZACIÓN PARA TRABAJAR</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>La ley permite que un menor de 18 y mayor de 15 años desarrolle actividades remuneradas, en tanto cuente con la autorización de su padre, madre o tutor.</p>
+              <p>Este documento debe extenderse en forma simple con la autorización de un notario, y es un resguardo que exige el empleador para evitar sanciones por omisión a las leyes laborales.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>8. CONTRATO DE ARRIENDO</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>El arrendamiento es un contrato en que dos partes se obligan recíprocamente, la una a conceder el goce de una cosa, o a ejecutar una obra o prestar un servicio, y la otra a pagar por este goce, obra o servicio un precio determinado.</p>
+              <p>(Art. 1915 Código Civil).</p>
+              <p>Puede ser redactado directamente por el cliente o puede ser producido en la notaría de acuerdo a lo señalado personalmente por los interesados.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>9. CONTRATO DE COMPRAVENTA DE BIEN MUEBLE</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>La compraventa es un contrato en que una de las partes se obliga a dar una cosa y la otra a pagarla en dinero. Aquella se dice vender y esta comprar. El dinero que el comprador da por la cosa vendida se llama precio.</p>
+              <p>(Art. 2116 Código Civil).</p>
+              <p>Puede ser redactado directamente por el cliente o puede ser producido en la notaría de acuerdo a lo señalado personalmente por los interesados.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>10. CARTA RENUNCIA</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>La renuncia voluntaria de una persona a su trabajo debe hacerse mediante una carta firmada ante notario. Este documento lo exige el empleador para extender el respectivo finiquito y acreditar la causa legal que lo motiva.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>11. DOCUMENTOS EN CUSTODIA CON INSTRUCCIONES NOTARIALES</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>Se trata regularmente de instrumentos de pago, como cheques, letras, vales vista u otros, que se dejan bajo custodia del notario con instrucción de ser entregados a sus beneficiarios al cumplimiento de determinadas condiciones.</p>
+              <p>Para el mismo efecto puede dejarse también algún objeto o especie determinada, como por ejemplo las llaves de un inmueble.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>12. AUTORIZACIÓN DE LETRAS DE CAMBIO, PAGARÉS Y PROTESTO DE LAS MISMAS</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>Es aconsejable que las firmas de los obligados por estos instrumentos mercantiles sean autorizadas por un notario, ya que de esta forma se convierten en títulos ejecutivos y su cobro judicial se hace mucho más fácil y rápido.</p>
+              <p>El protesto es la diligencia en que el notario deja constancia de la no aceptación, de la falta de fecha de la aceptación o del no pago del documento. Generalmente se realiza en el lugar indicado en el aviso de citación, normalmente el oficio del notario, al día siguiente hábil de la fecha de entrega del aviso, sin considerar sábados.</p>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>3. TRANSFERENCIA DE VEHICULOS</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>Contrato privado mediante el cual el dueño de un vehículo lo vende o transfiere a un tercero, encargando al oficio notarial el pago de los impuestos pertinentes y la inscripción en el Registro Nacional de Vehículos Motorizados.</p>
-            <p>La Notaría únicamente recibe dichos fondos para remitirlos a los organismos correspondientes y una vez finalizada la gestión el nuevo padrón del vehículo es remitido directamente al domicilio del adquirente.</p>
-            <p>Existe la posibilidad de otorgar poder especial a otra persona para este sólo efecto.</p>
-          </div>
+      <!-- ESCRITURAS PÚBLICAS -->
+      <section class="service-group">
+        <div class="service-group-head">
+          <div class="service-kicker">Actos solemnes</div>
+          <h2>Escrituras Públicas</h2>
+          <p class="service-group-desc">
+            Instrumentos públicos autorizados por notario para actos y contratos que requieren mayor formalidad legal.
+          </p>
         </div>
 
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>4. CERTIFICADO DE ESTADO CIVIL</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>Documento que puede emanar del propio interesado, quien a través de una declaración jurada declara que cual es su estado civil, o puede consistir en una declaración hecha por dos testigos que dan fe del actual estado civil de una persona.</p>
+        <div class="accordion-sn">
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>1. COMPRAVENTA DE BIENES RAÍCES</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>Transferencia de una propiedad raíz, de su dueño a un tercero adquirente. Puedes revisar qué documentos se necesitan en la sección de preguntas frecuentes.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>2. CESIONES DE DERECHOS</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>Como su nombre lo indica, esta figura procede cuando lo que se transfiere no es la totalidad de la cosa mueble o inmueble, sino un porcentaje de los derechos sobre ella.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>3. TESTAMENTOS</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>El testamento es un acto más o menos solemne en que una persona dispone del todo o de una parte de sus bienes para que tenga pleno efecto después de sus días, conservando la facultad de renovar las disposiciones contenidas en él mientras viva.</p>
+              <p>(Art. 999 Código Civil).</p>
+              <p>El testamento solemne requiere la presencia y firma de 3 testigos y del notario autorizante, y debe ser otorgado con las solemnidades que establece la ley.</p>
+              <p>Este acto puede celebrarse en la notaría o, si se requiere, el notario puede acudir a domicilio, para lo cual se recomienda coordinarlo previamente.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>4. LIQUIDACIONES</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>Documento que da cuenta del acuerdo entre las partes de liquidar una comunidad o sociedad y de los detalles de dicha liquidación.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>5. CONTRATO DE MANDATO</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>“El mandato es un contrato en que una persona confía la gestión de uno o más negocios a otra, que se hace cargo de ellos por cuenta y riesgo de la primera”.</p>
+              <p>La persona que confiere el encargo se llama comitente o mandante, y la que lo acepta, apoderado, procurador y, en general, mandatario. (Art. 2116 Código Civil).</p>
+              <p>Los mandatos más comunes son aquellos especiales para un asunto determinado, generales de administración o judiciales.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>6. SOCIEDADES</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>La sociedad o compañía es un contrato en que dos o más personas estipulan poner algo en común con la mira de repartir entre sí los beneficios que de ello provengan.</p>
+              <p>La sociedad forma una persona jurídica distinta de los socios individualmente considerados.</p>
+              <p>(Art. 2053 Código Civil).</p>
+              <p>Hay varios tipos de sociedades y para ello se requiere la asistencia de un abogado, quien debe redactar la minuta presentada a la notaría para su reducción a escritura pública.</p>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>5. CONTRATO DE TRABAJO</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>El Contrato individual de trabajo es una convención por la cual el empleador y el trabajador se obligan recíprocamente, éste a prestar servicios personales bajo dependencia y subordinación del primero, y aquél a pagar por estos servicios una remuneración determinada.</p>
-            <p>(Art. 7 Código del Trabajo).</p>
-            <p>Puede ser redactado directamente por el cliente o puede ser producido en la Notaría de acuerdo a lo señalado personalmente por los interesados.</p>
-          </div>
+      <!-- VISITAS O INSPECCIONES -->
+      <section class="service-group">
+        <div class="service-group-head">
+          <div class="service-kicker">Actuaciones especiales</div>
+          <h2>Visitas o Inspecciones</h2>
+          <p class="service-group-desc">
+            Actuaciones notariales en terreno para dejar constancia de hechos, estados o situaciones específicas.
+          </p>
         </div>
 
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>6. AUTORIZACION DE VIAJE</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>Documento que exige Policía Internacional para permitir la salida de un menor (de 18 años) hacia el extranjero. El permiso debe concederlo el padre, la madre o tutor legal según corresponda, se extiende en triplicado y se exige la cédula de identidad de todos los participantes en el acto.</p>
+        <div class="accordion-sn">
+          <div class="accordion-item-sn">
+            <button class="accordion-header-sn" type="button">
+              <span class="icon-sn">+</span>
+              <span>1. VISITAS O INSPECCIONES</span>
+            </button>
+            <div class="accordion-body-sn">
+              <p>En ocasiones se hace necesario que el notario concurra personalmente a dar fe de un hecho determinado o del estado actual de un objeto o propiedad. Esto generalmente cuando se necesita acreditar posteriormente un hecho o cuando las muestras objetivas puedan desaparecer o cambiar.</p>
+              <p>De ello puede levantarse un acta circunstanciada o una certificación con fotografías, según sea la complejidad de la situación. Para este efecto se recomienda coordinar la visita previamente directamente con la notaría.</p>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>7. AUTORIZACION PARA TRABAJAR</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>La ley permite que un menor de 18 y mayor de 15 años desarrolle actividades remuneradas, en tanto cuente con la autorización de su padre, madre o tutor.</p>
-            <p>Este documento debe extenderse en forma simple con la autorización de un Notario, y es un resguardo que exige el empleador para evitar caer en sanciones por omisión a las leyes laborales.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>8. CONTRATO DE ARRIENDO</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>El arrendamiento es un contrato en que dos partes se obligan recíprocamente, la una a conceder el goce de una cosa, o a ejecutar una obra o prestar un servio, y la otra a pagar por este goce, obra o servicio un precio determinado.</p>
-            <p>(Art. 1915 Código Civil).</p>
-            <p>Puede ser redactado directamente por el cliente o puede ser producido en la Notaría de acuerdo a lo señalado personalmente por los interesados.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>9. CONTRATO DE COMPRA VENTA DE BIEN MUEBLE</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>La compraventa es un contrato en que una de las partes se obliga a dar una cosa y la otra a pagarla en dinero. Aquélla se dice vender y ésta comprar. El dinero que el comprador da por la cosa vendida, se llama precio.</p>
-            <p>(Art. 2116 Código Civil).</p>
-            <p>Puede ser redactado directamente por el cliente o puede ser producido en la Notaría de acuerdo a lo señalado personalmente por los interesados.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>10. CARTA RENUNCIA</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>La renuncia voluntaria de una persona a su trabajo debe hacerse mediante una carta firmada ante Notario. Este documento lo exige el empleador para extender el respectivo finiquito y acreditar la causa legal que lo motiva.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>11. DOCUMENTOS EN CUSTODIA CON INSTRUCCIONES NOTARIALES</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>Se trata regularmente de instrumentos de pago (cheques, letras, vales vista u otros) que se dejan en la custodia del notario con instrucción de ser entregados a sus beneficiarios al cumplimiento de determinadas condiciones.</p>
-            <p>Para el mismo efecto puede dejarse también algún objeto o especie determinada, como por ejemplo las llaves de un inmueble, etc.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>12. AUTORIZACION DE LETRAS DE CAMBIOS, PAGARES Y PROTESTO DE LAS MISMAS</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>Es aconsejable que las firmas de los obligados por estos instrumentos mercantiles sean autorizadas por un Notario ya que de esta forma se convierten en Títulos Ejecutivos y su cobro judicial se hace mucho más fácil y rápido.</p>
-            <p>El Protesto es la diligencia en que el Notario deja constancia de la no aceptación, de la falta de fecha de la aceptación o del no pago del documento. Generalmente en el lugar en que se fijó en al aviso de citación, normalmente el oficio del Notario, al día siguiente hábil, sin considerar sábados, de la fecha de entrega del aviso.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ESCRITURAS PUBLICAS -->
-    <section class="service-group">
-      <h2>ESCRITURAS PUBLICAS</h2>
-
-      <div class="accordion-sn">
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>1. COMPRA VENTA DE BIENES RAICES</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>Transferencias una propiedad raíz, de su dueño a un tercero adquirente. Ver que documentos son necesarios en nuestra sección de Preguntas Frecuentes.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>2. CESIONES DE DERECHOS</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>Como su nombre lo indica, esta figura procede cuando lo que se transfiere no es la totalidad de la cosa mueble o inmueble, sino un porcentaje de los derechos sobre ella.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>3. TESTAMENTOS</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>El testamento es un acto más o menos solemne, en que una persona dispone del todo o de una parte de sus bienes para que tenga pleno efecto después de sus días, conservando la facultad de renovar las disposiciones contenidas contenidas en él, mientras viva.</p>
-            <p>(Art. 999 Código Civil).</p>
-            <p>El testamento solemne requiere la presencia y firma de 3 testigos y del Notario autorizante y debe ser otorgado con las solemnidades que establece la ley.</p>
-            <p>Este acto pude ser celebrado en la Notaría, o si se requiere, el Notario puede acudir a celebrarlo domicilio, para lo cual recomendamos coordinarlo directamente.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>4. LIQUIDACIONES</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>Documento que da cuenta del acuerdo entre las partes de liquidar una comunidad o sociedad y los detalles de dicha liquidación.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>5. CONTRATO DE MANDATO</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>"El mandato es un contrato en que una persona confía la gestión de uno o más negocios a otra, que se hace cargo de ellos por cuenta y riesgo de la primera".</p>
-            <p>La persona que confiere el encargo se llama comitente o mandante, y la que lo acepta, apoderado, procurador, y en general, mandatario. (Art. 2116 Código Civil).</p>
-            <p>Los mandatos más comunes son aquellos especiales para un asunto determinado, generales de administración o judiciales.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>6. SOCIEDADES</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>La sociedad o compañía es un contrato en que dos o más personas estipulan poner algo en común con la mira de repartir entre sí los beneficios que de ello provengan.</p>
-            <p>La sociedad forma una persona jurídica, distinta de los socios individualmente considerados.</p>
-            <p>(Art. 2053 Código Civil).</p>
-            <p>Hay varios tipos de sociedades y para ello se requiere de la asistencia de un abogado quien debe ser el redactor de la minuta que sea presentada a la Notaría para su reducción a Escritura Pública.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VISITAS O INSPECCIONES -->
-    <section class="service-group">
-      <h2>VISITAS O INSPECCIONES</h2>
-
-      <div class="accordion-sn">
-        <div class="accordion-item-sn">
-          <button class="accordion-header-sn" type="button">
-            <span class="icon-sn">+</span>
-            <span>1. VISITAS O INSPECCIONES</span>
-          </button>
-          <div class="accordion-body-sn">
-            <p>En ocasiones se hace necesario que el Notario concurra personalmente a dar fe de un hecho determinado o del estado actual de un objeto o propiedad. Esto generalmente cuando se necesita acreditar posteriormente o cuando las muestras objetivas puedan desaparecer o cambiar.</p>
-            <p>De esto puede levantar un acta circunstanciada o una certificación con fotografías, según sea la complejidad de la situación. Para tal efecto recomendamos coordinar la visita en forma previa directamente con la Notaría.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
   </div>
 </section>
 
@@ -334,12 +520,15 @@
         const item = this.parentElement;
         const body = item.querySelector('.accordion-body-sn');
         const icon = item.querySelector('.icon-sn');
+        const parentAccordion = item.parentElement;
         const isActive = item.classList.contains('active');
 
-        item.parentElement.querySelectorAll('.accordion-item-sn').forEach(el => {
+        parentAccordion.querySelectorAll('.accordion-item-sn').forEach(el => {
           el.classList.remove('active');
-          el.querySelector('.accordion-body-sn').style.display = 'none';
-          el.querySelector('.icon-sn').textContent = '+';
+          const elBody = el.querySelector('.accordion-body-sn');
+          const elIcon = el.querySelector('.icon-sn');
+          if (elBody) elBody.style.display = 'none';
+          if (elIcon) elIcon.textContent = '+';
         });
 
         if (!isActive) {

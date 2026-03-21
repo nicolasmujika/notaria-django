@@ -1,10 +1,15 @@
+import random
 from django.core.mail import send_mail # type: ignore
 from django.shortcuts import render, redirect, get_object_or_404 # type: ignore
 from django.contrib import messages# type: ignore
 from django.core.mail import send_mail # type: ignore
 from django.conf import settings# type: ignore
-from .forms import ContactForm, SeguimientoForm,SolicitudEscrituraForm,RegistroUsuarioForm, LoginUsuarioForm, ExpedienteGestionForm, IndiceEscrituraForm, ValorServicioForm
-from .models import Service, Tramite, Expediente,SolicitudEscritura, IndiceEscritura, ContactMessage, ValorServicio
+from .forms import (ContactForm, SeguimientoForm,SolicitudEscrituraForm,RegistroUsuarioForm, LoginUsuarioForm, ExpedienteGestionForm,
+    IndiceEscrituraForm, ValorServicioForm,SolicitarRecuperacionForm,
+    VerificarCodigoRecuperacionForm,
+    RestablecerClaveForm)
+from .models import (Service, Tramite, Expediente,SolicitudEscritura,
+ IndiceEscritura, ContactMessage, ValorServicio, VerificacionCorreo, RecuperacionClave)
 from django.utils import timezone # type: ignore
 from datetime import timedelta
 from django.contrib.auth import login, logout
@@ -210,6 +215,11 @@ class CustomLoginView(LoginView):
 
     def form_valid(self, form):
         user = form.get_user()
+
+        if not user.is_active:
+            messages.warning(self.request, "Debes verificar tu correo antes de iniciar sesión.")
+            return redirect("verificar_correo", user_id=user.id)
+
         login(self.request, user)
 
         next_url = self.request.POST.get("next") or self.request.GET.get("next")
@@ -234,10 +244,37 @@ def registro_usuario(request):
     if request.method == "POST":
         form = RegistroUsuarioForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "Cuenta creada correctamente.")
-            return redirect("home")
+            try:
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
+
+                user.perfil.tipo = "usuario"
+                user.perfil.rut = form.cleaned_data["rut"]
+                user.perfil.save()
+
+                codigo = generar_codigo_verificacion()
+
+                VerificacionCorreo.objects.update_or_create(
+                    user=user,
+                    defaults={
+                        "codigo": codigo,
+                        "vence_en": obtener_fecha_vencimiento(10),
+                        "intentos": 0,
+                        "verificado": False,
+                    }
+                )
+
+                enviar_codigo_verificacion(user.email, codigo)
+
+                messages.success(
+                    request,
+                    "Tu cuenta fue creada. Te enviamos un código de verificación a tu correo."
+                )
+                return redirect("verificar_correo", user_id=user.id)
+
+            except Exception as e:
+                messages.error(request, f"No se pudo crear la cuenta o enviar el correo: {e}")
         else:
             print(form.errors)
             messages.error(request, "No se pudo crear la cuenta. Revisa los campos.")
@@ -245,6 +282,71 @@ def registro_usuario(request):
         form = RegistroUsuarioForm()
 
     return render(request, "pages/registro.html", {"form": form})
+
+def verificar_correo(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    verificacion = get_object_or_404(VerificacionCorreo, user=user)
+
+    if verificacion.verificado:
+        messages.info(request, "Tu correo ya fue verificado.")
+        return redirect("login")
+
+    if request.method == "POST":
+        codigo_ingresado = request.POST.get("codigo", "").strip()
+
+        if verificacion.esta_vencido():
+            messages.error(request, "El código venció. Solicita uno nuevo.")
+            return redirect("verificar_correo", user_id=user.id)
+
+        if verificacion.intentos >= 5:
+            messages.error(request, "Superaste el máximo de intentos. Solicita un nuevo código.")
+            return redirect("reenviar_codigo", user_id=user.id)
+
+        if codigo_ingresado == verificacion.codigo:
+            user.is_active = True
+            user.save(update_fields=["is_active"])
+
+            verificacion.verificado = True
+            verificacion.save(update_fields=["verificado"])
+
+            messages.success(request, "Correo verificado correctamente. Ya puedes iniciar sesión.")
+            return redirect("login")
+
+        verificacion.intentos += 1
+        verificacion.save(update_fields=["intentos"])
+        messages.error(request, "Código incorrecto.")
+
+    return render(request, "pages/verificar_correo.html", {
+        "user_id": user.id,
+        "email": user.email,
+        "vence_en": verificacion.vence_en,
+    })
+
+def reenviar_codigo(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    verificacion = get_object_or_404(VerificacionCorreo, user=user)
+
+    if user.is_active or verificacion.verificado:
+        messages.info(request, "La cuenta ya está verificada.")
+        return redirect("login")
+
+    nuevo_codigo = generar_codigo_verificacion()
+
+    verificacion.codigo = nuevo_codigo
+    verificacion.vence_en = obtener_fecha_vencimiento(10)
+    verificacion.intentos = 0
+    verificacion.verificado = False
+    verificacion.save()
+
+    try:
+        enviar_codigo_verificacion(user.email, nuevo_codigo)
+        messages.success(request, "Te enviamos un nuevo código.")
+    except Exception as e:
+        messages.error(request, f"No se pudo reenviar el código: {e}")
+
+    return redirect("verificar_correo", user_id=user.id)
+
+
 def logout_view(request):
     logout(request)
     return redirect("home")
@@ -272,7 +374,7 @@ def panel_funcionario(request):
     )
 
     mensajes_contacto = ContactMessage.objects.order_by("-created_at")[:20]
-
+    
     paginator = Paginator(expedientes_lista, 10)
     page_number = request.GET.get("page")
     expedientes = paginator.get_page(page_number)
@@ -492,3 +594,243 @@ def editar_valor(request, valor_id):
         "form": form,
         "valor": valor
     })
+
+@login_required
+def responder_mensaje_contacto(request, mensaje_id):
+    if request.method != "POST":
+        return redirect("panel_funcionario")
+
+    mensaje = get_object_or_404(ContactMessage, id=mensaje_id)
+
+    respuesta = request.POST.get("respuesta", "").strip()
+
+    if not respuesta:
+        messages.error(request, "La respuesta no puede ir vacía.")
+        return redirect("panel_funcionario")
+
+    asunto = f"Respuesta a tu {mensaje.subject.lower()} - Notaría Felipe Velásquez"
+
+    cuerpo = f"""
+Hola {mensaje.full_name},
+
+Te escribimos en respuesta al mensaje que enviaste a través del formulario de contacto de la notaría.
+
+Tu mensaje fue:
+"{mensaje.message}"
+
+Nuestra respuesta:
+{respuesta}
+
+Saludos cordiales,
+Notaría Felipe Velásquez
+""".strip()
+
+    try:
+        send_mail(
+            subject=asunto,
+            message=cuerpo,
+            from_email=None,  # usa DEFAULT_FROM_EMAIL
+            recipient_list=[mensaje.email],
+            fail_silently=False,
+        )
+
+        mensaje.replied = True
+        mensaje.reply_message = respuesta
+        mensaje.replied_at = timezone.now()
+        mensaje.replied_by = request.user
+        mensaje.save()
+
+        messages.success(request, f"Respuesta enviada correctamente a {mensaje.email}.")
+    except Exception as e:
+        messages.error(request, f"No se pudo enviar el correo: {e}")
+
+    return redirect("panel_funcionario")
+
+@login_required
+@user_passes_test(es_funcionario)
+def eliminar_mensaje_contacto(request, mensaje_id):
+    if request.method != "POST":
+        return redirect("panel_funcionario")
+
+    mensaje = get_object_or_404(ContactMessage, id=mensaje_id)
+
+    if not mensaje.replied:
+        messages.error(request, "Solo puedes eliminar mensajes que ya fueron respondidos.")
+        return redirect("panel_funcionario")
+
+    nombre = mensaje.full_name
+    correo = mensaje.email
+    mensaje.delete()
+
+    messages.success(
+        request,
+        f"El mensaje de {nombre} ({correo}) fue eliminado correctamente."
+    )
+    return redirect("panel_funcionario")
+
+def generar_codigo_verificacion():
+    return f"{random.randint(0, 999999):06d}"
+
+
+def obtener_fecha_vencimiento(minutos=10):
+    return timezone.now() + timedelta(minutes=minutos)
+
+
+def enviar_codigo_verificacion(destinatario, codigo):
+    asunto = "Código de verificación de correo"
+    mensaje = (
+        f"Hola,\n\n"
+        f"Tu código de verificación es: {codigo}\n\n"
+        f"Este código vence en 10 minutos.\n\n"
+        f"Si no solicitaste este registro, ignora este correo."
+    )
+
+    send_mail(
+        subject=asunto,
+        message=mensaje,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[destinatario],
+        fail_silently=False,
+    )
+def enviar_codigo_recuperacion(destinatario, codigo):
+    asunto = "Recuperación de contraseña"
+    mensaje = (
+        f"Hola,\n\n"
+        f"Tu código para restablecer tu contraseña es: {codigo}\n\n"
+        f"Este código vence en 10 minutos.\n\n"
+        f"Si no solicitaste este cambio, ignora este correo."
+    )
+
+    send_mail(
+        subject=asunto,
+        message=mensaje,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[destinatario],
+        fail_silently=False,
+    )
+
+def olvide_clave(request):
+    if request.method == "POST":
+        form = SolicitarRecuperacionForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"].strip().lower()
+
+            try:
+                user = User.objects.get(email__iexact=email)
+            except User.DoesNotExist:
+                messages.error(request, "No existe una cuenta asociada a ese correo.")
+                return render(request, "pages/olvide_clave.html", {"form": form})
+
+            codigo = generar_codigo_verificacion()
+
+            RecuperacionClave.objects.filter(user=user, usado=False).update(usado=True)
+
+            RecuperacionClave.objects.create(
+                user=user,
+                codigo=codigo,
+                vence_en=obtener_fecha_vencimiento(10),
+                intentos=0,
+            )
+
+            try:
+                enviar_codigo_recuperacion(user.email, codigo)
+                messages.success(request, "Te enviamos un código para recuperar tu contraseña.")
+                return redirect("verificar_codigo_recuperacion", user_id=user.id)
+            except Exception as e:
+                messages.error(request, f"No se pudo enviar el correo: {e}")
+    else:
+        form = SolicitarRecuperacionForm()
+
+    return render(request, "pages/olvide_clave.html", {"form": form})
+
+def verificar_codigo_recuperacion(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    recuperacion = (
+        RecuperacionClave.objects
+        .filter(user=user, usado=False)
+        .order_by("-creado_en")
+        .first()
+    )
+
+    if not recuperacion:
+        messages.error(request, "No hay una solicitud de recuperación activa.")
+        return redirect("olvide_clave")
+
+    if request.method == "POST":
+        form = VerificarCodigoRecuperacionForm(request.POST)
+        if form.is_valid():
+            codigo = form.cleaned_data["codigo"].strip()
+
+            if recuperacion.esta_vencido():
+                messages.error(request, "El código venció. Solicita uno nuevo.")
+                return redirect("olvide_clave")
+
+            if recuperacion.intentos >= 5:
+                messages.error(request, "Superaste el máximo de intentos. Solicita uno nuevo.")
+                return redirect("olvide_clave")
+
+            if codigo != recuperacion.codigo:
+                recuperacion.intentos += 1
+                recuperacion.save(update_fields=["intentos"])
+                messages.error(request, "Código incorrecto.")
+                return render(request, "pages/verificar_codigo_recuperacion.html", {
+                    "form": form,
+                    "user_id": user.id,
+                    "email": user.email,
+                })
+
+            request.session["recuperacion_user_id"] = user.id
+            request.session["recuperacion_codigo_ok"] = True
+
+            messages.success(request, "Código verificado correctamente.")
+            return redirect("restablecer_clave")
+    else:
+        form = VerificarCodigoRecuperacionForm()
+
+    return render(request, "pages/verificar_codigo_recuperacion.html", {
+        "form": form,
+        "user_id": user.id,
+        "email": user.email,
+    })
+
+def restablecer_clave(request):
+    user_id = request.session.get("recuperacion_user_id")
+    codigo_ok = request.session.get("recuperacion_codigo_ok")
+
+    if not user_id or not codigo_ok:
+        messages.error(request, "Primero debes validar tu código de recuperación.")
+        return redirect("olvide_clave")
+
+    user = get_object_or_404(User, id=user_id)
+
+    recuperacion = (
+        RecuperacionClave.objects
+        .filter(user=user, usado=False)
+        .order_by("-creado_en")
+        .first()
+    )
+
+    if not recuperacion or recuperacion.esta_vencido():
+        messages.error(request, "La recuperación ya no es válida. Solicita una nueva.")
+        return redirect("olvide_clave")
+
+    if request.method == "POST":
+        form = RestablecerClaveForm(request.POST)
+        if form.is_valid():
+            nueva_clave = form.cleaned_data["password1"]
+            user.set_password(nueva_clave)
+            user.save()
+
+            recuperacion.usado = True
+            recuperacion.save(update_fields=["usado"])
+
+            request.session.pop("recuperacion_user_id", None)
+            request.session.pop("recuperacion_codigo_ok", None)
+
+            messages.success(request, "Tu contraseña fue actualizada correctamente.")
+            return redirect("login")
+    else:
+        form = RestablecerClaveForm()
+
+    return render(request, "pages/restablecer_clave.html", {"form": form})

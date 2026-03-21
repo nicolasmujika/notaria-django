@@ -1,248 +1,510 @@
-
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Índices de Escrituras Públicas{% endblock %}
 
 {% block content %}
 <style>
-.indices-page{
+  .indices-page{
+    background:
+      radial-gradient(circle at top, rgba(37, 99, 235, 0.08), transparent 30%),
+      linear-gradient(180deg, #f4f7fc 0%, #eef3f9 100%);
+    min-height: calc(100vh - 120px);
+    padding: 42px 18px 60px;
+  }
 
-  padding:40px 0;
-}
+  .indices-wrap{
+    max-width: 1220px;
+    margin: 0 auto;
+  }
 
-.indices-wrap{
-  max-width:1200px;
-  margin:0 auto;
-}
+  .indices-hero{
+    position: relative;
+    background: linear-gradient(135deg, #dbe7ff 0%, #c7dbff 100%);
+    border: 1px solid #c2d4ff;
+    border-radius: 28px;
+    padding: 44px 36px 34px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.10);
+    margin-bottom: 24px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+  }
 
-.indices-hero{
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(6px);
-  border-radius:22px;
-  padding:32px;
-  box-shadow:0 20px 50px rgba(0,0,0,.12);
-  margin-bottom:24px;
-  border-bottom:4px solid #2563eb;
-}
+  .indices-hero::before{
+    content: "";
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #1f3c88, #2563eb, #4f86ff);
+  }
 
-.indices-hero-grid{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  text-align:center;
-}
+  .indices-hero::after{
+    content: "";
+    position: absolute;
+    right: -80px;
+    top: -80px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(37,99,235,.10) 0%, rgba(37,99,235,0) 70%);
+    pointer-events: none;
+  }
 
-.indices-logo-box{
-  display:flex;
-  justify-content:center;
-}
-
-.indices-logo-box img{
-  max-height:70px;
-  opacity:0.2;
-}
-
-.indices-title{
-  text-align:center;
-  max-width:650px;
-  margin:0 auto;
-}
-.indices-title h1{
-  font-size:2rem;
-  font-weight:800;
-  color:#0f172a;
-  margin:0 0 8px;
-}
-
-.indices-title p{
-  margin:0;
-  color:#64748b;
-}
-
-.indices-counter{
-  display:inline-block;
-  margin-top:12px;
-  background:#e0ecff;
-  color:#2563eb;
-  padding:8px 14px;
-  border-radius:999px;
-  font-weight:700;
-  font-size:14px;
-}
-
-.indices-search-card{
-  background:#fff;
-  border-radius:18px;
-  padding:18px;
-  box-shadow:0 8px 24px rgba(0,0,0,.05);
-  margin-bottom:20px;
-  border:1px solid #e5e7eb;
-}
-
-.indices-search-top{
-  display:grid;
-  grid-template-columns: 1fr auto;
-  gap:12px;
-  margin-bottom:12px;
-}
-
-.indices-input,
-.indices-select{
-  width:100%;
-  border:1px solid #cbd5e1;
-  border-radius:10px;
-  padding:12px 14px;
-  font-size:14px;
-}
-
-.indices-btn{
-  background:#2563eb;
-  color:#fff;
-  border:none;
-  border-radius:10px;
-  padding:12px 22px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.indices-filters{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
-
-.indices-filter-box{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:#f8fafc;
-  border:1px solid #e2e8f0;
-  border-radius:10px;
-  padding:8px 10px;
-}
-
-.indices-tip{
-  background:#f1f5f9;
-  border-left:4px solid #2563eb;
-  color:#64748b;
-  padding:10px 14px;
-  border-radius:8px;
-  font-size:14px;
-}
-
-.indices-table-card{
-  background:#fff;
-  border-radius:18px;
-  box-shadow:0 8px 24px rgba(0,0,0,.05);
-  border:1px solid #e5e7eb;
-  overflow:hidden;
-}
-
-.indices-table-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:16px 18px;
-  border-bottom:1px solid #e5e7eb;
-}
-
-.indices-table-header h2{
-  margin:0;
-  font-size:1.35rem;
-  font-weight:800;
-  color:#111827;
-}
-
-.indices-table-count{
-  background:#e0ecff;
-  color:#2563eb;
-  padding:6px 12px;
-  border-radius:999px;
-  font-size:13px;
-  font-weight:700;
-}
-
-.indices-table-wrap{
-  overflow-x:auto;
-}
-
-.indices-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:950px;
-}
-
-.indices-table th{
-  background:#f8fafc;
-  color:#64748b;
-  text-align:left;
-  font-size:12px;
-  letter-spacing:.03em;
-  padding:14px 16px;
-  border-bottom:1px solid #e5e7eb;
-}
-
-.indices-table td{
-  padding:14px 16px;
-  border-bottom:1px solid #eef2f7;
-  color:#0f172a;
-  font-size:14px;
-  vertical-align:top;
-}
-
-.indices-table tbody tr:hover{
-  background:#f8fbff;
-}
-
-.indices-empty{
-  padding:28px;
-  text-align:center;
-  color:#64748b;
-}
-
-.indices-pagination{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  padding:18px;
-  flex-wrap:wrap;
-}
-
-.indices-page-link{
-  display:inline-block;
-  padding:8px 14px;
-  border-radius:10px;
-  background:#eef2ff;
-  color:#1f3c88;
-  text-decoration:none;
-  font-weight:700;
-}
-
-.indices-page-link.active{
-  background:#1f3c88;
-  color:#fff;
-}
-
-@media (max-width: 900px){
   .indices-hero-grid{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:14px;
+    display: grid;
+    grid-template-columns: 130px 1fr auto;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .indices-logo-box{
+    width: 120px;
+    height: 120px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
+    border: 1px solid #dce7fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.65);
+  }
+
+  .indices-logo-box img{
+    max-width: 72px;
+    max-height: 72px;
+    opacity: 0.22;
   }
 
   .indices-title{
-    text-align:center;
+    min-width: 0;
+  }
+
+  .indices-wrap{
+    position: relative;
+    z-index: 1;
+  }
+
+  .indices-kicker{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eaf1ff;
+    color: #2554c7;
+    border: 1px solid #d7e4ff;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .indices-title h1{
+    font-size: 2.35rem;
+    line-height: 1.1;
+    font-weight: 900;
+    color: #0f172a;
+    margin: 0 0 10px;
+    letter-spacing: -0.02em;
+  }
+
+  .indices-subtitle{
+    margin: 0;
+    color: #5b6b84;
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 700px;
+  }
+
+  .indices-meta{
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .indices-meta-chip{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8fbff;
+    color: #52627d;
+    border: 1px solid #dfe8f5;
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .indices-counter-wrap{
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .indices-counter{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    min-height: 120px;
+    padding: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1f3c88 0%, #2563eb 100%);
+    color: #fff;
+    box-shadow: 0 22px 40px rgba(37, 99, 235, 0.22);
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .indices-counter strong{
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  .indices-counter span{
+    margin-top: 6px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    opacity: .9;
+    font-weight: 700;
+  }
+
+  .indices-search-card{
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 22px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    margin-bottom: 24px;
+    border: 1px solid #e3ebf5;
   }
 
   .indices-search-top{
-    grid-template-columns:1fr;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    margin-bottom: 16px;
   }
-}
+
+  .indices-input,
+  .indices-select{
+    width: 100%;
+    border: 1px solid #d3ddea;
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 14px;
+    background: #fbfdff;
+    color: #0f172a;
+    transition: .2s ease;
+    box-sizing: border-box;
+  }
+
+  .indices-input::placeholder{
+    color: #94a3b8;
+  }
+
+  .indices-input:focus,
+  .indices-select:focus{
+    outline: none;
+    border-color: #2563eb;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+  }
+
+  .indices-btn{
+    background: linear-gradient(135deg, #1f3c88 0%, #2563eb 100%);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 0 24px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    min-width: 118px;
+    min-height: 52px;
+    box-shadow: 0 14px 28px rgba(37,99,235,.18);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+
+  .indices-btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 18px 30px rgba(37,99,235,.22);
+  }
+
+  .indices-filters{
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .indices-filter-box{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    border: 1px solid #dde7f3;
+    border-radius: 16px;
+    padding: 10px 12px;
+    min-height: 62px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+  }
+
+  .indices-filter-box label{
+    font-size: 14px;
+    font-weight: 800;
+    color: #1e293b;
+    white-space: nowrap;
+  }
+
+  .indices-filter-box .indices-select{
+    min-width: 165px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .indices-tip{
+    background: linear-gradient(90deg, rgba(37,99,235,.08), rgba(37,99,235,.03));
+    border: 1px solid #dbe7ff;
+    border-left: 4px solid #2563eb;
+    color: #5b6b84;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .indices-table-card{
+    background: rgba(255,255,255,0.85); /* clave */
+    backdrop-filter: blur(10px);        /* efecto vidrio */
+    border-radius: 24px;
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.06);
+    border: 1px solid #e3ebf5;
+    overflow: hidden;
+  }
+
+  .indices-table-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 24px;
+    border-bottom: 1px solid #e8eef6;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  }
+
+  .indices-table-header h2{
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 900;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+  }
+
+  .indices-table-count{
+    background: #e8f0ff;
+    color: #2554c7;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+    border: 1px solid #d8e5ff;
+  }
+
+  .indices-table-wrap{
+    overflow-x: auto;
+  }
+
+  .indices-table{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 980px;
+  }
+
+  .indices-table th{
+    background: #f7faff;
+    color: #64748b;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: .06em;
+    padding: 16px 16px;
+    border-bottom: 1px solid #e6edf6;
+    font-weight: 900;
+  }
+
+  .indices-table td{
+    padding: 18px 16px;
+    border-bottom: 1px solid #edf2f7;
+    color: #0f172a;
+    font-size: 14px;
+    vertical-align: top;
+    background: #fff;
+  }
+
+  .indices-table tbody tr{
+    transition: background .2s ease, transform .2s ease;
+  }
+
+  .indices-table tbody tr:hover td{
+    background: #f9fbff;
+  }
+
+  .indices-persona{
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.5;
+  }
+
+  .indices-materia{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .indices-materia strong{
+    color: #111827;
+    font-size: 14px;
+  }
+
+  .indices-materia small{
+    color: #6b7280;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  .indices-chip{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 12px;
+    font-weight: 800;
+    border: 1px solid #dbeafe;
+    min-width: 52px;
+  }
+
+  .indices-empty{
+    padding: 38px 20px;
+    text-align: center;
+    color: #64748b;
+    font-size: 15px;
+  }
+
+  .indices-pagination{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 18px 24px;
+    flex-wrap: wrap;
+    background: #fff;
+  }
+
+  .indices-page-link{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    min-height: 42px;
+    padding: 0 14px;
+    border-radius: 12px;
+    background: #f1f5ff;
+    color: #1f3c88;
+    text-decoration: none;
+    font-weight: 800;
+    border: 1px solid #dbe5fb;
+    transition: all .2s ease;
+  }
+
+  .indices-page-link:hover{
+    background: #e6eeff;
+    transform: translateY(-1px);
+  }
+
+  .indices-page-link.active{
+    background: linear-gradient(135deg, #1f3c88 0%, #2563eb 100%);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 12px 24px rgba(37,99,235,.18);
+  }
+  .indices-logo-box svg{
+    opacity: 0.5;
+  }
+
+  
+  @media (max-width: 980px){
+    .indices-hero-grid{
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .indices-logo-box{
+      margin: 0 auto;
+    }
+
+    .indices-meta{
+      justify-content: center;
+    }
+
+    .indices-counter-wrap{
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 700px){
+    .indices-page{
+      padding: 24px 12px 40px;
+    }
+
+    .indices-hero{
+      padding: 26px 18px 24px;
+      border-radius: 22px;
+    }
+
+    .indices-title h1{
+      font-size: 1.8rem;
+    }
+
+    .indices-search-card{
+      padding: 16px;
+      border-radius: 20px;
+    }
+
+    .indices-search-top{
+      grid-template-columns: 1fr;
+    }
+
+    .indices-filters{
+      flex-direction: column;
+    }
+
+    .indices-filter-box{
+      width: 100%;
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .indices-filter-box .indices-select{
+      min-width: auto;
+      width: 100%;
+    }
+
+    .indices-table-header{
+      padding: 18px 16px;
+      align-items: flex-start;
+      gap: 12px;
+      flex-direction: column;
+    }
+
+    .indices-table-header h2{
+      font-size: 1.45rem;
+    }
+  }
 </style>
 
 <section class="indices-page">
@@ -251,14 +513,32 @@
     <div class="indices-hero">
       <div class="indices-hero-grid">
         <div class="indices-logo-box">
-          <img src="{% static 'img/notaria.png' %}" alt="Notaría">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <path d="M7 3H14L19 8V21H7V3Z" stroke="#1f3c88" stroke-width="1.8"/>
+            <path d="M14 3V8H19" stroke="#1f3c88" stroke-width="1.8"/>
+            <path d="M9 12H15" stroke="#1f3c88" stroke-width="1.6"/>
+            <path d="M9 16H13" stroke="#1f3c88" stroke-width="1.6"/>
+          </svg>
         </div>
 
         <div class="indices-title">
+          <div class="indices-kicker">Consulta pública</div>
           <h1>Índice de Escrituras Públicas</h1>
-          <p>Notaría Felipe Velásquez</p>
-          <p>Alto del Carmen, Chile</p>
-          <div class="indices-counter">{{ total_registros }} registros</div>
+          <p class="indices-subtitle">
+            Revisa escrituras de forma clara y ordenada. Usa el buscador o filtra por campo y año para encontrar registros más rápido.
+          </p>
+
+          <div class="indices-meta">
+            <span class="indices-meta-chip">Notaría Felipe Velásquez</span>
+            <span class="indices-meta-chip">Alto del Carmen, Chile</span>
+          </div>
+        </div>
+
+        <div class="indices-counter-wrap">
+          <div class="indices-counter">
+            <strong>{{ total_registros }}</strong>
+            <span>registros</span>
+          </div>
         </div>
       </div>
     </div>
@@ -270,14 +550,14 @@
           name="q"
           value="{{ q }}"
           class="indices-input"
-          placeholder="Ej: Navarro, Díaz, compraventa, 2024..."
+          placeholder="Busca por compareciente, materia, repertorio, foja o año..."
         >
         <button type="submit" class="indices-btn">Buscar</button>
       </div>
 
       <div class="indices-filters">
         <div class="indices-filter-box">
-          <label for="campo"><strong>Campo:</strong></label>
+          <label for="campo">Campo</label>
           <select name="campo" id="campo" class="indices-select">
             <option value="todos" {% if campo == "todos" %}selected{% endif %}>Todos los campos</option>
             <option value="comparecientes" {% if campo == "comparecientes" %}selected{% endif %}>Comparecientes</option>
@@ -289,7 +569,7 @@
         </div>
 
         <div class="indices-filter-box">
-          <label for="anio"><strong>Año:</strong></label>
+          <label for="anio">Año</label>
           <select name="anio" id="anio" class="indices-select">
             <option value="">Todos</option>
             {% for a in anios %}
@@ -300,7 +580,7 @@
       </div>
 
       <div class="indices-tip">
-        Usa la búsqueda general o combina filtros para encontrar escrituras más fácilmente.
+        Usa la búsqueda general o combina filtros para encontrar escrituras de manera más rápida y ordenada.
       </div>
     </form>
 
@@ -316,7 +596,7 @@
             <tr>
               <th>COMPARECIENTES</th>
               <th>MATERIA</th>
-              <th>FECHA</th>
+              
               <th>N° REP.</th>
               <th>FOJA</th>
               <th>AÑO</th>
@@ -326,22 +606,26 @@
             {% if page_obj %}
               {% for item in page_obj %}
                 <tr>
-                    <td>{{ item.comparecientes }}</td>
+                  <td>
+                    <div class="indices-persona">{{ item.comparecientes }}</div>
+                  </td>
 
-                    <td>
-                        <strong>{{ item.acto }}</strong><br>
-                        <small>{{ item.objeto }}</small>
-                    </td>
+                  <td>
+                    <div class="indices-materia">
+                      <strong>{{ item.acto }}</strong>
+                      <small>{{ item.objeto }}</small>
+                    </div>
+                  </td>
 
-                    <td>{{ item.fecha|default:"—" }}</td>
-                    <td>{{ item.numero_repertorio }}</td>
-                    <td>{{ item.foja }}</td>
-                    <td>{{ item.anio }}</td>
+                  
+                  <td><span class="indices-chip">{{ item.numero_repertorio }}</span></td>
+                  <td><span class="indices-chip">{{ item.foja }}</span></td>
+                  <td><span class="indices-chip">{{ item.anio }}</span></td>
                 </tr>
               {% endfor %}
             {% else %}
               <tr>
-                <td colspan="6" class="indices-empty">No se encontraron registros.</td>
+                <td colspan="6" class="indices-empty">No se encontraron registros con los filtros aplicados.</td>
               </tr>
             {% endif %}
           </tbody>

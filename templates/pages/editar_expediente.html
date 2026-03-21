@@ -2,166 +2,339 @@
 
 {% block content %}
 <style>
-.editar-indice-page{
-  background:#f4f6fb;
-  min-height:calc(100vh - 140px);
-  padding:32px 20px;
-}
-
-.editar-indice-container{
-  max-width:1100px;
-  margin:0 auto;
-}
-
-.editar-indice-topbar{
-  background:#fff;
-  border-radius:18px;
-  padding:24px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.06);
-  margin-bottom:24px;
-}
-
-.editar-indice-topbar h1{
-  margin:0 0 8px;
-  font-size:30px;
-  color:#1a1a1a;
-}
-
-.editar-indice-topbar p{
-  margin:0;
-  color:#5f6b7a;
-  line-height:1.5;
-}
-
-.editar-indice-card{
-  background:#fff;
-  border-radius:18px;
-  padding:28px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.06);
-}
-
-.editar-form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-}
-
-.editar-form-grid p{
-  margin:0;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.editar-form-grid p label{
-  font-size:14px;
-  font-weight:700;
-  color:#334155;
-}
-
-.editar-form-grid p input,
-.editar-form-grid p textarea,
-.editar-form-grid p select{
-  width:100%;
-  border:1px solid #dbe3ef;
-  border-radius:12px;
-  padding:13px 14px;
-  font-size:14px;
-  color:#1f2937;
-  background:#fff;
-  box-sizing:border-box;
-}
-
-.editar-form-grid p textarea{
-  min-height:110px;
-  resize:vertical;
-}
-
-.editar-form-grid p input:focus,
-.editar-form-grid p textarea:focus,
-.editar-form-grid p select:focus{
-  outline:none;
-  border-color:#1f3c88;
-  box-shadow:0 0 0 4px rgba(31,60,136,0.10);
-}
-
-.editar-form-grid p:has(textarea){
-  grid-column:1 / -1;
-}
-
-.editar-actions{
-  margin-top:24px;
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-.panel-primary-btn{
-  display:inline-block;
-  background:#1f3c88;
-  color:#fff;
-  border:none;
-  border-radius:10px;
-  padding:12px 18px;
-  font-weight:700;
-  text-decoration:none;
-  cursor:pointer;
-}
-
-.panel-primary-btn:hover{
-  opacity:.92;
-}
-
-.panel-secondary-btn{
-  display:inline-block;
-  background:#eef2ff;
-  color:#1f3c88;
-  border-radius:10px;
-  padding:12px 18px;
-  font-weight:700;
-  text-decoration:none;
-}
-
-.helptext{
-  font-size:12px;
-  color:#64748b;
-}
-
-.errorlist{
-  margin:0;
-  padding-left:18px;
-  color:#b91c1c;
-  font-size:13px;
-}
-
-@media (max-width: 768px){
-  .editar-form-grid{
-    grid-template-columns:1fr;
+  .editar-indice-page{
+    background: linear-gradient(180deg, #f4f7fc 0%, #eef2f9 100%);
+    min-height: calc(100vh - 140px);
+    padding: 38px 20px 60px;
   }
-}
+
+  .editar-indice-container{
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .editar-indice-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+
+  .editar-indice-title-wrap{
+    flex: 1;
+    min-width: 260px;
+  }
+
+  .editar-indice-badge{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(31, 60, 136, 0.10);
+    color: #1f3c88;
+    border: 1px solid rgba(31, 60, 136, 0.12);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .editar-indice-title{
+    margin: 0 0 8px;
+    font-size: 32px;
+    line-height: 1.15;
+    color: #16213e;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .editar-indice-subtitle{
+    margin: 0;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 760px;
+  }
+
+  .editar-indice-back{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 0 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    border: 1px solid #dbe3ef;
+    background: #ffffff;
+    color: #1f3c88;
+    transition: all .2s ease;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  }
+
+  .editar-indice-back:hover{
+    transform: translateY(-1px);
+    border-color: #c7d3e5;
+    background: #f8fbff;
+  }
+
+  .editar-indice-card{
+    background: #ffffff;
+    border: 1px solid #e7edf6;
+    border-radius: 24px;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.07);
+    overflow: hidden;
+  }
+
+  .editar-indice-card-top{
+    padding: 22px 28px;
+    background: linear-gradient(135deg, #1f3c88 0%, #2748a0 100%);
+    color: #ffffff;
+  }
+
+  .editar-indice-card-top h2{
+    margin: 0 0 6px;
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .editar-indice-card-top p{
+    margin: 0;
+    font-size: 14px;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.5;
+  }
+
+  .editar-indice-card-body{
+    padding: 30px 28px 28px;
+  }
+
+  .editar-form-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 18px;
+  }
+
+  .editar-form-grid p{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .editar-form-grid p label{
+    font-size: 14px;
+    font-weight: 800;
+    color: #1e293b;
+    letter-spacing: 0.01em;
+  }
+
+  .editar-form-grid p input,
+  .editar-form-grid p textarea,
+  .editar-form-grid p select{
+    width: 100%;
+    border: 1px solid #d9e3f0;
+    border-radius: 14px;
+    padding: 14px 15px;
+    font-size: 14px;
+    color: #1f2937;
+    background: #fbfdff;
+    box-sizing: border-box;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+
+  .editar-form-grid p input:hover,
+  .editar-form-grid p textarea:hover,
+  .editar-form-grid p select:hover{
+    border-color: #c6d4e6;
+    background: #ffffff;
+  }
+
+  .editar-form-grid p input:focus,
+  .editar-form-grid p textarea:focus,
+  .editar-form-grid p select:focus{
+    outline: none;
+    border-color: #1f3c88;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(31, 60, 136, 0.10);
+  }
+
+  .editar-form-grid p textarea{
+    min-height: 150px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .editar-form-grid p:last-child,
+  .editar-form-grid p:has(textarea){
+    grid-column: 1 / -1;
+  }
+
+  .helptext{
+    font-size: 12px;
+    line-height: 1.5;
+    color: #64748b;
+    margin-top: 2px;
+  }
+
+  .errorlist{
+    margin: 0;
+    padding-left: 18px;
+    color: #b91c1c;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .editar-actions{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid #edf2f7;
+  }
+
+  .editar-actions-left{
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .editar-actions-note{
+    font-size: 13px;
+    color: #64748b;
+  }
+
+  .panel-primary-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 22px;
+    background: linear-gradient(135deg, #1f3c88 0%, #2748a0 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 12px 24px rgba(31, 60, 136, 0.20);
+    transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+  }
+
+  .panel-primary-btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 16px 28px rgba(31, 60, 136, 0.24);
+  }
+
+  .panel-secondary-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 20px;
+    background: #eef3ff;
+    color: #1f3c88;
+    border: 1px solid #d7e2fb;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all .2s ease;
+  }
+
+  .panel-secondary-btn:hover{
+    background: #e6edff;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 768px){
+    .editar-indice-page{
+      padding: 24px 14px 40px;
+    }
+
+    .editar-indice-title{
+      font-size: 26px;
+    }
+
+    .editar-indice-card-top,
+    .editar-indice-card-body{
+      padding: 20px 18px;
+    }
+
+    .editar-form-grid{
+      grid-template-columns: 1fr;
+    }
+
+    .editar-form-grid p:last-child,
+    .editar-form-grid p:has(textarea){
+      grid-column: auto;
+    }
+
+    .editar-actions{
+      align-items: stretch;
+    }
+
+    .editar-actions-left{
+      width: 100%;
+    }
+
+    .panel-primary-btn,
+    .panel-secondary-btn{
+      width: 100%;
+    }
+  }
 </style>
 
 <section class="editar-indice-page">
   <div class="editar-indice-container">
 
-    <div class="editar-indice-topbar">
-      <h1>{{ titulo }}</h1>
-      <p>Completa o modifica la información del índice. Los cambios se reflejarán en la consulta pública de índices.</p>
+    <div class="editar-indice-header">
+      <div class="editar-indice-title-wrap">
+        <span class="editar-indice-badge">Panel funcionario</span>
+        <h1 class="editar-indice-title">{{ titulo }}</h1>
+        <p class="editar-indice-subtitle">
+          Completa o modifica la información del índice. Los cambios se reflejarán en la consulta pública y permitirán mantener el estado del expediente actualizado.
+        </p>
+      </div>
+
+      <a href="{% url 'panel_funcionario' %}" class="editar-indice-back">
+        ← Volver al panel
+      </a>
     </div>
 
     <div class="editar-indice-card">
-      <form method="post">
-        {% csrf_token %}
+      <div class="editar-indice-card-top">
+        <h2>Información del expediente</h2>
+        <p>Revisa cuidadosamente los datos antes de guardar los cambios.</p>
+      </div>
 
-        <div class="editar-form-grid">
-          {{ form.as_p }}
-        </div>
+      <div class="editar-indice-card-body">
+        <form method="post">
+          {% csrf_token %}
 
-        <div class="editar-actions">
-          <button type="submit" class="panel-primary-btn">Guardar</button>
-          <a href="{% url 'gestion_indices' %}" class="panel-secondary-btn">Volver</a>
-        </div>
-      </form>
+          <div class="editar-form-grid">
+            {{ form.as_p }}
+          </div>
+
+          <div class="editar-actions">
+            <div class="editar-actions-left">
+              <button type="submit" class="panel-primary-btn">Guardar cambios</button>
+              <a href="{% url 'gestion_indices' %}" class="panel-secondary-btn">Cancelar</a>
+            </div>
+
+            <div class="editar-actions-note">
+              Los cambios se publican inmediatamente en la consulta de índices.
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
 
   </div>

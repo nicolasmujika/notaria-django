@@ -1,338 +1,504 @@
 {% extends "base.html" %}
+{% block title %}Escrituras Públicas{% endblock %}
+
 {% block content %}
 
 <style>
-  .ep-modern-page {
-    background: #f3f3f3;
-    min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #333;
+  .ep-page{
+    background:
+      radial-gradient(circle at top, rgba(37, 99, 235, 0.06), transparent 28%),
+      linear-gradient(180deg, #f4f7fc 0%, #eef3f9 100%);
+    min-height: calc(100vh - 120px);
+    padding: 42px 18px 60px;
   }
 
-  .ep-modern-banner {
-    background: #f5f5f5;
-    border-top: 1px solid #dcdcdc;
-    border-bottom: 1px solid #e7e7e7;
-    padding: 28px 0;
-  }
-
-  .ep-modern-container {
-    width: 90%;
-    max-width: 1200px;
+  .ep-wrap{
+    max-width: 1220px;
     margin: 0 auto;
   }
 
-  .ep-modern-banner h1 {
-    margin: 0 0 8px 0;
-    font-size: 52px;
-    font-weight: 400;
-    color: #111;
-  }
-
-  .ep-modern-breadcrumb {
-    font-size: 14px;
-    color: #888;
-  }
-
-  .ep-modern-breadcrumb a {
-    color: #0b84d8;
-    text-decoration: none;
-  }
-
-  .ep-modern-content {
-    padding: 45px 0 70px;
-  }
-
-  .ep-modern-explicacion {
-    margin-bottom: 50px;
-  }
-
-  .ep-modern-explicacion h2 {
-    font-size: 36px;
-    margin: 0 0 20px 0;
-    font-weight: 400;
-    color: #111;
-  }
-
-  .ep-modern-explicacion h2 strong {
-    font-weight: 700;
-  }
-
-  .ep-modern-explicacion p {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #666;
-    margin: 0 0 16px 0;
-    font-weight: 600;
-  }
-
-  .ep-highlight {
-    color: #0b84d8;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
-  .ep-modern-explicacion ul {
-    margin: 20px 0 20px 0;
-    padding-left: 22px;
-  }
-
-  .ep-modern-explicacion li {
-    margin-bottom: 10px;
-    color: #666;
-    font-size: 16px;
-    line-height: 1.7;
-    font-weight: 600;
-  }
-
-  .ep-section-title {
-    font-size: 32px;
-    margin: 40px 0 25px 0;
-    font-weight: 700;
-    color: #232f8c;
-    text-align: center;
-  }
-
-  .ep-modern-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
-  }
-
-  .ep-card {
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10);
+  .ep-hero{
+    background: linear-gradient(135deg, rgba(255,255,255,.98) 0%, rgba(247,250,255,.98) 100%);
+    border: 1px solid #e2eaf3;
+    border-radius: 26px;
+    padding: 34px 34px 28px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    margin-bottom: 26px;
+    position: relative;
     overflow: hidden;
-    border: 1px solid #e6e6e6;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .ep-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+  .ep-hero::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #1f3c88, #2563eb, #5b8cff);
   }
 
-  .ep-card-header {
-    padding: 26px 22px 18px;
-    text-align: center;
+  .ep-breadcrumb{
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 12px;
   }
 
-  .ep-card-icon {
-    font-size: 42px;
-    color: #232f8c;
+  .ep-breadcrumb a{
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .ep-hero h1{
+    margin: 0 0 10px;
+    font-size: 2.3rem;
+    line-height: 1.1;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .ep-hero p{
+    margin: 0;
+    max-width: 780px;
+    color: #5f6f86;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .ep-info-card{
+    background: #fff;
+    border: 1px solid #e3ebf5;
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+    margin-bottom: 26px;
+  }
+
+  .ep-info-head{
+    padding: 26px 28px 10px;
+  }
+
+  .ep-kicker{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eaf1ff;
+    color: #2554c7;
+    border: 1px solid #d8e5ff;
+    padding: 8px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
     margin-bottom: 14px;
   }
 
-  .ep-card-title {
-    font-size: 28px;
-    color: #232f8c;
-    margin: 0 0 10px 0;
-    font-weight: 700;
+  .ep-info-head h2{
+    margin: 0 0 8px;
+    font-size: 2rem;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
   }
 
-  .ep-card-short {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #666;
-    font-weight: 700;
-    min-height: 72px;
+  .ep-info-head p{
     margin: 0;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 15px;
   }
 
-  .ep-card-price-wrap {
+  .ep-info-body{
+    padding: 12px 28px 28px;
+  }
+
+  .ep-info-body p{
+    margin: 0 0 16px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #475569;
+  }
+
+  .ep-highlight{
+    color: #1d4ed8;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .ep-req-box{
+    margin-top: 20px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    border: 1px solid #dfe8f5;
+    border-radius: 18px;
+    padding: 20px 22px;
+  }
+
+  .ep-req-box h3{
+    margin: 0 0 14px;
+    font-size: 1.15rem;
+    color: #0f172a;
+    font-weight: 800;
+  }
+
+  .ep-req-box ul{
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  .ep-req-box li{
+    margin-bottom: 10px;
+    color: #475569;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .ep-cards-card{
+    background: #fff;
+    border: 1px solid #e3ebf5;
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+  }
+
+  .ep-cards-head{
+    padding: 26px 28px 10px;
+  }
+
+  .ep-cards-head h2{
+    margin: 0 0 8px;
+    font-size: 2rem;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .ep-cards-head p{
+    margin: 0;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .ep-grid{
+    padding: 18px 28px 28px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .ep-card{
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    border: 1px solid #dfe8f5;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+
+  .ep-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.10);
+    border-color: #d2def0;
+  }
+
+  .ep-card-header{
+    padding: 24px 22px 14px;
+    text-align: center;
+  }
+
+  .ep-card-icon{
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 14px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #eaf1ff 0%, #dfeaff 100%);
+    color: #1f3c88;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+  }
+
+  .ep-card-title{
+    font-size: 1.45rem;
+    color: #0f172a;
+    margin: 0 0 10px;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .ep-card-short{
+    font-size: 14px;
+    line-height: 1.65;
+    color: #64748b;
+    margin: 0;
+    min-height: 68px;
+  }
+
+  .ep-card-price-wrap{
     text-align: center;
     padding: 0 22px 18px;
   }
 
-  .ep-card-price {
+  .ep-card-price{
     display: inline-block;
-    background: #232f8c;
+    background: linear-gradient(135deg, #1f3c88 0%, #2563eb 100%);
     color: white;
     padding: 10px 18px;
     border-radius: 999px;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 800;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
   }
 
-  .ep-card-actions {
+  .ep-card-actions{
     padding: 0 22px 22px;
     text-align: center;
   }
 
-  .ep-card-btn {
+  .ep-card-btn{
     border: none;
-    background: #0b84d8;
-    color: white;
+    background: #eef4ff;
+    color: #1d4ed8;
     padding: 11px 18px;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 800;
+    transition: all .2s ease;
   }
 
-  .ep-card-btn:hover {
-    background: #086eb3;
+  .ep-card-btn:hover{
+    background: #dfeaff;
+    transform: translateY(-1px);
   }
 
-  .ep-card-detail {
+  .ep-card-detail{
     display: none;
-    padding: 0 22px 24px;
-    border-top: 1px solid #ececec;
-    background: #fafafa;
+    padding: 0 22px 22px;
+    border-top: 1px solid #e8eef6;
+    background: #ffffff;
   }
 
-  .ep-card.active .ep-card-detail {
+  .ep-card.active .ep-card-detail{
     display: block;
   }
 
-  .ep-card-detail p {
-    margin: 16px 0 0 0;
-    font-size: 15px;
+  .ep-card-detail p{
+    margin: 16px 0 0;
+    font-size: 14px;
     line-height: 1.8;
-    color: #666;
-    font-weight: 700;
+    color: #475569;
   }
 
-  .ep-note {
-    margin-top: 40px;
-    background: #ffffff;
-    border-left: 5px solid #232f8c;
-    padding: 20px 22px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  .ep-note{
+    margin: 22px 28px 28px;
+    background: linear-gradient(90deg, rgba(37,99,235,.08), rgba(37,99,235,.03));
+    border: 1px solid #dbe7ff;
+    border-left: 4px solid #2563eb;
+    border-radius: 16px;
+    padding: 18px 18px;
   }
 
-  .ep-note h3 {
-    margin: 0 0 10px 0;
-    font-size: 22px;
-    color: #111;
+  .ep-note h3{
+    margin: 0 0 8px;
+    font-size: 1.15rem;
+    color: #0f172a;
+    font-weight: 800;
   }
 
-  .ep-note p {
+  .ep-note p{
     margin: 0;
     font-size: 15px;
-    line-height: 1.8;
-    color: #666;
-    font-weight: 700;
+    line-height: 1.75;
+    color: #475569;
   }
 
-  @media (max-width: 768px) {
-    .ep-modern-banner h1 {
-      font-size: 38px;
+  .ep-empty{
+    padding: 18px 28px 28px;
+    color: #64748b;
+    font-size: 15px;
+  }
+
+  @media (max-width: 768px){
+    .ep-page{
+      padding: 24px 12px 40px;
     }
 
-    .ep-modern-explicacion h2 {
-      font-size: 30px;
+    .ep-hero{
+      padding: 24px 18px 20px;
+      border-radius: 20px;
     }
 
-    .ep-card-title {
-      font-size: 24px;
+    .ep-hero h1{
+      font-size: 1.9rem;
     }
 
-    .ep-section-title {
-      font-size: 28px;
+    .ep-info-head,
+    .ep-info-body,
+    .ep-cards-head,
+    .ep-grid{
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+
+    .ep-info-head h2,
+    .ep-cards-head h2{
+      font-size: 1.55rem;
+    }
+
+    .ep-note{
+      margin: 18px 18px 18px;
+    }
+
+    .ep-card-title{
+      font-size: 1.25rem;
     }
   }
 </style>
 
-<section class="ep-modern-page">
-  <div class="ep-modern-banner">
-    <div class="ep-modern-container">
-      <h1>Escrituras Públicas</h1>
-      <div class="ep-modern-breadcrumb">
-        <a href="/">Home</a> / <span>Escrituras Públicas</span>
+<section class="ep-page">
+  <div class="ep-wrap">
+
+    <div class="ep-hero">
+      <div class="ep-breadcrumb">
+        <a href="{% url 'home' %}">Home</a> / <span>Escrituras Públicas</span>
       </div>
-    </div>
-  </div>
-
-  <div class="ep-modern-container ep-modern-content">
-
-    <div class="ep-modern-explicacion">
-    
+      <h1>Escrituras Públicas</h1>
       <p>
-        La escritura pública está definida en el artículo 403 del Código Orgánico de Tribunales
-        como "el instrumento público o auténtico otorgado con las solemnidades legales que fija
-        esta ley, por el competente notario, e incorporada en su protocolo o registro público".
-      </p>
-
-      <p>
-        <span class="ep-highlight">Fecha de la escritura.-</span>
-        La fecha de la escritura es la que corresponde al día en que ha sido suscrita por el
-        primero de los otorgantes. En ese momento se incorpora a un Registro especial que recibe
-        el nombre de Repertorio, en el cual se le asigna un número correlativo anual.
-        (Art. 405 y 430 COT)
-      </p>
-
-      <p>
-        <span class="ep-highlight">Plazo para firmar.-</span>
-        Una vez que la escritura es suscrita por el primer otorgante, el resto de los comparecientes
-        deben suscribirla dentro de los 60 días siguientes. Si transcurre este plazo y ello no ocurre,
-        la escritura se deja sin efecto y carecerá de valor como tal.
-        (Art. 426 Nº 6 COT)
-      </p>
-
-      <p>
-        <span class="ep-highlight">Retiro de firma.-</span>
-        Sólo es posible efectuar el retiro de una firma puesta en una escritura hasta mientras no la haya
-        suscrito otro de los otorgantes. Luego, si ya existe firma alguna, carece de valor cualquier retiro.
-      </p>
-
-      <p>
-        <span class="ep-highlight">Firma a ruego.-</span>
-        Cuando una persona, o todos los otorgantes, no saben o no pueden firmar una escritura,
-        lo hará a su ruego un tercero que no tenga interés contrario, según el texto de la escritura.
-      </p>
-
-      <p>
-        <span class="ep-highlight">La protocolización.-</span>
-        Consiste en agregar o archivar un documento al final de un registro de notario a pedido
-        de quien lo solicita.
-        (Art. 415 COT)
-      </p>
-
-      <p>
-        <span class="ep-highlight">El testamento cerrado.-</span>
-        Una de las formas en que se puede otorgar testamento solemne es la de Testamento Cerrado.
-        Consiste en una actuación en que el testador entrega al notario un sobre cerrado en el cual
-        expresa que contiene su testamento, cumpliéndose además las solemnidades legales correspondientes.
-      </p>
-
-      <ul>
-        <li>Presentar cédula de identidad vigente.</li>
-        <li>Entregar nombres y apellidos completos.</li>
-        <li>Nacionalidad, estado civil, profesión y domicilio.</li>
-        <li>Ser mayores de edad, si son menores, deben comparecer en la forma que determina la ley para cada caso.</li>
-      </ul>
-
-      <p>
-        Los valores mostrados a continuación pueden dejarse como referenciales o ajustarse
-        según la tarifa vigente de la notaría.
+        Revisa información general sobre escrituras públicas, requisitos básicos y valores referenciales de los principales servicios disponibles en la notaría.
       </p>
     </div>
 
-    <h3 class="ep-section-title">Tipos de Escrituras y Valores</h3>
+    <section class="ep-info-card">
+      <div class="ep-info-head">
+        <div class="ep-kicker">Información general</div>
+        <h2>¿Qué es una escritura pública?</h2>
+        <p>
+          Es un instrumento público autorizado por notario conforme a las solemnidades legales y que se incorpora al protocolo o registro público correspondiente.
+        </p>
+      </div>
 
-    <div class="ep-modern-grid">
-      {% for servicio in servicios %}
-        <div class="ep-card">
-          <div class="ep-card-header">
-            <div class="ep-card-icon">📄</div>
-            <h3 class="ep-card-title">{{ servicio.nombre }}</h3>
-            <p class="ep-card-short"></p>
-          </div>
+      <div class="ep-info-body">
+        <p>
+          La escritura pública está definida en el artículo 403 del Código Orgánico de Tribunales como
+          "el instrumento público o auténtico otorgado con las solemnidades legales que fija esta ley,
+          por el competente notario, e incorporada en su protocolo o registro público".
+        </p>
 
-          <div class="ep-card-price-wrap">
-            <span class="ep-card-price">{{ servicio.valor }}</span>
-          </div>
+        <p>
+          <span class="ep-highlight">Fecha de la escritura.-</span>
+          La fecha de la escritura es la que corresponde al día en que ha sido suscrita por el primero de los otorgantes.
+          En ese momento se incorpora a un registro especial que recibe el nombre de repertorio, en el cual se le asigna un número correlativo anual.
+          (Art. 405 y 430 COT)
+        </p>
 
-          <div class="ep-card-actions">
-            <button class="ep-card-btn" type="button">Ver más</button>
-          </div>
+        <p>
+          <span class="ep-highlight">Plazo para firmar.-</span>
+          Una vez que la escritura es suscrita por el primer otorgante, el resto de los comparecientes deben suscribirla dentro de los 60 días siguientes.
+          Si transcurre este plazo y ello no ocurre, la escritura se deja sin efecto y carecerá de valor como tal.
+          (Art. 426 Nº 6 COT)
+        </p>
+
+        <p>
+          <span class="ep-highlight">Retiro de firma.-</span>
+          Sólo es posible efectuar el retiro de una firma puesta en una escritura hasta mientras no la haya suscrito otro de los otorgantes.
+          Luego, si ya existe firma alguna, carece de valor cualquier retiro.
+        </p>
+
+        <p>
+          <span class="ep-highlight">Firma a ruego.-</span>
+          Cuando una persona, o todos los otorgantes, no saben o no pueden firmar una escritura,
+          lo hará a su ruego un tercero que no tenga interés contrario, según el texto de la escritura.
+        </p>
+
+        <p>
+          <span class="ep-highlight">La protocolización.-</span>
+          Consiste en agregar o archivar un documento al final de un registro de notario a pedido de quien lo solicita.
+          (Art. 415 COT)
+        </p>
+
+        <p>
+          <span class="ep-highlight">El testamento cerrado.-</span>
+          Una de las formas en que se puede otorgar testamento solemne es la de testamento cerrado.
+          Consiste en una actuación en que el testador entrega al notario un sobre cerrado en el cual expresa que contiene su testamento,
+          cumpliéndose además las solemnidades legales correspondientes.
+        </p>
+
+        <div class="ep-req-box">
+          <h3>Requisitos generales</h3>
+          <ul>
+            <li>Presentar cédula de identidad vigente.</li>
+            <li>Entregar nombres y apellidos completos.</li>
+            <li>Indicar nacionalidad, estado civil, profesión y domicilio.</li>
+            <li>Ser mayores de edad o comparecer en la forma que la ley determine para cada caso.</li>
+          </ul>
         </div>
-      {% empty %}
-        <p>No hay valores cargados todavía.</p>
-      {% endfor %}
-    </div>
+      </div>
+    </section>
+
+    <section class="ep-cards-card">
+      <div class="ep-cards-head">
+        <div class="ep-kicker">Valores referenciales</div>
+        <h2>Tipos de Escrituras y Valores</h2>
+        <p>
+          Los siguientes valores pueden ser referenciales o ajustarse de acuerdo con la tarifa vigente de la notaría.
+        </p>
+      </div>
+
+      <div class="ep-grid">
+        {% for servicio in servicios %}
+          <div class="ep-card">
+            <div class="ep-card-header">
+              <div class="ep-card-icon">📄</div>
+              <h3 class="ep-card-title">{{ servicio.nombre }}</h3>
+              <p class="ep-card-short">
+                {% if servicio.descripcion_corta %}
+                  {{ servicio.descripcion_corta }}
+                {% else %}
+                  Revisa el valor referencial y la información asociada a este servicio notarial.
+                {% endif %}
+              </p>
+            </div>
+
+            <div class="ep-card-price-wrap">
+              <span class="ep-card-price">{{ servicio.valor }}</span>
+            </div>
+
+            <div class="ep-card-actions">
+              <button class="ep-card-btn" type="button">Ver más</button>
+            </div>
+
+            <div class="ep-card-detail">
+              <p>
+                {% if servicio.descripcion %}
+                  {{ servicio.descripcion }}
+                {% else %}
+                  Este servicio corresponde a una escritura pública gestionada en notaría. Para más detalles,
+                  requisitos específicos o coordinación previa, se recomienda consultar directamente.
+                {% endif %}
+              </p>
+            </div>
+          </div>
+        {% empty %}
+          <div class="ep-empty">
+            No hay valores cargados todavía.
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="ep-note">
+        <h3>Importante</h3>
+        <p>
+          Los valores publicados pueden variar según la complejidad del acto, los antecedentes entregados y los impuestos o gastos asociados.
+          Para una cotización exacta, se recomienda consultar directamente con la notaría.
+        </p>
+      </div>
+    </section>
 
   </div>
 </section>
@@ -360,4 +526,3 @@
 </script>
 
 {% endblock %}
-

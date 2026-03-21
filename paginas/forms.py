@@ -193,10 +193,12 @@ class RegistroUsuarioForm(forms.ModelForm):
         nombre_completo = self.cleaned_data["nombre_completo"].strip()
         partes = nombre_completo.split(" ", 1)
 
+        email = self.cleaned_data["email"].strip().lower()
+
         user.first_name = partes[0]
         user.last_name = partes[1] if len(partes) > 1 else ""
-        user.email = self.cleaned_data["email"]
-        user.username = self.cleaned_data["email"]
+        user.email = email
+        user.username = email
         user.set_password(self.cleaned_data["password1"])
 
         if commit:
@@ -290,3 +292,39 @@ class ValorServicioForm(forms.ModelForm):
             "descripcion_larga": forms.Textarea(attrs={"class": "gv-input", "rows": 6, "placeholder": "Texto más completo para el detalle"}),
             "orden": forms.NumberInput(attrs={"class": "gv-input", "min": "0"}),
         }
+
+class SolicitarRecuperacionForm(forms.Form):
+    email = forms.EmailField(
+        label="Correo electrónico",
+        widget=forms.EmailInput(attrs={"placeholder": "Ingresa tu correo"})
+    )
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+
+
+class VerificarCodigoRecuperacionForm(forms.Form):
+    codigo = forms.CharField(
+        max_length=6,
+        label="Código de verificación",
+        widget=forms.TextInput(attrs={"placeholder": "123456"})
+    )
+
+
+class RestablecerClaveForm(forms.Form):
+    password1 = forms.CharField(
+        label="Nueva contraseña",
+        widget=forms.PasswordInput(attrs={"placeholder": "Nueva contraseña"})
+    )
+    password2 = forms.CharField(
+        label="Confirmar nueva contraseña",
+        widget=forms.PasswordInput(attrs={"placeholder": "Confirmar nueva contraseña"})
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        p1 = cleaned_data.get("password1")
+        p2 = cleaned_data.get("password2")
+
+        if p1 and p2 and p1 != p2:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+
+        return cleaned_data

@@ -5,362 +5,500 @@
 {% block content %}
 
 <style>
-  .tc-top {
-    background: linear-gradient(to right, #f3f4f6, #fafafa);
-    border-top: 1px solid #e5e7eb;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 28px 0 30px;
-    margin: -2rem -1rem 2rem;
+  .tc-page{
+    background:
+      radial-gradient(circle at top, rgba(37, 99, 235, 0.06), transparent 28%),
+      linear-gradient(180deg, #f4f7fc 0%, #eef3f9 100%);
+    min-height: calc(100vh - 120px);
+    padding: 42px 18px 60px;
   }
 
-  .tc-top-inner {
-    max-width: 1120px;
+  .tc-wrap{
+    max-width: 1220px;
     margin: 0 auto;
-    padding: 0 16px;
   }
 
-  .tc-title {
-    font-size: 2.2rem;
-    line-height: 1.1;
-    color: #111827;
-    margin: 0 0 8px;
-    font-weight: 500;
+  .tc-hero{
+    background: linear-gradient(135deg, rgba(255,255,255,.98) 0%, rgba(247,250,255,.98) 100%);
+    border: 1px solid #e2eaf3;
+    border-radius: 26px;
+    padding: 34px 34px 28px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    margin-bottom: 26px;
+    position: relative;
+    overflow: hidden;
   }
 
-  .tc-breadcrumb {
-    font-size: 0.9rem;
-    color: #6b7280;
-  }
-
-  .tc-breadcrumb a {
-    color: #0284c7;
-    text-decoration: none;
-  }
-
-  .tc-layout {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 16px;
-    display: flex;
-    gap: 44px;
-    align-items: flex-start;
-  }
-
-  .tc-main {
-    flex: 1 1 auto;
-    max-width: 760px;
-  }
-
-  .tc-side {
-    width: 270px;
-    flex: 0 0 270px;
-  }
-
-  .tc-section-title {
-    font-size: 1.15rem;
-    color: #111827;
-    font-weight: 400;
-    margin: 0 0 18px;
-  }
-
-  .tc-item {
-    border: 1px solid #e5e7eb;
-    background: #f9fafb;
-    margin-bottom: 8px;
-  }
-
-  .tc-question {
+  .tc-hero::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
-    background: #f3f4f6;
+    height: 6px;
+    background: linear-gradient(90deg, #1f3c88, #2563eb, #5b8cff);
+  }
+
+  .tc-breadcrumb{
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 12px;
+  }
+
+  .tc-breadcrumb a{
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .tc-hero h1{
+    margin: 0 0 10px;
+    font-size: 2.3rem;
+    line-height: 1.1;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .tc-hero p{
+    margin: 0;
+    max-width: 760px;
+    color: #5f6f86;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .tc-layout{
+    display: grid;
+    grid-template-columns: minmax(0, 1.9fr) minmax(280px, 0.9fr);
+    gap: 28px;
+    align-items: start;
+  }
+
+  .tc-main-card,
+  .tc-side-card{
+    background: #fff;
+    border: 1px solid #e3ebf5;
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+  }
+
+  .tc-main-body{
+    padding: 28px;
+  }
+
+  .tc-section-kicker{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eaf1ff;
+    color: #2554c7;
+    border: 1px solid #d8e5ff;
+    padding: 8px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .tc-main-body h2{
+    margin: 0 0 10px;
+    color: #0f172a;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .tc-main-body > p{
+    margin: 0 0 24px;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .tc-list{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .tc-item{
+    border: 1px solid #dfe8f5;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all .2s ease;
+  }
+
+  .tc-item:hover{
+    border-color: #d2def0;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  }
+
+  .tc-question{
+    width: 100%;
+    background: transparent;
     border: 0;
-    padding: 14px 18px;
+    padding: 18px 20px;
     text-align: left;
-    font-size: 0.98rem;
-    font-weight: 700;
-    color: #6b7280;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #334155;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     cursor: pointer;
+    transition: all .2s ease;
   }
 
-  .tc-question:hover {
-    background: #e5e7eb;
+  .tc-question:hover{
+    background: rgba(37, 99, 235, 0.03);
   }
 
-  .tc-icon {
-    width: 20px;
-    height: 20px;
-    flex: 0 0 20px;
+  .tc-icon{
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #d1d5db;
-    color: #ffffff;
-    font-weight: 700;
-    line-height: 1;
+    background: #dbe5f4;
+    color: #1f3c88;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 16px;
+    transition: all .2s ease;
   }
 
-  .tc-answer {
+  .tc-text{
+    line-height: 1.45;
+  }
+
+  .tc-answer{
     display: none;
-    padding: 18px 18px 10px 50px;
+    padding: 0 20px 18px 62px;
     background: #ffffff;
-    color: #374151;
-    line-height: 1.55;
+    color: #475569;
+    line-height: 1.7;
     font-size: 0.96rem;
   }
 
-  .tc-item.open .tc-answer {
+  .tc-item.open .tc-answer{
     display: block;
   }
 
-  .tc-item.open .tc-question {
-    color: #0284c7;
+  .tc-item.open .tc-question{
+    color: #1d4ed8;
   }
 
-  .tc-item.open .tc-icon {
-    background: #0284c7;
+  .tc-item.open .tc-icon{
+    background: linear-gradient(135deg, #1f3c88 0%, #2563eb 100%);
+    color: #fff;
   }
 
   .tc-answer p,
-  .tc-answer li {
+  .tc-answer li{
     margin-bottom: 10px;
   }
 
   .tc-answer ol,
-  .tc-answer ul {
+  .tc-answer ul{
     padding-left: 18px;
     margin: 0;
   }
 
-  .tc-menu-title {
-    font-size: 1.1rem;
-    font-weight: 400;
-    color: #111827;
-    margin: 0 0 18px;
+  .tc-side-card{
+    padding: 22px;
   }
 
-  .tc-menu-title strong {
-    font-weight: 700;
+  .tc-side-card h3{
+    margin: 0 0 16px;
+    font-size: 1.35rem;
+    color: #0f172a;
+    font-weight: 900;
+    letter-spacing: -0.02em;
   }
 
-  .tc-menu {
+  .tc-side-list{
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  .tc-menu li {
-    margin-bottom: 10px;
+  .tc-side-list li + li{
+    margin-top: 10px;
   }
 
-  .tc-menu a {
-    color: #0284c7;
+  .tc-side-list a{
+    display: flex;
+    align-items: center;
+    gap: 10px;
     text-decoration: none;
-    font-size: 0.98rem;
+    color: #2563eb;
+    font-weight: 600;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    background: #f8fbff;
+    transition: all .2s ease;
   }
 
-  .tc-menu a::before {
+  .tc-side-list a::before{
     content: "›";
-    margin-right: 10px;
-    color: #0284c7;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 900;
+    color: #1f3c88;
   }
 
-  .tc-menu a:hover {
-    text-decoration: underline;
+  .tc-side-list a:hover{
+    background: #eef4ff;
+    border-color: #dbe6fb;
+    transform: translateX(2px);
   }
 
-  @media (max-width: 1024px) {
-    .tc-layout {
-      flex-direction: column;
+  .tc-side-list a.active{
+    background: linear-gradient(135deg, #1f3c88 0%, #2563eb 100%);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 12px 24px rgba(37,99,235,.16);
+  }
+
+  .tc-side-list a.active::before{
+    color: #fff;
+  }
+
+  @media (max-width: 980px){
+    .tc-layout{
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px){
+    .tc-page{
+      padding: 24px 12px 40px;
     }
 
-    .tc-main {
-      max-width: 100%;
+    .tc-hero{
+      padding: 24px 18px 20px;
+      border-radius: 20px;
     }
 
-    .tc-side {
-      width: 100%;
-      flex: 1 1 auto;
+    .tc-hero h1{
+      font-size: 1.9rem;
+    }
+
+    .tc-main-body{
+      padding: 20px 18px;
+    }
+
+    .tc-main-body h2{
+      font-size: 1.55rem;
+    }
+
+    .tc-question{
+      padding: 16px;
+      font-size: 0.95rem;
+    }
+
+    .tc-answer{
+      padding: 0 16px 16px 16px;
     }
   }
 </style>
 
-<section class="tc-top">
-  <div class="tc-top-inner">
-    <h1 class="tc-title">Trámites más Comunes</h1>
-    <div class="tc-breadcrumb">
-      <a href="{% url 'home' %}">Home</a> / Trámites más Comunes
+<section class="tc-page">
+  <div class="tc-wrap">
+
+    <div class="tc-hero">
+      <div class="tc-breadcrumb">
+        <a href="{% url 'home' %}">Home</a> / Trámites más Comunes
+      </div>
+      <h1>Trámites más Comunes</h1>
+      <p>
+        Revisa información clara sobre algunos de los trámites notariales más frecuentes, sus requisitos y consideraciones generales.
+      </p>
+    </div>
+
+    <div class="tc-layout">
+
+      <div class="tc-main-card">
+        <div class="tc-main-body">
+          <div class="tc-section-kicker">Información útil</div>
+          <h2>Trámites más Comunes en la Notaría</h2>
+          <p>
+            Aquí encontrarás respuestas e información general sobre autorizaciones, poderes, transferencias, compraventas y otros trámites habituales.
+          </p>
+
+          <div class="tc-list">
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">¿ CÓMO ACREDITA SU IDENTIDAD UN EXTRANJERO ?</span>
+              </button>
+              <div class="tc-answer">
+                <p>La identidad puede acreditarse con pasaporte vigente, cédula de identidad para extranjeros u otro documento oficialmente reconocido, según el trámite. En algunos casos se requiere además acreditar domicilio o situación migratoria.</p>
+              </div>
+            </div>
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">EL PROTESTO DE UNA LETRA O PAGARÉ</span>
+              </button>
+              <div class="tc-answer">
+                <p>El protesto es la actuación mediante la cual el notario deja constancia formal de la falta de pago, aceptación o fecha de una letra de cambio o pagaré, cumpliendo con las formalidades legales aplicables.</p>
+              </div>
+            </div>
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">¿ SALIDA DE MENORES DEL PAÍS ?</span>
+              </button>
+              <div class="tc-answer">
+                <p>Cuando corresponde, debe otorgarse autorización ante notario por parte del padre, madre o ambos, según la situación familiar. Se requiere cédula de identidad vigente y antecedentes del menor y del viaje.</p>
+              </div>
+            </div>
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">IMPUESTOS DE TIMBRES EN PAGARÉS BANCARIOS</span>
+              </button>
+              <div class="tc-answer">
+                <p>Los pagarés pueden encontrarse afectos al impuesto de timbres y estampillas, según el monto, naturaleza de la operación y normativa vigente. Se recomienda revisar el caso concreto antes de firmar.</p>
+              </div>
+            </div>
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">JURISPRUDENCIA SOBRE LA FIRMA "AUTORIZO DE"</span>
+              </button>
+              <div class="tc-answer">
+                <p>La expresión “autorizo” en materia notarial tiene un sentido técnico y jurídico preciso. Su uso y alcance dependen del tipo de actuación y de la legislación aplicable al instrumento respectivo.</p>
+              </div>
+            </div>
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">TRANSFERENCIA SOBRE VEHÍCULOS MOTORIZADOS</span>
+              </button>
+              <div class="tc-answer">
+                <ul>
+                  <li>Cédula de identidad vigente de comprador y vendedor.</li>
+                  <li>Padrón del vehículo.</li>
+                  <li>Certificado de anotaciones vigentes, cuando corresponda.</li>
+                  <li>Pago de impuesto o documentación exigida para la transferencia.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">PROMESA DE COMPRAVENTA</span>
+              </button>
+              <div class="tc-answer">
+                <p>La promesa de compraventa puede requerir escritura pública o instrumento autorizado, según el caso. Es importante definir claramente precio, plazo, condiciones y antecedentes del bien o derecho comprometido.</p>
+              </div>
+            </div>
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">LA COMPRAVENTA DE UN BIEN RAÍZ</span>
+              </button>
+              <div class="tc-answer">
+                <ul>
+                  <li>Antecedentes de dominio del inmueble.</li>
+                  <li>Certificado de dominio vigente.</li>
+                  <li>Certificado de hipotecas y gravámenes.</li>
+                  <li>Certificados municipales o tributarios aplicables.</li>
+                  <li>Redacción de minuta o borrador con los términos del contrato.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">EL PODER GENERAL</span>
+              </button>
+              <div class="tc-answer">
+                <p>Permite otorgar facultades amplias a otra persona para actuar en nombre del mandante. Debe precisarse con claridad el alcance del poder y las limitaciones que se quieran establecer.</p>
+              </div>
+            </div>
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">EL MANDATO ESPECIAL</span>
+              </button>
+              <div class="tc-answer">
+                <p>Se utiliza cuando se quiere facultar a una persona para realizar uno o más actos específicos. Es recomendable individualizar de forma precisa las facultades otorgadas.</p>
+              </div>
+            </div>
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">LA REVOCACIÓN DEL MANDATO</span>
+              </button>
+              <div class="tc-answer">
+                <p>El mandato puede revocarse en la forma legal correspondiente. Dependiendo del instrumento original, puede ser necesario otorgar escritura pública y notificar a terceros interesados.</p>
+              </div>
+            </div>
+
+            <div class="tc-item">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">+</span>
+                <span class="tc-text">LA GUARDA DE DOCUMENTOS Y LAS LLAMADAS "CARTA DE INSTRUCCIONES"</span>
+              </button>
+              <div class="tc-answer">
+                <p>En ciertos casos la notaría puede recibir documentos o instrucciones conforme a las normas aplicables, dejando constancia del depósito o de las condiciones de entrega establecidas por las partes.</p>
+              </div>
+            </div>
+
+            <div class="tc-item open">
+              <button class="tc-question" type="button">
+                <span class="tc-icon">−</span>
+                <span class="tc-text">DOCUMENTOS OTORGADOS EN EL EXTRANJERO</span>
+              </button>
+              <div class="tc-answer">
+                <p>Los documentos emitidos en el extranjero pueden requerir traducción, legalización o apostilla, y en algunos casos protocolización, según el trámite específico y la normativa chilena vigente.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <aside class="tc-side-card">
+        <h3>Menú principal</h3>
+        <ul class="tc-side-list">
+          <li><a href="{% url 'home' %}">Página Principal</a></li>
+          <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
+          <li><a href="{% url 'horario_atencion' %}">Horario de Atención</a></li>
+          <li><a href="{% url 'preguntas_frecuentes' %}">Preguntas más Frecuentes</a></li>
+          <li><a href="{% url 'servicios_notariales' %}">Servicios Notariales</a></li>
+          <li><a href="{% url 'escrituras_publicas' %}">Escrituras Públicas</a></li>
+          <li><a href="{% url 'solicitud_escrituras' %}">Solicitud de Escrituras Públicas</a></li>
+          <li><a href="{% url 'seguimiento_escrituras' %}">Seguimiento WEB de Escrituras</a></li>
+          
+          <li><a href="{% url 'tramites_comunes' %}" class="active">Trámites más Comunes</a></li>
+          
+          <li><a href="{% url 'contact' %}">Contáctenos</a></li>
+        </ul>
+      </aside>
+
     </div>
   </div>
-</section>
-
-<section class="tc-layout">
-
-  <div class="tc-main">
-    <h2 class="tc-section-title">Trámites más Comunes en la Notaría</h2>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        ¿ CÓMO ACREDITA SU IDENTIDAD UN EXTRANJERO ?
-      </button>
-      <div class="tc-answer">
-        <p>La identidad puede acreditarse con pasaporte vigente, cédula de identidad para extranjeros u otro documento oficialmente reconocido, según el trámite. En algunos casos se requiere además acreditar domicilio o situación migratoria.</p>
-      </div>
-    </div>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        EL PROTESTO DE UNA LETRA O PAGARÉ
-      </button>
-      <div class="tc-answer">
-        <p>El protesto es la actuación mediante la cual el notario deja constancia formal de la falta de pago, aceptación o fecha de una letra de cambio o pagaré, cumpliendo con las formalidades legales aplicables.</p>
-      </div>
-    </div>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        ¿ SALIDA DE MENORES DEL PAÍS ?
-      </button>
-      <div class="tc-answer">
-        <p>Cuando corresponde, debe otorgarse autorización ante notario por parte del padre, madre o ambos, según la situación familiar. Se requiere cédula de identidad vigente y antecedentes del menor y del viaje.</p>
-      </div>
-    </div>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        IMPUESTOS DE TIMBRES EN PAGARÉS BANCARIOS
-      </button>
-      <div class="tc-answer">
-        <p>Los pagarés pueden encontrarse afectos al impuesto de timbres y estampillas, según el monto, naturaleza de la operación y normativa vigente. Se recomienda revisar el caso concreto antes de firmar.</p>
-      </div>
-    </div>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        JURISPRUDENCIA SOBRE LA FIRMA "AUTORIZO DE"
-      </button>
-      <div class="tc-answer">
-        <p>La expresión “autorizo” en materia notarial tiene un sentido técnico y jurídico preciso. Su uso y alcance dependen del tipo de actuación y de la legislación aplicable al instrumento respectivo.</p>
-      </div>
-    </div>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        TRANSFERENCIA SOBRE VEHÍCULOS MOTORIZADOS
-      </button>
-      <div class="tc-answer">
-        <ul>
-          <li>Cédula de identidad vigente de comprador y vendedor.</li>
-          <li>Padrón del vehículo.</li>
-          <li>Certificado de anotaciones vigentes, cuando corresponda.</li>
-          <li>Pago de impuesto o documentación exigida para la transferencia.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        PROMESA DE COMPRAVENTA
-      </button>
-      <div class="tc-answer">
-        <p>La promesa de compraventa puede requerir escritura pública o instrumento autorizado, según el caso. Es importante definir claramente precio, plazo, condiciones y antecedentes del bien o derecho comprometido.</p>
-      </div>
-    </div>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        LA COMPRAVENTA DE UN BIEN RAÍZ
-      </button>
-      <div class="tc-answer">
-        <ul>
-          <li>Antecedentes de dominio del inmueble.</li>
-          <li>Certificado de dominio vigente.</li>
-          <li>Certificado de hipotecas y gravámenes.</li>
-          <li>Certificados municipales o tributarios aplicables.</li>
-          <li>Redacción de minuta o borrador con los términos del contrato.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        EL PODER GENERAL
-      </button>
-      <div class="tc-answer">
-        <p>Permite otorgar facultades amplias a otra persona para actuar en nombre del mandante. Debe precisarse con claridad el alcance del poder y las limitaciones que se quieran establecer.</p>
-      </div>
-    </div>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        EL MANDATO ESPECIAL
-      </button>
-      <div class="tc-answer">
-        <p>Se utiliza cuando se quiere facultar a una persona para realizar uno o más actos específicos. Es recomendable individualizar de forma precisa las facultades otorgadas.</p>
-      </div>
-    </div>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        LA REVOCACIÓN DEL MANDATO
-      </button>
-      <div class="tc-answer">
-        <p>El mandato puede revocarse en la forma legal correspondiente. Dependiendo del instrumento original, puede ser necesario otorgar escritura pública y notificar a terceros interesados.</p>
-      </div>
-    </div>
-
-    <div class="tc-item">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">+</span>
-        LA GUARDA DE DOCUMENTOS Y LAS LLAMADAS "CARTA DE INSTRUCCIONES"
-      </button>
-      <div class="tc-answer">
-        <p>En ciertos casos la notaría puede recibir documentos o instrucciones conforme a las normas aplicables, dejando constancia del depósito o de las condiciones de entrega establecidas por las partes.</p>
-      </div>
-    </div>
-
-    <div class="tc-item open">
-      <button class="tc-question" type="button">
-        <span class="tc-icon">−</span>
-        DOCUMENTOS OTORGADOS EN EL EXTRANJERO
-      </button>
-      <div class="tc-answer">
-        <p>Los documentos emitidos en el extranjero pueden requerir traducción, legalización o apostilla, y en algunos casos protocolización, según el trámite específico y la normativa chilena vigente.</p>
-      </div>
-    </div>
-  </div>
-
-  <aside class="tc-side">
-    <h3 class="tc-menu-title">Menú <strong>Principal</strong></h3>
-    <ul class="tc-menu">
-      <li><a href="{% url 'home' %}">Página Principal</a></li>
-      <li><a href="{% url 'quienes_somos' %}">Quiénes Somos</a></li>
-      <li><a href="{% url 'horario_atencion' %}">Horario de Atención</a></li>
-      <li><a href="{% url 'preguntas_frecuentes' %}">Preguntas más Frecuentes</a></li>
-      <li><a href="{% url 'servicios_notariales' %}">Servicios Notariales</a></li>
-      <li><a href="{% url 'escrituras_publicas' %}">Escrituras Públicas</a></li>
-      <li><a href="{% url 'solicitud_escrituras' %}">Solicitud de Escrituras Públicas</a></li>
-      <li><a href="{% url 'seguimiento_escrituras' %}">Seguimiento WEB de Escrituras</a></li>
-      <li><a href="{% url 'validar_documentos' %}">Validar Documentos</a></li>
-      <li><a href="{% url 'tramites_comunes' %}">Trámites más Comunes</a></li>
-      <li><a href="{% url 'notaria_en_linea' %}">Notaría en Línea</a></li>
-      <li><a href="{% url 'contact' %}">Contáctenos</a></li>
-    </ul>
-  </aside>
-
 </section>
 
 <script>
