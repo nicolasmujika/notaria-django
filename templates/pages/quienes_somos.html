@@ -1,151 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/servicios.css' %}">
+{% endblock %}
 {% block title %}Quiénes Somos - Notaría Felipe Velasquez{% endblock %}
 
 {% block content %}
-
-<style>
-  .qs-wrap {
-    display: flex;
-    gap: 48px;
-    align-items: flex-start;
-  }
-
-  .qs-photo {
-    width: 40%;
-    min-width: 320px;
-  }
-
-  .qs-photo img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-    border: 1px solid #d1d5db;
-  }
-
-  .qs-content {
-    flex: 1;
-    color: #111827;
-  }
-
-  .qs-title {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 24px;
-    color: #111827;
-  }
-
-  .qs-subtitle {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 28px 0 12px;
-    color: #111827;
-  }
-
-  .qs-content p {
-    font-size: 1rem;
-    line-height: 1.45;
-    margin-bottom: 18px;
-    text-align: justify;
-  }
-
-  .qs-list {
-    margin: 10px 0 18px 0;
-    padding-left: 0;
-    list-style: none;
-  }
-
-  .qs-list li {
-    margin-bottom: 10px;
-    padding-left: 22px;
-    position: relative;
-  }
-
-  .qs-list li::before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: #16a34a;
-    font-weight: 700;
-  }
-
-  @media (max-width: 1024px) {
-    .qs-wrap {
-      flex-direction: column;
-    }
-
-    .qs-photo {
-      width: 100%;
-      min-width: unset;
-    }
-  }
-
-  .equipo-notaria {
-  margin-top: 80px;
-}
-
-.equipo-title {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.equipo-subtitle {
-  text-align: center;
-  color: #6b7280;
-  margin-bottom: 40px;
-}
-
-.equipo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
-  gap: 32px;
-}
-
-.equipo-card {
-  text-align: center;
-  border: 1px solid #e5e7eb;
-  padding: 24px;
-  border-radius: 6px;
-  background: white;
-  transition: 0.2s;
-}
-
-.equipo-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-}
-
-.equipo-card img {
-  width: 80px;
-  height: 80px;
-  margin: auto;
-  margin-bottom: 12px;
-}
-
-.equipo-card h3 {
-  font-size: 1.05rem;
-  font-weight: 600;
-}
-
-.equipo-card .cargo {
-  display: block;
-  color: #0f4c81;
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-
-</style>
 
 <section class="qs-wrap">
 
   <!-- IMAGEN IZQUIERDA -->
   <div class="qs-photo">
-    <img src="{% static 'img/quienes-somos.png' %}" alt="Entrada de la notaría">
+    <img src="{% static 'img/doc-priv1.jpg' %}" alt="Entrada de la notaría">
   </div>
 
   <!-- TEXTO DERECHA -->
