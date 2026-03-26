@@ -112,4 +112,12 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
+  document.querySelectorAll('.cbr-card-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.cbr-card');
+      card.classList.toggle('active');
+      btn.textContent = card.classList.contains('active') ? 'Ver menos' : 'Ver más';
+    });
+  });
+
 

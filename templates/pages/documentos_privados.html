@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/servicios.css' %}">
+<link rel="stylesheet" href="{% static 'css/documentos_privados_v2.css' %}">
 {% endblock %}
 {% block content %}
-
 <section class="dp-page">
   <div class="dp-hero">
     <div class="dp-container">
@@ -65,80 +66,110 @@
       </div>
     </div>
 
-    <div class="dp-types">
-  <h2>Tipos de Actuaciones y Valores</h2>
+      <div class="dpriv-grid">
+        {% for servicio in servicios %}
+          <article class="dpriv-card">
+            <div class="dpriv-card-top">
+              <div class="dpriv-icon-wrap">
+                <i class="fa-solid fa-file-lines"></i>
+              </div>
+              <h3>{{ servicio.nombre }}</h3>
+              <p>
+                {% if servicio.descripcion_corta %}
+                  {{ servicio.descripcion_corta }}
+                {% else %}
+                  Documento privado disponible para solicitud y revisión general.
+                {% endif %}
+              </p>
+            </div>
 
-  <div class="dp-grid">
+            <div class="dpriv-price-row">
+              {% if servicio.mostrar_valor %}
+                <span class="dpriv-price-pill">{{ servicio.valor }}</span>
+              {% endif %}
+            </div>
 
-    <div class="dp-card dp-card-expand">
-      <div class="icon">
-        <i class="fa-solid fa-car-side icon-servicio"></i>
+            <div class="dpriv-actions">
+              <button class="dpriv-btn dpriv-btn-toggle" type="button">Ver más</button>
+
+              <a
+                href="{% url 'solicitud_escrituras' %}?area=notaria&tramite={{ servicio.tramite_codigo|default:'otros_notaria'|urlencode }}&descripcion={{ servicio.descripcion_corta|default:''|urlencode }}"
+                class="dpriv-btn dpriv-btn-main"
+              >
+                Solicitar
+              </a>
+            </div>
+
+            <div class="dpriv-detail">
+              <p>
+                {% if servicio.descripcion_larga %}
+                  {{ servicio.descripcion_larga }}
+                {% elif servicio.descripcion %}
+                  {{ servicio.descripcion }}
+                {% else %}
+                  Para más información sobre este documento privado, requisitos y antecedentes,
+                  se recomienda consultar directamente con la notaría.
+                {% endif %}
+              </p>
+            </div>
+          </article>
+        {% empty %}
+          <div class="ep-empty">
+            No hay valores cargados todavía.
+          </div>
+        {% endfor %}
       </div>
-      <h3>Compraventa de Vehículos</h3>
-      <p class="dp-card-price-text">$XXXX + imp.</p>
-      <button class="dp-toggle-btn" type="button">Ver más</button>
-      <div class="dp-card-detail">
-        <p>
-          Contrato privado para la transferencia de dominio de un vehículo..
-        </p>
-      </div>
+    </section>
+
+    <div class="dp-cta">
+      <p>¿Necesitas orientación sobre un documento privado?</p>
+      <a href="{% url 'solicitud_escrituras' %}?area=notaria&tramite=otros_notaria">Iniciar Solicitud</a>
     </div>
-
-    <div class="dp-card dp-card-expand">
-      <div class="icon">
-        <i class="fa-solid fa-plane-departure icon-servicio"></i>
-      </div>      
-      <h3>Autorizaciones de Viaje</h3>
-      <p class="dp-card-price-text">$XXXX + imp.</p>
-      <button class="dp-toggle-btn" type="button">Ver más</button>
-      <div class="dp-card-detail">
-        <p>
-          Documento requerido para autorizar la salida del país de un menor de edad,
-          o permitir determinados traslados cuando corresponde formalizar dicha autorización.
-        </p>
-      </div>
-    </div>
-
-    <div class="dp-card dp-card-expand">
-      <div class="icon">
-        <i class="fa-solid fa-scale-balanced icon-servicio"></i>
-      </div>      
-      <h3>Declaraciones Juradas</h3>
-      <p class="dp-card-price-text">$XXXX + imp.</p>
-      <button class="dp-toggle-btn" type="button">Ver más</button>
-      <div class="dp-card-detail">
-        <p>
-          Instrumento en que una persona declara formalmente un hecho o situación bajo juramento,
-          para distintos fines administrativos, personales o legales.
-        </p>
-      </div>
-    </div>
-
-    <div class="dp-card dp-card-expand">
-      <div class="icon">
-        <i class="fa-solid fa-file-signature icon-servicio"></i>
-      </div>
-      <h3>Cartas Poder</h3>
-      <p class="dp-card-price-text">$XXXX + imp.</p>
-      <button class="dp-toggle-btn" type="button">Ver más</button>
-      <div class="dp-card-detail">
-        <p>
-          Documento mediante el cual una persona autoriza a otra para actuar en su nombre
-          en gestiones determinadas, según las facultades expresamente indicadas.
-        </p>
-      </div>
-    </div>
-
   </div>
-</div>
-
-<div class="dp-cta">
-  <p>¿Necesitas legalizar un documento privado?</p>
-  <a href="{% url 'contact' %}">Agendar Hora</a>
-</div>
+</section>
 
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/servicios.js' %}"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const solicitudBaseUrl = "{% url 'solicitud_escrituras' %}";
+
+    document.querySelectorAll(".dp-solicitar-trigger").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const area = this.dataset.area || "notaria";
+        const tramite = this.dataset.tramite || "otros_notaria";
+        const descripcion = this.dataset.descripcion || "";
+
+        const params = new URLSearchParams({
+          area: area,
+          tramite: tramite,
+          descripcion: descripcion
+        });
+
+        window.location.href = `${solicitudBaseUrl}?${params.toString()}`;
+      });
+    });
+
+    document.querySelectorAll(".dpriv-btn-toggle").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const card = this.closest(".dpriv-card");
+        const abierto = card.classList.contains("is-open");
+
+        document.querySelectorAll(".dpriv-card").forEach((item) => {
+          item.classList.remove("is-open");
+          const boton = item.querySelector(".dpriv-btn-toggle");
+          if (boton) boton.textContent = "Ver más";
+        });
+
+        if (!abierto) {
+          card.classList.add("is-open");
+          this.textContent = "Ver menos";
+        }
+      });
+    });
+  });
+</script>
 {% endblock %}

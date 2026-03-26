@@ -1,360 +1,474 @@
-   .home-page {
-    background: #f4f4f4;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #333;
-    padding-top: 24px;
-  }
+.home-page {
+  background: #f4f4f4;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333;
+  padding-top: 24px;
+}
 
-  .home-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+.home-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-  .home-hero {
-    position: relative;
-    min-height: 480px;
-    background:
-        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-        url("/static/img/alto.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    }
+/* HERO SLIDER */
+.home-hero-slider {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
 
-  .home-hero-content {
-    max-width: 800px;
-    padding: 40px 20px;
-  }
+.heroSwiper .swiper-wrapper {
+  align-items: stretch;
+}
 
+.heroSwiper .swiper-slide {
+  width: 100% !important;
+  height: auto;
+  display: block;
+}
+
+.home-hero {
+  position: relative;
+  min-height: 480px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+.hero-slide {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-slide-1 {
+  background:
+    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+    url("/static/img/alto.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-slide-2 {
+  background:
+    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+    url("/static/img/dos.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-slide-3 {
+  background:
+    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+    url("/static/img/3.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.home-hero-content {
+  max-width: 900px;
+  width: 100%;
+  padding: 40px 32px 72px;
+  position: relative;
+  z-index: 2;
+}
+
+.home-hero h1 {
+  margin: 0 0 16px;
+  font-size: 54px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.home-hero p {
+  margin: 0 auto 28px;
+  font-size: 20px;
+  line-height: 1.6;
+  max-width: 760px;
+}
+
+.home-btn {
+  display: inline-block;
+  background: #1f4ea3;
+  color: #fff;
+  text-decoration: none;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.home-btn:hover {
+  background: #173d81;
+  transform: translateY(-1px);
+}
+
+.hero-pagination {
+  bottom: 18px !important;
+}
+
+.hero-pagination .swiper-pagination-bullet {
+  background: rgba(255,255,255,0.75);
+  opacity: 1;
+}
+
+.hero-pagination .swiper-pagination-bullet-active {
+  background: #ffffff;
+}
+
+.heroSwiper .hero-button-prev,
+.heroSwiper .hero-button-next {
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+}
+
+.heroSwiper .hero-button-prev {
+  left: 18px;
+}
+
+.heroSwiper .hero-button-next {
+  right: 18px;
+}
+
+.heroSwiper .hero-button-prev::after,
+.heroSwiper .hero-button-next::after {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* SECCIONES GENERALES */
+.home-section {
+  padding: 64px 0;
+}
+
+.home-section-title {
+  text-align: center;
+  font-size: 36px;
+  color: #1f2f86;
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+
+.home-section-subtitle {
+  text-align: center;
+  color: #5f6b7a;
+  font-size: 17px;
+  margin: 0 auto 34px;
+  max-width: 760px;
+  line-height: 1.7;
+}
+
+.home-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.home-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.home-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+  padding: 28px 24px;
+  height: 100%;
+}
+
+.home-news-card h3,
+.home-service-card h3,
+.home-info-card h3 {
+  margin: 0 0 14px;
+  font-size: 22px;
+  color: #1f2f86;
+}
+
+.home-news-card p,
+.home-service-card p,
+.home-info-card p,
+.home-about-text p {
+  margin: 0 0 14px;
+  color: #5a6573;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.home-link {
+  color: #1f4ea3;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.home-link:hover {
+  text-decoration: underline;
+}
+
+/* ABOUT */
+.home-about-wrap {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 30px;
+  align-items: center;
+}
+
+.home-about-image {
+  min-height: 360px;
+  border-radius: 16px;
+  background:
+    linear-gradient(rgba(31,47,134,0.15), rgba(31,47,134,0.15)),
+    url("/static/img/notario1.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.home-about-text .home-section-title,
+.home-online .home-section-title,
+.home-contact .home-section-title {
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+/* SERVICIOS */
+.home-services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.home-service-card {
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home-service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+}
+
+.home-service-icon {
+  font-size: 42px;
+  color: #1f2f86;
+  margin-bottom: 14px;
+  line-height: 1;
+}
+
+/* BLOQUE ONLINE */
+.home-online {
+  background: #eaf3fb;
+}
+
+.home-online-box {
+  background: #fff;
+  border-left: 5px solid #1f2f86;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+  padding: 28px 24px;
+}
+
+/* HORARIO */
+.home-schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 28px;
+}
+
+.home-schedule-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+  padding: 24px 20px;
+  text-align: center;
+}
+
+.home-schedule-card h4 {
+  margin: 0 0 10px;
+  color: #1f2f86;
+  font-size: 20px;
+}
+
+.home-schedule-card p {
+  margin: 0;
+  color: #5a6573;
+  line-height: 1.7;
+}
+
+/* CONTACTO */
+.home-contact-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.home-map iframe {
+  width: 100%;
+  min-height: 360px;
+  border: 0;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+}
+
+/* LINKS DE INTERÉS */
+.links-interes {
+  padding: 48px 0 56px;
+  background: #f5f6fa;
+  text-align: center;
+}
+
+.links-interes h2 {
+  font-size: 36px;
+  color: #1f2f86;
+  margin: 0 0 26px;
+  font-weight: 700;
+}
+
+.mySwiper {
+  padding: 0 44px;
+  overflow: hidden;
+}
+
+.mySwiper .swiper-wrapper {
+  align-items: stretch;
+}
+
+.mySwiper .swiper-slide {
+  height: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.card-link {
+  width: 100%;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.card-link img {
+  width: 100%;
+  max-width: 110px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.card-link p {
+  margin-top: auto;
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+}
+
+.mySwiper .swiper-button-next,
+.mySwiper .swiper-button-prev {
+  color: #1f2f86;
+  width: 34px;
+  height: 34px;
+  top: 58%;
+  z-index: 20;
+}
+
+.mySwiper .swiper-button-next::after,
+.mySwiper .swiper-button-prev::after {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
   .home-hero h1 {
-    margin: 0 0 16px;
-    font-size: 54px;
-    font-weight: 700;
-    line-height: 1.1;
+    font-size: 42px;
   }
 
-  .home-hero p {
-    margin: 0 auto 28px;
-    font-size: 20px;
-    line-height: 1.6;
-    max-width: 720px;
-  }
-
-  .home-btn {
-    display: inline-block;
-    background: #1f4ea3;
-    color: #fff;
-    text-decoration: none;
-    padding: 14px 28px;
-    border-radius: 999px;
-    font-size: 16px;
-    font-weight: 700;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-  }
-
-  .home-btn:hover {
-    background: #173d81;
-  }
-
-  .home-section {
-    padding: 64px 0;
-  }
-
-  .home-section-title {
-    text-align: center;
-    font-size: 36px;
-    color: #1f2f86;
-    margin: 0 0 14px;
-    font-weight: 700;
-  }
-
-  .home-section-subtitle {
-    text-align: center;
-    color: #5f6b7a;
-    font-size: 17px;
-    margin: 0 auto 34px;
-    max-width: 760px;
-    line-height: 1.7;
-  }
-
-  .home-grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  .home-grid-2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 28px;
-  }
-
-  .home-card {
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-    padding: 28px 24px;
-    height: 100%;
-  }
-
-  .home-news-card h3,
-  .home-service-card h3,
-  .home-info-card h3 {
-    margin: 0 0 14px;
-    font-size: 22px;
-    color: #1f2f86;
-  }
-
-  .home-news-card p,
-  .home-service-card p,
-  .home-info-card p,
-  .home-about-text p {
-    margin: 0 0 14px;
-    color: #5a6573;
-    font-size: 16px;
-    line-height: 1.7;
-  }
-
-  .home-link {
-    color: #1f4ea3;
-    text-decoration: none;
-    font-weight: 700;
-  }
-
-  .home-link:hover {
-    text-decoration: underline;
-  }
-
+  .home-grid-3,
+  .home-grid-2,
+  .home-services-grid,
+  .home-schedule-grid,
+  .home-contact-grid,
   .home-about-wrap {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 30px;
-    align-items: center;
+    grid-template-columns: 1fr;
   }
 
   .home-about-image {
-    min-height: 360px;
-    border-radius: 16px;
-    background:
-        linear-gradient(rgba(31,47,134,0.15), rgba(31,47,134,0.15)),
-        url("/static/img/notario1.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    }
+    min-height: 280px;
+  }
 
   .home-about-text .home-section-title,
   .home-online .home-section-title,
   .home-contact .home-section-title {
-    text-align: left;
-    margin-bottom: 16px;
-  }
-
-  .home-services-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 22px;
-  }
-
-  .home-service-card {
-    text-align: center;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .home-service-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.14);
-  }
-
-  .home-service-icon {
-    font-size: 42px;
-    color: #1f2f86;
-    margin-bottom: 14px;
-    line-height: 1;
-  }
-
-  .home-online {
-    background: #eaf3fb;
-  }
-
-  .home-online-box {
-    background: #fff;
-    border-left: 5px solid #1f2f86;
-    border-radius: 12px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-    padding: 28px 24px;
-  }
-
-  .home-schedule-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
-    margin-top: 28px;
-  }
-
-  .home-schedule-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.10);
-    padding: 24px 20px;
     text-align: center;
   }
 
-  .home-schedule-card h4 {
-    margin: 0 0 10px;
-    color: #1f2f86;
-    font-size: 20px;
+  .hero-button-prev,
+  .hero-button-next {
+    display: none;
   }
+}
 
-  .home-schedule-card p {
-    margin: 0;
-    color: #5a6573;
-    line-height: 1.7;
-  }
-
-  .home-contact-grid {
-    display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: 28px;
-    align-items: stretch;
-  }
-
-  .home-map iframe {
-    width: 100%;
-    min-height: 360px;
-    border: 0;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-  }
-
-  .links-interes {
-    padding: 48px 0 56px;
-    background: #f5f6fa;
-    text-align: center;
-  }
-
+@media (max-width: 576px) {
   .links-interes h2 {
-    font-size: 36px;
-    color: #1f2f86;
-    margin: 0 0 26px;
-    font-weight: 700;
+    font-size: 30px;
   }
 
   .mySwiper {
-    padding: 0 44px;
-    overflow: hidden;
-  }
-
-  .swiper-wrapper {
-    align-items: stretch;
-  }
-
-  .swiper-slide {
-    height: auto;
-    display: flex;
-    justify-content: center;
+    padding: 0 36px;
   }
 
   .card-link {
-    width: 100%;
-    background: #fff;
-    border-radius: 16px;
-    padding: 20px 16px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-    min-height: 170px; /* 👈 todas iguales */
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* 👈 clave */
-    align-items: center;
-    text-align: center;
+    min-height: 150px;
+    padding: 18px 12px;
   }
 
   .card-link img {
-    width: 100%;
-    max-width: 110px;
-    height: 70px; /* 👈 todas las imágenes mismo alto */
-    object-fit: contain;
-    margin-bottom: 10px;
+    max-width: 105px;
+    height: 50px;
   }
 
-  .card-link p {
-    margin-top: auto; /* 👈 empuja el texto abajo */
-    font-weight: 600;
-    color: #374151;
-    font-size: 14px;
+  .home-hero {
+    min-height: 420px;
   }
 
-  .swiper-button-next,
-  .swiper-button-prev {
-    color: #1f2f86;
-    width: 34px;
-    height: 34px;
-    top: 58%;
-    z-index: 20;
+  .home-hero-content {
+    padding: 30px 18px 60px;
   }
 
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
-    font-size: 20px;
-    font-weight: 700;
+  .home-hero h1 {
+    font-size: 34px;
   }
 
-  @media (max-width: 992px) {
-    .home-hero h1 {
-      font-size: 42px;
-    }
-
-    .home-grid-3,
-    .home-grid-2,
-    .home-services-grid,
-    .home-schedule-grid,
-    .home-contact-grid,
-    .home-about-wrap {
-      grid-template-columns: 1fr;
-    }
-
-    .home-about-image {
-      min-height: 280px;
-    }
-
-    .home-about-text .home-section-title,
-    .home-online .home-section-title,
-    .home-contact .home-section-title {
-      text-align: center;
-    }
-
+  .home-hero p {
+    font-size: 17px;
   }
-
-  @media (max-width: 576px) {
-    .links-interes h2 {
-      font-size: 30px;
-    }
-
-    .mySwiper {
-      padding: 0 36px;
-    }
-
-    .card-link {
-      min-height: 150px;
-      padding: 18px 12px;
-    }
-
-    .card-link img {
-      max-width: 105px;
-      height: 50px;
-    }
-  }
-
-    
+}

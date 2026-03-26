@@ -11,15 +11,51 @@
 
 <div class="home-page">
 
-  <section class="home-hero">
-    <div class="home-hero-content">
-      <h1>Seguridad jurídica y atención cercana para tus trámites notariales</h1>
-      <p>
-        Atención eficiente para personas y empresas, con acceso a servicios notariales,
-        escrituras públicas y documentos privados.
-      </p>
-      <a href="{% url 'contact' %}" class="home-btn">Contáctenos</a>
+  <section class="home-hero-slider swiper heroSwiper">
+    <div class="swiper-wrapper">
+
+      <div class="swiper-slide">
+        <div class="home-hero hero-slide hero-slide-1">
+          <div class="home-hero-content">
+            <h1>Seguridad jurídica y atención cercana para tus trámites notariales</h1>
+            <p>
+              Atención eficiente para personas y empresas, con acceso a servicios notariales,
+              escrituras públicas y documentos privados.
+            </p>
+            <a href="{% url 'contact' %}" class="home-btn">Contáctenos</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="home-hero hero-slide hero-slide-2">
+          <div class="home-hero-content">
+            <h1>Solicita tu escritura pública de forma simple y rápida</h1>
+            <p>
+              Inicia tu solicitud en línea y recibe orientación clara para avanzar con tu trámite.
+            </p>
+            <a href="{% url 'solicitud_escrituras' %}" class="home-btn">Solicitar escritura</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="home-hero hero-slide hero-slide-3">
+          <div class="home-hero-content">
+            <h1>Consulta índices y encuentra información más rápido</h1>
+            <p>
+              Accede a la sección de índices para revisar información de manera ordenada y simple.
+            </p>
+            <a href="{% url 'indices_escrituras' %}" class="home-btn">Ver índices</a>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+    <div class="hero-pagination swiper-pagination"></div>
+    <div class="hero-button-prev swiper-button-prev"></div>
+    <div class="hero-button-next swiper-button-next"></div>
   </section>
 
   <section class="links-interes">
@@ -99,7 +135,7 @@
           <p>
             En nuestra Notaría sabemos que el tiempo de cada persona es importante. Por eso, buscamos entregar un servicio ágil, claro y cercano, apoyado en herramientas de gestión que permitan atender de mejor forma los requerimientos de la comunidad y disminuir los tiempos de espera en los distintos trámites notariales.
           </p>
-          
+
           <a href="{% url 'quienes_somos' %}" class="home-btn">Más sobre nosotros</a>
         </div>
 
@@ -111,7 +147,6 @@
   <section class="home-section">
     <div class="home-container">
       <h2 class="home-section-title">Servicios Principales</h2>
-      
 
       <div class="home-services-grid">
         <a href="{% url 'servicios_notariales' %}" class="home-card home-service-card">
@@ -144,7 +179,7 @@
   <section class="home-section">
     <div class="home-container">
       <h2 class="home-section-title">Horario de Atención</h2>
-      
+
       <div class="home-schedule-grid">
         <div class="home-schedule-card">
           <h4>Mesón</h4>
@@ -183,12 +218,12 @@
 
         <div class="home-map">
           <iframe
-              src="https://www.google.com/maps?q=-28.7602469,-70.4863608&hl=es&z=17&output=embed"
-              width="100%"
-              height="360"
-              style="border:0;"
-              allowfullscreen=""
-              loading="lazy">
+            src="https://www.google.com/maps?q=-28.7602469,-70.4863608&hl=es&z=17&output=embed"
+            width="100%"
+            height="360"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy">
           </iframe>
         </div>
       </div>
@@ -197,7 +232,6 @@
 
 </div>
 {% endblock %}
-
 
 {% block extra_js %}
 <script src="{% static 'js/home.js' %}"></script>

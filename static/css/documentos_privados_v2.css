@@ -1,0 +1,266 @@
+/* =========================================================
+   DOCUMENTOS PRIVADOS V2
+   SOLO PARA ESTA PÁGINA / CARDS NUEVAS
+   ========================================================= */
+
+.dpriv-section{
+  margin-top: 34px;
+  background: #ffffff;
+  border: 1px solid #e2eaf3;
+  border-radius: 26px;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
+.dpriv-head{
+  padding: 28px 30px 14px;
+}
+
+.dpriv-badge{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #1d4ed8;
+  border: 1px solid #dbe7ff;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.dpriv-head h2{
+  margin: 0 0 8px;
+  font-size: 2rem;
+  line-height: 1.15;
+  color: #0f172a;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.dpriv-head p{
+  margin: 0;
+  max-width: 760px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #64748b;
+}
+
+.dpriv-grid{
+  padding: 18px 30px 30px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.dpriv-card{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  border: 1px solid #dbe6f2;
+  border-radius: 22px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  overflow: hidden;
+}
+
+.dpriv-card:hover{
+  transform: translateY(-4px);
+  border-color: #cfddee;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.09);
+}
+
+.dpriv-card-top{
+  padding: 20px 18px 12px;
+}
+
+.dpriv-icon-wrap{
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #edf3ff 0%, #dfe9ff 100%);
+  color: #6b7bb3;
+  font-size: 24px;
+}
+
+.dpriv-card-top h3{
+  margin: 0 0 12px;
+  color: #081a44;
+  font-size: 0.95rem;
+  line-height: 1.25;
+  font-weight: 900;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dpriv-card-top p{
+  margin: 0;
+  color: #66758b;
+  font-size: 13px;
+  line-height: 1.7;
+  min-height: 60px;
+}
+
+.dpriv-price-row{
+  padding: 0 24px 18px;
+  text-align: center;
+}
+
+.dpriv-price-pill{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2448a6 0%, #2f61dd 100%);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 900;
+  box-shadow: 0 10px 22px rgba(47, 97, 221, 0.22);
+}
+
+.dpriv-actions{
+  padding: 0 24px 22px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dpriv-btn{
+  appearance: none;
+  border: none;
+  outline: none;
+  min-width: 95px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease, color .18s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.dpriv-btn:hover{
+  transform: translateY(-1px);
+}
+
+.dpriv-btn-toggle{
+  background: #eef3ff;
+  color: #2454d3;
+  box-shadow: inset 0 0 0 1px #e3ebff;
+}
+
+.dpriv-btn-toggle:hover{
+  background: #e4edff;
+}
+
+.dpriv-btn-main{
+  background: #eef3ff;
+  color: #2454d3;
+  box-shadow: inset 0 0 0 1px #e3ebff;
+}
+
+.dpriv-btn-main:hover{
+  background: #e4edff;
+}
+
+.dpriv-detail{
+  display: none;
+  margin-top: auto;
+  padding: 18px 24px 22px;
+  background: #ffffff;
+  border-top: 1px solid #edf2f8;
+}
+
+.dpriv-card.is-open .dpriv-detail{
+  display: block;
+}
+
+.dpriv-detail p{
+  margin: 0;
+  text-align: center;
+  color: #526274;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 1100px){
+  .dpriv-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px){
+  .dpriv-head{
+    padding: 22px 18px 10px;
+  }
+
+  .dpriv-head h2{
+    font-size: 1.6rem;
+  }
+
+  .dpriv-head p{
+    font-size: 14px;
+  }
+
+  .dpriv-grid{
+    grid-template-columns: 1fr;
+    padding: 16px 18px 20px;
+    gap: 16px;
+  }
+
+  .dpriv-card-top{
+    padding: 22px 18px 14px;
+  }
+
+  .dpriv-card-top h3{
+    min-height: auto;
+    font-size: 1.2rem;
+  }
+
+  .dpriv-card-top p{
+    min-height: auto;
+  }
+
+  .dpriv-price-row{
+    padding: 0 18px 16px;
+  }
+
+  .dpriv-actions{
+    padding: 0 18px 18px;
+  }
+
+  .dpriv-detail{
+    padding: 16px 18px 18px;
+  }
+}
+
+@media (max-width: 480px){
+  .dpriv-actions{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dpriv-btn{
+    width: 100%;
+    max-width: 220px;
+  }
+}

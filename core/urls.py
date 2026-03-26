@@ -67,5 +67,7 @@ urlpatterns = [
     path("olvide-clave/", views.olvide_clave, name="olvide_clave"),
     path("verificar-codigo-recuperacion/<int:user_id>/", views.verificar_codigo_recuperacion, name="verificar_codigo_recuperacion"),
     path("restablecer-clave/", views.restablecer_clave, name="restablecer_clave"),
+
+    path("servicios-cbr/", views.servicios_cbr, name="servicios_cbr"),
     
 ]

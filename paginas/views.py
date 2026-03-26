@@ -111,6 +111,22 @@ def escrituras_publicas(request):
         activo=True
     ).order_by("orden", "nombre")
 
+    mapa_tramites = {
+        "compraventa": "compraventa",
+        "alzamiento": "alzamiento",
+        "mutuo": "mutuo",
+        "hipoteca": "hipoteca",
+        "prenda": "prenda",
+        "resciliacion": "resciliacion",
+        "resciliación": "resciliacion",
+        "poder": "poder",
+        "arrendamiento": "arrendamiento",
+    }
+
+    for servicio in servicios:
+        nombre_normalizado = servicio.nombre.strip().lower()
+        servicio.tramite_codigo = mapa_tramites.get(nombre_normalizado, "otros_notaria")
+
     return render(request, "pages/escrituras_publicas.html", {
         "servicios": servicios,
     })
@@ -119,35 +135,25 @@ def solicitud_escrituras(request):
     if request.method == "POST":
         form = SolicitudEscrituraForm(request.POST)
         if form.is_valid():
-            obj = form.save()
-
-            # cuerpo del correo para la notaría
-            body = (
-                f"Nueva solicitud de escritura (ID {obj.id}):\n\n"
-                f"Nombre: {obj.nombre_completo}\n"
-                f"Email: {obj.email}\n"
-                f"Teléfono: {obj.telefono}\n"
-                f"Tipo de escritura: {obj.get_tipo_escritura_display()}\n\n"
-                f"Descripción:\n{obj.descripcion}\n"
-            )
-
-            send_mail(
-                subject=f"[Solicitud Escritura] {obj.get_tipo_escritura_display()}",
-                message=body,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.CONTACT_RECIPIENT],
-                fail_silently=False,
-            )
-
-            messages.success(
-                request,
-                "Tu solicitud fue enviada correctamente. Nos pondremos en contacto contigo."
-            )
+            form.save()
+            messages.success(request, "Tu solicitud fue enviada correctamente.")
             return redirect("solicitud_escrituras")
     else:
-        form = SolicitudEscrituraForm()
+        area = request.GET.get("area", "")
+        tramite = request.GET.get("tramite", "")
+        descripcion = request.GET.get("descripcion", "")
 
-    return render(request, "pages/solicitud_escrituras.html", {"form": form})
+        initial = {
+            "area": area,
+            "tipo_escritura": tramite,
+            "descripcion": descripcion,
+        }
+
+        form = SolicitudEscrituraForm(initial=initial)
+
+    return render(request, "pages/solicitud_escrituras.html", {
+        "form": form,
+    })
 
 
 def validar_documentos(request):
@@ -177,7 +183,7 @@ def documentos_privados(request):
     ).order_by("orden", "nombre")
 
     return render(request, "pages/documentos_privados.html", {
-        "servicios": servicios,
+        "servicios": servicios
     })
 
 def seguimiento_escrituras(request):
@@ -709,6 +715,16 @@ def enviar_codigo_recuperacion(destinatario, codigo):
         fail_silently=False,
     )
 
+def servicios_cbr(request):
+    servicios = ValorServicio.objects.filter(
+        categoria="Servicios CBR",
+        activo=True
+    ).order_by("orden", "nombre")
+
+    return render(request, "pages/servicios_cbr.html", {
+        "servicios": servicios
+    })
+
 def olvide_clave(request):
     if request.method == "POST":
         form = SolicitarRecuperacionForm(request.POST)
@@ -834,3 +850,5 @@ def restablecer_clave(request):
         form = RestablecerClaveForm()
 
     return render(request, "pages/restablecer_clave.html", {"form": form})
+
+

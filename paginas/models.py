@@ -134,30 +134,61 @@ class Expediente(models.Model):
 
 
 class SolicitudEscritura(models.Model):
+    AREA_CHOICES = [
+        ("notaria", "Notaría"),
+        ("conservador", "Conservador"),
+    ]
+
     TIPO_CHOICES = [
+        # Notaría
         ("compraventa", "Compraventa"),
         ("poder", "Poder"),
         ("arrendamiento", "Arrendamiento"),
-        ("otros", "Otro tipo de escritura"),
+        ("alzamiento", "Alzamiento"),
+        ("mutuo", "Mutuo"),
+        ("hipoteca", "Hipoteca"),
+        ("prenda", "Prenda"),
+        ("resciliacion", "Resciliación"),
+        ("otros_notaria", "Otro trámite notarial"),
+
+        # Conservador
+        ("inscripcion_dominio", "Inscripción de dominio"),
+        ("hipotecas_gravamenes", "Hipotecas y gravámenes"),
+        ("interdicciones_prohibiciones", "Interdicciones y prohibiciones"),
+        ("certificados", "Certificados"),
+        ("archivo_documentos", "Archivo de documentos"),
+        ("copias_inscripciones", "Copias de inscripciones"),
+        ("otros_conservador", "Otro trámite de conservador"),
     ]
 
     nombre_completo = models.CharField(max_length=200)
     email = models.EmailField()
     telefono = models.CharField(max_length=20, blank=True)
-    tipo_escritura = models.CharField(max_length=50, choices=TIPO_CHOICES)
+
+    area = models.CharField(
+        max_length=20,
+        choices=AREA_CHOICES,
+        default="notaria"
+    )
+
+    tipo_escritura = models.CharField(
+        max_length=50,
+        choices=TIPO_CHOICES
+    )
+
     descripcion = models.TextField(
-        help_text="Describe brevemente el motivo o antecedentes de la escritura."
+        help_text="Describe brevemente el motivo o antecedentes del trámite."
     )
 
     creado_en = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = "Solicitud de Escritura"
-        verbose_name_plural = "Solicitudes de Escrituras"
+        verbose_name = "Solicitud de Trámite"
+        verbose_name_plural = "Solicitudes de Trámites"
         ordering = ["-creado_en"]
 
     def __str__(self):
-        return f"{self.nombre_completo} - {self.get_tipo_escritura_display()}"
+        return f"{self.nombre_completo} - {self.get_area_display()} - {self.get_tipo_escritura_display()}"
     
 class PerfilUsuario(models.Model):
     TIPO_CHOICES = [
@@ -210,8 +241,10 @@ class ValorServicio(models.Model):
     valor = models.CharField(max_length=100)
     descripcion_corta = models.TextField(blank=True, default="")
     descripcion_larga = models.TextField(blank=True, default="")
+    tramite_codigo = models.CharField(max_length=50, blank=True, default="")
     orden = models.PositiveIntegerField(default=0)
     activo = models.BooleanField(default=True)
+    mostrar_valor = models.BooleanField(default=True)
     actualizado_en = models.DateTimeField(auto_now=True)
 
     class Meta:

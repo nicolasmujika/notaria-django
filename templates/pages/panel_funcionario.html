@@ -134,8 +134,8 @@
         <!-- Solicitudes recientes -->
         <section class="panel-block" id="solicitudes">
             <div class="panel-block-header">
-                <h2>Solicitudes de escrituras</h2>
-                <p>Solicitudes enviadas desde el formulario web</p>
+                <h2>Solicitudes de trámites</h2>
+                <p>Solicitudes enviadas desde el formulario web para Notaría y Conservador</p>
             </div>
 
             <div class="panel-table-wrap">
@@ -145,6 +145,7 @@
                     <th>Fecha</th>
                     <th>Nombre</th>
                     <th>Email</th>
+                    <th>Área</th>
                     <th>Tipo</th>
                     <th>Estado</th>
                     <th>Acción</th>
@@ -161,6 +162,8 @@
                         <td>{{ solicitud.nombre_completo }}</td>
 
                         <td>{{ solicitud.email }}</td>
+
+                        <td>{{ solicitud.get_area_display }}</td>
 
                         <td>{{ solicitud.get_tipo_escritura_display }}</td>
 

@@ -1,75 +1,180 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/editar_indice.css' %}?v=1">
+{% endblock %}
 
 {% block content %}
+<section class="ei-page">
+  <div class="ei-wrap">
+    <div class="ei-header">
+      <div class="ei-badge">Índices notariales</div>
+      <h1 class="ei-title">{{ titulo }}</h1>
+      <p class="ei-subtitle">
+        Completa o modifica la información del índice. Los cambios se reflejarán
+        en la consulta pública del sitio.
+      </p>
+    </div>
 
-<section class="indice-form-page">
-  <div class="indice-form-container">
-
-    <aside class="panel-sidebar">
-      <div class="panel-sidebar-header">
-        <h2>Panel Funcionario</h2>
-        <p>Gestión interna notarial</p>
+    <div class="ei-card">
+      <div class="ei-card-top">
+        <h2>Formulario de índice</h2>
+        <p>Ingresa la información principal y los datos de archivo del registro.</p>
       </div>
 
-      <nav class="panel-sidebar-nav">
-        <a href="{% url 'panel_funcionario' %}" class="panel-nav-link">
-          <span>🏠</span>
-          <span>Inicio</span>
-        </a>
+      <form method="post" class="ei-form" novalidate>
+        {% csrf_token %}
 
-        <a href="{% url 'panel_funcionario' %}#solicitudes" class="panel-nav-link">
-          <span>📝</span>
-          <span>Solicitudes de escrituras</span>
-        </a>
+        {% if form.non_field_errors %}
+          <div class="ei-alert">
+            {% for error in form.non_field_errors %}
+              <div>{{ error }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
 
-        <a href="{% url 'panel_funcionario' %}#expedientes" class="panel-nav-link">
-          <span>📁</span>
-          <span>Expedientes</span>
-        </a>
+        <div class="ei-section-title">Información principal</div>
 
-        <a href="{% url 'gestion_indices' %}" class="panel-nav-link active">
-          <span>📚</span>
-          <span>Gestionar índices</span>
-        </a>
-
-        <a href="{% url 'seguimiento_escrituras' %}" class="panel-nav-link">
-          <span>🔎</span>
-          <span>Consulta seguimiento</span>
-        </a>
-      </nav>
-    </aside>
-
-    <main class="indice-form-main">
-      <div class="indice-form-topbar">
-        <h1>{{ titulo }}</h1>
-        <p>Completa o modifica la información del índice. Los cambios se reflejarán en la consulta pública del sitio.</p>
-      </div>
-
-      <div class="indice-form-card">
-        <form method="post">
-          {% csrf_token %}
-
-          <div class="indice-form-grid">
-            {{ form.as_p }}
+        <div class="ei-grid">
+          <div class="ei-field ei-field-full">
+            <label class="ei-label" for="{{ form.comparecientes.id_for_label }}">
+              Comparecientes
+            </label>
+            {{ form.comparecientes }}
+            <small class="ei-help">
+              Ingresa los nombres principales tal como quieres que aparezcan en la búsqueda.
+            </small>
+            {% if form.comparecientes.errors %}
+              <ul class="ei-errors">
+                {% for error in form.comparecientes.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
           </div>
 
-          <div class="indice-form-note">
-            Usa este formulario para mantener ordenados los registros del índice. Si no existe fecha exacta, puedes dejarla vacía y usar solo el año.
+          <div class="ei-field">
+            <label class="ei-label" for="{{ form.materia.id_for_label }}">
+              Materia
+            </label>
+            {{ form.materia }}
+            {% if form.materia.errors %}
+              <ul class="ei-errors">
+                {% for error in form.materia.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
           </div>
 
-          <div class="indice-form-actions">
-            <div class="indice-form-actions-left">
-              <a href="{% url 'gestion_indices' %}" class="panel-secondary-btn">Volver al listado</a>
-            </div>
-
-            <div class="indice-form-actions-right">
-              <button type="submit" class="panel-primary-btn">Guardar</button>
-            </div>
+          <div class="ei-field">
+            <label class="ei-label" for="{{ form.acto.id_for_label }}">
+              Acto
+            </label>
+            {{ form.acto }}
+            {% if form.acto.errors %}
+              <ul class="ei-errors">
+                {% for error in form.acto.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
           </div>
-        </form>
-      </div>
-    </main>
 
+          <div class="ei-field ei-field-full">
+            <label class="ei-label" for="{{ form.objeto.id_for_label }}">
+              Objeto / antecedente
+            </label>
+            {{ form.objeto }}
+            <small class="ei-help">
+              Resume el objeto del acto o el antecedente más importante.
+            </small>
+            {% if form.objeto.errors %}
+              <ul class="ei-errors">
+                {% for error in form.objeto.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="ei-section-title ei-section-title-space">Datos de archivo</div>
+
+        <div class="ei-grid ei-grid-compact">
+          <div class="ei-field">
+            <label class="ei-label" for="{{ form.fecha.id_for_label }}">
+              Fecha
+            </label>
+            {{ form.fecha }}
+            {% if form.fecha.errors %}
+              <ul class="ei-errors">
+                {% for error in form.fecha.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="ei-field">
+            <label class="ei-label" for="{{ form.numero_repertorio.id_for_label }}">
+              Número repertorio
+            </label>
+            {{ form.numero_repertorio }}
+            {% if form.numero_repertorio.errors %}
+              <ul class="ei-errors">
+                {% for error in form.numero_repertorio.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="ei-field">
+            <label class="ei-label" for="{{ form.foja.id_for_label }}">
+              Foja
+            </label>
+            {{ form.foja }}
+            {% if form.foja.errors %}
+              <ul class="ei-errors">
+                {% for error in form.foja.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="ei-field">
+            <label class="ei-label" for="{{ form.anio.id_for_label }}">
+              Año
+            </label>
+            {{ form.anio }}
+            {% if form.anio.errors %}
+              <ul class="ei-errors">
+                {% for error in form.anio.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="ei-note">
+          Usa este formulario para mantener ordenados los registros del índice.
+          Si no existe fecha exacta, puedes dejarla vacía y usar solo el año.
+        </div>
+
+        <div class="ei-actions">
+          <a href="{% url 'gestion_indices' %}" class="ei-btn ei-btn-secondary">
+            Volver al listado
+          </a>
+          <button type="submit" class="ei-btn ei-btn-primary">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </section>
 {% endblock %}

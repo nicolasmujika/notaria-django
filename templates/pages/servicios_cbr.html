@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/servicios.css' %}?v=2">
+{% endblock %}
+
+{% block title %}Servicios CBR{% endblock %}
+
+{% block content %}
+<section class="cbr-page">
+  <div class="cbr-wrap">
+
+    <div class="cbr-hero">
+      <div class="cbr-breadcrumb">
+        <a href="{% url 'home' %}">Home</a> / <span>Servicios CBR</span>
+      </div>
+      <h1>Servicios del Conservador</h1>
+      <p>
+        Información general sobre los principales trámites del Conservador,
+        junto con orientaciones básicas para su revisión y solicitud.
+      </p>
+    </div>
+
+    <section class="cbr-info-card">
+      <div class="cbr-info-head">
+        <div class="cbr-kicker">Información general</div>
+        <h2>¿Qué trámites realiza el Conservador?</h2>
+        <p>
+          El Conservador lleva registros y certificaciones vinculadas a bienes raíces, comercio,
+          minas y aguas, permitiendo inscripciones, archivo de documentos, emisión de copias
+          y certificados conforme a la normativa vigente.
+        </p>
+      </div>
+
+      <div class="cbr-info-body">
+        <p>
+          Dentro de sus funciones se encuentran las inscripciones de dominio, hipotecas,
+          gravámenes, interdicciones, prohibiciones, certificados y copias de documentos archivados.
+        </p>
+
+        <div class="cbr-materias">
+          <h3>Materias principales</h3>
+
+          <div class="cbr-materias-grid">
+            <div class="cbr-materia-item">
+              <i class="fa-solid fa-building"></i>
+              <span>Bienes raíces</span>
+            </div>
+
+            <div class="cbr-materia-item">
+              <i class="fa-solid fa-briefcase"></i>
+              <span>Comercio</span>
+            </div>
+
+            <div class="cbr-materia-item">
+              <i class="fa-solid fa-hill-rockslide"></i>
+              <span>Minas</span>
+            </div>
+
+            <div class="cbr-materia-item">
+              <i class="fa-solid fa-droplet"></i>
+              <span>Aguas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cbr-cards-card">
+      <div class="cbr-cards-head">
+        <div class="cbr-kicker">Trámites CBR</div>
+        <h2>Servicios disponibles</h2>
+        <p>
+          Revisa los principales trámites del Conservador. Cada uno incluye una descripción general.
+        </p>
+      </div>
+
+      <div class="cbr-grid">
+        {% for servicio in servicios %}
+          <div class="cbr-card">
+            <div class="cbr-card-header">
+              <div class="cbr-card-icon"><i class="fa-solid fa-file-lines"></i></div>
+              <h3 class="cbr-card-title">{{ servicio.nombre }}</h3>
+              <p class="cbr-card-short">
+                {% if servicio.descripcion_corta %}
+                  {{ servicio.descripcion_corta }}
+                {% else %}
+                  Trámite disponible en el Conservador.
+                {% endif %}
+              </p>
+            </div>
+
+            {% if servicio.valor and servicio.mostrar_valor %}
+            <div class="ep-card-price-wrap" style="margin-bottom: 16px;">
+                <span class="ep-card-price">{{ servicio.valor }}</span>
+            </div>
+            {% endif %}
+
+            <div class="cbr-card-actions">
+              <button class="cbr-card-btn" type="button">Ver más</button>
+
+              <a
+                href="{% url 'solicitud_escrituras' %}?area=conservador&tramite={{ servicio.tramite_codigo|default:'otros_conservador'|urlencode }}&descripcion={{ servicio.descripcion_corta|default:''|urlencode }}"
+                class="cbr-card-btn cbr-card-btn-primary"
+              >
+                Solicitar
+              </a>
+            </div>
+
+            <div class="cbr-card-detail">
+              <p>
+                {% if servicio.descripcion_larga %}
+                  {{ servicio.descripcion_larga }}
+                {% elif servicio.descripcion %}
+                  {{ servicio.descripcion }}
+                {% else %}
+                  Para revisar requisitos específicos y antecedentes necesarios para este trámite,
+                  se recomienda consultar directamente con la oficina del Conservador.
+                {% endif %}
+              </p>
+            </div>
+          </div>
+        {% empty %}
+          <div class="ep-empty">
+            No hay valores cargados todavía.
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="cbr-note">
+        <h3>Importante</h3>
+        <p>
+          Los requisitos específicos pueden variar según el tipo de trámite, el registro involucrado
+          y los antecedentes acompañados. Para una revisión exacta del caso, se recomienda consultar directamente.
+        </p>
+      </div>
+    </section>
+
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/servicios.js' %}"></script>
+{% endblock %}

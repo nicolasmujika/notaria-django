@@ -1,0 +1,279 @@
+.ei-page{
+  background: linear-gradient(180deg, #f4f7fc 0%, #eef2f9 100%);
+  min-height: calc(100vh - 140px);
+  padding: 38px 20px 60px;
+}
+
+.ei-wrap{
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.ei-header{
+  margin-bottom: 22px;
+}
+
+.ei-badge{
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(31, 60, 136, 0.10);
+  color: #1f3c88;
+  border: 1px solid rgba(31, 60, 136, 0.12);
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.ei-title{
+  margin: 0 0 8px;
+  font-size: 34px;
+  line-height: 1.1;
+  color: #16213e;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.ei-subtitle{
+  margin: 0;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.65;
+  max-width: 760px;
+}
+
+.ei-card{
+  background: #ffffff;
+  border: 1px solid #e7edf6;
+  border-radius: 24px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.07);
+  overflow: hidden;
+}
+
+.ei-card-top{
+  padding: 22px 28px;
+  background: linear-gradient(135deg, #1f3c88 0%, #2748a0 100%);
+  color: #ffffff;
+}
+
+.ei-card-top h2{
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.ei-card-top p{
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.88);
+}
+
+.ei-form{
+  padding: 28px;
+}
+
+.ei-alert{
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #fff5f5;
+  border: 1px solid #f3c4c4;
+  color: #b42318;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ei-section-title{
+  margin: 0 0 14px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #17305f;
+}
+
+.ei-section-title-space{
+  margin-top: 28px;
+}
+
+.ei-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 18px;
+}
+
+.ei-grid-compact{
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.ei-field{
+  background: #f8fbff;
+  border: 1px solid #e2eaf7;
+  border-radius: 18px;
+  padding: 16px;
+  min-width: 0;
+  transition: all .2s ease;
+}
+
+.ei-field:hover{
+  border-color: #d0dcf4;
+  transform: translateY(-1px);
+}
+
+.ei-field-full{
+  grid-column: 1 / -1;
+}
+
+.ei-label{
+  display: block;
+  margin-bottom: 10px;
+  color: #122752;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.ei-help{
+  display: block;
+  margin-top: 10px;
+  color: #687a9f;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.ei-errors{
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: #c62828;
+  font-size: 13px;
+}
+
+.ei-note{
+  margin-top: 24px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f8fbff 0%, #f3f7ff 100%);
+  border: 1px solid #dce7fb;
+  color: #496082;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.ei-actions{
+  margin-top: 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ei-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.ei-btn-primary{
+  background: linear-gradient(135deg, #1f3c88 0%, #2748a0 100%);
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(31, 60, 136, 0.20);
+}
+
+.ei-btn-primary:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 16px 28px rgba(31, 60, 136, 0.24);
+}
+
+.ei-btn-secondary{
+  background: #eef3ff;
+  color: #1f3c88;
+  border: 1px solid #d7e2fb;
+}
+
+.ei-btn-secondary:hover{
+  background: #e6edff;
+  transform: translateY(-1px);
+}
+
+/* estilos para inputs del form */
+.ei-form input,
+.ei-form textarea,
+.ei-form select{
+  width: 100%;
+  border: 1px solid #d9e3f0;
+  border-radius: 14px;
+  padding: 14px 15px;
+  font-size: 14px;
+  color: #1f2937;
+  background: #ffffff;
+  box-sizing: border-box;
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.ei-form input:hover,
+.ei-form textarea:hover,
+.ei-form select:hover{
+  border-color: #c6d4e6;
+}
+
+.ei-form input:focus,
+.ei-form textarea:focus,
+.ei-form select:focus{
+  outline: none;
+  border-color: #1f3c88;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(31, 60, 136, 0.10);
+}
+
+.ei-form textarea{
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px){
+  .ei-grid-compact{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px){
+  .ei-page{
+    padding: 24px 14px 40px;
+  }
+
+  .ei-title{
+    font-size: 28px;
+  }
+
+  .ei-card-top,
+  .ei-form{
+    padding: 20px 18px;
+  }
+
+  .ei-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .ei-grid-compact{
+    grid-template-columns: 1fr;
+  }
+
+  .ei-actions{
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .ei-btn{
+    width: 100%;
+  }
+}

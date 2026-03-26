@@ -1,36 +1,41 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block title %}Solicitud de Trámite{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/servicios.css' %}">
+<link rel="stylesheet" href="{% static 'css/solicitud.css' %}">
 {% endblock %}
+
 {% block content %}
-
-
 <section class="solicitud-page">
   <div class="solicitud-container">
 
     <div class="solicitud-header">
-      <h1>Solicitud de Escrituras</h1>
+      <h1>Solicitud de Trámite</h1>
       <p>
-        Completa este formulario para enviarnos los antecedentes iniciales de la escritura que deseas realizar.
-        La información es referencial y será revisada por la notaría antes de continuar con el trámite.
+        Completa este formulario para enviarnos los antecedentes iniciales del trámite que deseas realizar.
+        La información será revisada por la notaría o conservador antes de continuar con la gestión.
       </p>
 
       <div class="solicitud-alert">
-        El <strong>correo electrónico es obligatorio</strong>, ya que será utilizado para contactarte y
+        <strong>El correo electrónico es obligatorio</strong>, ya que será utilizado para contactarte y
         notificarte avances relacionados con tu solicitud o expediente.
       </div>
     </div>
 
     <div class="solicitud-card">
-      <form method="post">
-        {% csrf_token %}
 
-        {% if form.non_field_errors %}
-          <div class="solicitud-errors">
-            {{ form.non_field_errors }}
-          </div>
-        {% endif %}
+      {% if form.errors %}
+      <div class="solicitud-errors">
+        <strong>Por favor revisa los campos marcados.</strong>
+        {{ form.non_field_errors }}
+      </div>
+      {% endif %}
+
+      <form method="post" novalidate>
+        {% csrf_token %}
 
         <div class="solicitud-grid">
 
@@ -47,26 +52,42 @@
               Correo electrónico<span class="solicitud-required">*</span>
             </label>
             {{ form.email }}
-            <div class="solicitud-help">
+            <small class="solicitud-help">
               Usaremos este correo para avisarte sobre tu solicitud.
-            </div>
+            </small>
             {{ form.email.errors }}
           </div>
 
           <div class="solicitud-field">
-            <label for="{{ form.telefono.id_for_label }}">Teléfono</label>
+            <label for="{{ form.telefono.id_for_label }}">
+              Teléfono
+            </label>
             {{ form.telefono }}
-            <div class="solicitud-help">
+            <small class="solicitud-help">
               Opcional, pero recomendado por si necesitamos contactarte rápido.
-            </div>
+            </small>
             {{ form.telefono.errors }}
           </div>
 
           <div class="solicitud-field">
+            <label for="{{ form.area.id_for_label }}">
+              Área del trámite<span class="solicitud-required">*</span>
+            </label>
+            {{ form.area }}
+            <small class="solicitud-help">
+              Selecciona si tu solicitud corresponde a Notaría o Conservador.
+            </small>
+            {{ form.area.errors }}
+          </div>
+
+          <div class="solicitud-field solicitud-field-full">
             <label for="{{ form.tipo_escritura.id_for_label }}">
-              Tipo de escritura<span class="solicitud-required">*</span>
+              Tipo de trámite<span class="solicitud-required">*</span>
             </label>
             {{ form.tipo_escritura }}
+            <small class="solicitud-help">
+              Elige el tipo de trámite que deseas solicitar.
+            </small>
             {{ form.tipo_escritura.errors }}
           </div>
 
@@ -75,9 +96,9 @@
               Descripción / antecedentes<span class="solicitud-required">*</span>
             </label>
             {{ form.descripcion }}
-            <div class="solicitud-help">
-              Indica los antecedentes principales del trámite, personas involucradas o contexto general.
-            </div>
+            <small class="solicitud-help">
+              Describe brevemente tu solicitud e indica los antecedentes más importantes para revisarla.
+            </small>
             {{ form.descripcion.errors }}
           </div>
 
@@ -85,13 +106,12 @@
 
         <div class="solicitud-actions">
           <button type="submit" class="solicitud-btn">Enviar solicitud</button>
-          <div class="solicitud-note">
-            Al enviar, la solicitud será recibida por la notaría para su revisión.
-          </div>
+          <span class="solicitud-note">
+            Una vez enviada, tu solicitud será revisada por el equipo correspondiente.
+          </span>
         </div>
       </form>
     </div>
-
   </div>
 </section>
 {% endblock %}

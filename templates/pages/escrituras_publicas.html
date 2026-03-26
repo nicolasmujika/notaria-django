@@ -114,16 +114,27 @@
             </div>
 
             <div class="ep-card-price-wrap">
-              <span class="ep-card-price">{{ servicio.valor }}</span>
+              {% if servicio.mostrar_valor %}
+                <span class="ep-card-price">{{ servicio.valor }}</span>
+              {% endif %}
             </div>
 
             <div class="ep-card-actions">
               <button class="ep-card-btn" type="button">Ver más</button>
+
+                <a
+                  href="{% url 'solicitud_escrituras' %}?area=notaria&tramite={{ servicio.tramite_codigo|urlencode }}&descripcion={{ servicio.descripcion_corta|default:''|urlencode }}"
+                  class="ep-card-btn ep-card-btn-primary"
+                >
+                  Solicitar
+                </a>
             </div>
 
             <div class="ep-card-detail">
               <p>
-                {% if servicio.descripcion %}
+                {% if servicio.descripcion_larga %}
+                  {{ servicio.descripcion_larga }}
+                {% elif servicio.descripcion %}
                   {{ servicio.descripcion }}
                 {% else %}
                   Este servicio corresponde a una escritura pública gestionada en notaría. Para más detalles,

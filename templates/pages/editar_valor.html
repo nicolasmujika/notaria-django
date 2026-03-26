@@ -34,6 +34,14 @@
               {% endif %}
             </div>
 
+            <div class="gv-group">
+              <label class="gv-label">Código de trámite</label>
+              {{ form.tramite_codigo }}
+              {% if form.tramite_codigo.errors %}
+                <ul class="gv-errors">{% for e in form.tramite_codigo.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+              {% endif %}
+            </div>
+
            
 
             <div class="gv-group">
@@ -60,6 +68,17 @@
               </div>
               {% if form.activo.errors %}
                 <ul class="gv-errors">{% for e in form.activo.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+              {% endif %}
+            </div>
+
+            <div class="gv-group">
+              <label class="gv-label">Mostrar valor</label>
+              <div class="gv-check-wrap">
+                {{ form.mostrar_valor }}
+                <span>Mostrar el valor en la tarjeta pública</span>
+              </div>
+              {% if form.mostrar_valor.errors %}
+                <ul class="gv-errors">{% for e in form.mostrar_valor.errors %}<li>{{ e }}</li>{% endfor %}</ul>
               {% endif %}
             </div>
 
@@ -95,7 +114,9 @@
           <div class="gv-preview-icon">{{ valor.icono|default:"📄" }}</div>
           <h3>{{ valor.nombre }}</h3>
           <div class="gv-preview-short">{{ valor.descripcion_corta|default:"Sin descripción corta." }}</div>
-          <div class="gv-preview-price">{{ valor.valor }}</div>
+          {% if valor.mostrar_valor %}
+            <div class="gv-preview-price">{{ valor.valor }}</div>
+          {% endif %}
           <div class="gv-preview-long">{{ valor.descripcion_larga|default:"Sin descripción larga." }}</div>
         </div>
       </div>

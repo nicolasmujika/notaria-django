@@ -1,14 +1,20 @@
-from django import forms # type: ignore
-from .models import ContactMessage,Expediente, SolicitudEscritura,IndiceEscritura, ValorServicio
+from django import forms  # type: ignore
 from django.core.exceptions import ValidationError
-from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django_recaptcha.fields import ReCaptchaField
 from django_recaptcha.widgets import ReCaptchaV2Checkbox
 
+from .models import (
+    ContactMessage,
+    Expediente,
+    SolicitudEscritura,
+    IndiceEscritura,
+    ValorServicio,
+)
+
+
 def validar_rut_chileno(value: str) -> str:
-   
     if not value:
         return value
 
@@ -22,7 +28,6 @@ def validar_rut_chileno(value: str) -> str:
     if not cuerpo.isdigit():
         raise ValidationError("RUT inválido.")
 
-    # cálculo dígito verificador
     suma = 0
     multiplo = 2
     for d in reversed(cuerpo):
@@ -44,6 +49,7 @@ def validar_rut_chileno(value: str) -> str:
         raise ValidationError("RUT inválido.")
 
     return f"{int(cuerpo)}-{dv}"
+
 
 class ContactForm(forms.ModelForm):
     SUBJECT_CHOICES = [
@@ -109,7 +115,6 @@ class ContactForm(forms.ModelForm):
         return value
 
 
-
 class SeguimientoForm(forms.Form):
     codigo = forms.CharField(
         label="Código de seguimiento",
@@ -128,23 +133,50 @@ class SeguimientoForm(forms.Form):
             "placeholder": "Ej: 11.111.111-1",
         }),
     )
+
     def clean_rut(self):
         rut = self.cleaned_data.get("rut", "").strip()
         if not rut:
             return rut
         return validar_rut_chileno(rut)
 
+
 class SolicitudEscrituraForm(forms.ModelForm):
     class Meta:
         model = SolicitudEscritura
-        fields = ["nombre_completo", "email", "telefono", "tipo_escritura", "descripcion"]
-        widgets = {
-            "nombre_completo": forms.TextInput(attrs={"placeholder": "Ingresa tu nombre completo"}),
-            "email": forms.EmailInput(attrs={"placeholder": "ejemplo@correo.com"}),
-            "telefono": forms.TextInput(attrs={"placeholder": "+56 9 XXXX XXXX"}),
-            "tipo_escritura": forms.Select(),
-            "descripcion": forms.Textarea(attrs={"placeholder": "Describe brevemente el trámite que necesitas realizar"}),
+        fields = [
+            "nombre_completo",
+            "email",
+            "telefono",
+            "area",
+            "tipo_escritura",
+            "descripcion",
+        ]
+        labels = {
+            "nombre_completo": "Nombre completo",
+            "email": "Correo electrónico",
+            "telefono": "Teléfono",
+            "area": "Área del trámite",
+            "tipo_escritura": "Tipo de trámite",
+            "descripcion": "Descripción / antecedentes",
         }
+        widgets = {
+            "nombre_completo": forms.TextInput(attrs={
+                "placeholder": "Ingresa tu nombre completo"
+            }),
+            "email": forms.EmailInput(attrs={
+                "placeholder": "ejemplo@correo.com"
+            }),
+            "telefono": forms.TextInput(attrs={
+                "placeholder": "+56 9 XXXX XXXX"
+            }),
+            "area": forms.Select(),
+            "tipo_escritura": forms.Select(),
+            "descripcion": forms.Textarea(attrs={
+                "placeholder": "Describe brevemente el trámite que necesitas realizar"
+            }),
+        }
+
 
 class RegistroUsuarioForm(forms.ModelForm):
     nombre_completo = forms.CharField(
@@ -220,7 +252,7 @@ class LoginUsuarioForm(AuthenticationForm):
         widget=forms.PasswordInput(attrs={"placeholder": "Contraseña"})
     )
     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
-    
+
 
 class ExpedienteGestionForm(forms.ModelForm):
     class Meta:
@@ -247,6 +279,7 @@ class ExpedienteGestionForm(forms.ModelForm):
             return rut
         return validar_rut_chileno(rut)
 
+
 class IndiceEscrituraForm(forms.ModelForm):
     class Meta:
         model = IndiceEscritura
@@ -261,15 +294,44 @@ class IndiceEscrituraForm(forms.ModelForm):
             "anio",
         ]
         widgets = {
-            "comparecientes": forms.Textarea(attrs={"rows": 3, "placeholder": "Ej: Juan Pérez / María Soto"}),
-            "materia": forms.TextInput(attrs={"placeholder": "Resumen de la materia"}),
-            "acto": forms.TextInput(attrs={"placeholder": "Ej: Compraventa, Permuta"}),
-            "objeto": forms.Textarea(attrs={"rows": 3, "placeholder": "Detalle del objeto o antecedente"}),
-            "fecha": forms.TextInput(attrs={"placeholder": "Ej: 31-12 o dejar vacío"}),
-            "numero_repertorio": forms.TextInput(attrs={"placeholder": "Ej: 1234"}),
-            "foja": forms.TextInput(attrs={"placeholder": "Ej: 56"}),
-            "anio": forms.NumberInput(attrs={"placeholder": "Ej: 2022"}),
+            "comparecientes": forms.Textarea(attrs={
+                "class": "indice-input indice-textarea indice-textarea-sm",
+                "rows": 3,
+                "placeholder": "Ej: Juan Pérez / María Soto",
+            }),
+            "materia": forms.TextInput(attrs={
+                "class": "indice-input",
+                "placeholder": "Resumen de la materia",
+            }),
+            "acto": forms.TextInput(attrs={
+                "class": "indice-input",
+                "placeholder": "Ej: Compraventa, Permuta",
+            }),
+            "objeto": forms.Textarea(attrs={
+                "class": "indice-input indice-textarea",
+                "rows": 4,
+                "placeholder": "Detalle del objeto o antecedente",
+            }),
+            "fecha": forms.TextInput(attrs={
+                "class": "indice-input",
+                "placeholder": "Ej: 31-12 o dejar vacío",
+            }),
+            "numero_repertorio": forms.TextInput(attrs={
+                "class": "indice-input",
+                "placeholder": "Ej: 1234",
+            }),
+            "foja": forms.TextInput(attrs={
+                "class": "indice-input",
+                "placeholder": "Ej: 56",
+            }),
+            "anio": forms.NumberInput(attrs={
+                "class": "indice-input",
+                "placeholder": "Ej: 2022",
+                "min": "1900",
+                "max": "2100",
+            }),
         }
+
 
 class ValorServicioForm(forms.ModelForm):
     class Meta:
@@ -277,21 +339,47 @@ class ValorServicioForm(forms.ModelForm):
         fields = [
             "categoria",
             "nombre",
+            "tramite_codigo",
             "valor",
             "descripcion_corta",
             "descripcion_larga",
             "orden",
             "activo",
+            "mostrar_valor",
         ]
         widgets = {
-            "categoria": forms.TextInput(attrs={"class": "gv-input", "placeholder": "Ej: Escrituras Públicas"}),
-            "nombre": forms.TextInput(attrs={"class": "gv-input", "placeholder": "Ej: Compraventa"}),
-            "icono": forms.TextInput(attrs={"class": "gv-input", "placeholder": "Ej: 🏠"}),
-            "valor": forms.TextInput(attrs={"class": "gv-input", "placeholder": "Ej: $45.000 + imp."}),
-            "descripcion_corta": forms.Textarea(attrs={"class": "gv-input", "rows": 3, "placeholder": "Texto corto visible en la tarjeta"}),
-            "descripcion_larga": forms.Textarea(attrs={"class": "gv-input", "rows": 6, "placeholder": "Texto más completo para el detalle"}),
-            "orden": forms.NumberInput(attrs={"class": "gv-input", "min": "0"}),
+            "categoria": forms.TextInput(attrs={
+                "class": "gv-input",
+                "placeholder": "Ej: Escrituras Públicas"
+            }),
+            "nombre": forms.TextInput(attrs={
+                "class": "gv-input",
+                "placeholder": "Ej: Compraventa"
+            }),
+            "tramite_codigo": forms.TextInput(attrs={
+                "class": "gv-input",
+                "placeholder": "Ej: compraventa"
+            }),
+            "valor": forms.TextInput(attrs={
+                "class": "gv-input",
+                "placeholder": "Ej: $45.000 + imp."
+            }),
+            "descripcion_corta": forms.Textarea(attrs={
+                "class": "gv-input",
+                "rows": 3,
+                "placeholder": "Texto corto visible en la tarjeta"
+            }),
+            "descripcion_larga": forms.Textarea(attrs={
+                "class": "gv-input",
+                "rows": 6,
+                "placeholder": "Texto más completo para el detalle"
+            }),
+            "orden": forms.NumberInput(attrs={
+                "class": "gv-input",
+                "min": "0"
+            }),
         }
+
 
 class SolicitarRecuperacionForm(forms.Form):
     email = forms.EmailField(

@@ -20,7 +20,7 @@
       <div class="site-header-container site-brand-row">
         <div class="site-brand">
           <div class="site-brand-logo">
-            <img src="{% static 'img/notaria.png' %}" alt="Logo Notaría">
+            <img src="{% static 'img/logo.png' %}" alt="Logo Notaría">
           </div>
 
           <div class="site-brand-text">
@@ -74,6 +74,7 @@
               </button>
               <ul id="submenu-servicios" class="submenu">
                 <li><a href="{% url 'servicios_notariales' %}" class="submenu-link">SERVICIOS NOTARIALES</a></li>
+                <li><a href="{% url 'servicios_cbr' %}" class="submenu-link">SERVICIOS CBR</a></li>
                 <li><a href="{% url 'escrituras_publicas' %}" class="submenu-link">ESCRITURAS PÚBLICAS</a></li>
                 <li><a href="{% url 'solicitud_escrituras' %}" class="submenu-link">SOLICITUD ESCRITURAS</a></li>
                 <li><a href="{% url 'seguimiento_escrituras' %}" class="submenu-link">SEGUIMIENTO ESCRITURAS</a></li>
@@ -160,9 +161,9 @@
             Notaría Felipe Velásquez<br>
             31 de Enero 195, Alto del Carmen, Atacama<br>
             notaria.altodelcarmen@gmail.com<br>
-            Horario de atención: 9:30 am - 16:30 pm<br>
+            Horario de atención: 9:00 am - 16:00 pm<br>
             Atención de lunes a viernes<br>
-            +56 51 2788240
+            +56 9 4427 9786
           </p>
         </div>
 
@@ -188,8 +189,9 @@
           <ul class="site-footer-list">
             <li><a href="{% url 'servicios_notariales' %}">Servicios Notariales</a></li>
             <li><a href="{% url 'documentos_privados' %}">Documentos Privados</a></li>
+            <li><a href="{% url 'servicios_cbr' %}">Servicios de CBR</a></li>
             <li><a href="{% url 'escrituras_publicas' %}">Escrituras Públicas</a></li>
-            <li><a href="{% url 'solicitud_escrituras' %}">Solicitud Escritura Pública</a></li>
+            <li><a href="{% url 'solicitud_escrituras' %}">Solicitud Tramite</a></li>
             <li><a href="{% url 'seguimiento_escrituras' %}">Seguimiento Web</a></li>
           </ul>
         </div>
@@ -198,7 +200,7 @@
   </footer>
 
   <a
-    href="https://wa.me/56911111168?text=Hola%2C%20quisiera%20hacer%20una%20consulta%20a%20la%20notaria"
+    href="https://wa.me/56944279786?text=Hola%2C%20quisiera%20hacer%20una%20consulta%20a%20la%20notaria"
     class="whatsapp-float"
     target="_blank"
     rel="noopener noreferrer"
