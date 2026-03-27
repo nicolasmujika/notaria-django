@@ -5,3 +5,4 @@ django-recaptcha
 gunicorn==23.0.0
 whitenoise==6.9.0
 dj-database-url==2.2.0
+resend

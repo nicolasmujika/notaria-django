@@ -1,32 +1,72 @@
 import random
-from django.core.mail import send_mail # type: ignore
-from django.shortcuts import render, redirect, get_object_or_404 # type: ignore
-from django.contrib import messages# type: ignore
-from django.core.mail import send_mail # type: ignore
-from django.conf import settings# type: ignore
-from .forms import (ContactForm, SeguimientoForm,SolicitudEscrituraForm,RegistroUsuarioForm, LoginUsuarioForm, ExpedienteGestionForm,
-    IndiceEscrituraForm, ValorServicioForm,SolicitarRecuperacionForm,
-    VerificarCodigoRecuperacionForm,
-    RestablecerClaveForm)
-from .models import (Service, Tramite, Expediente,SolicitudEscritura,
- IndiceEscritura, ContactMessage, ValorServicio, VerificacionCorreo, RecuperacionClave)
-from django.utils import timezone # type: ignore
+import resend
+
 from datetime import timedelta
+
+from django.conf import settings  # type: ignore
+from django.contrib import messages  # type: ignore
 from django.contrib.auth import login, logout
-from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render  # type: ignore
+from django.utils import timezone  # type: ignore
+
+from .forms import (
+    ContactForm,
+    ExpedienteGestionForm,
+    IndiceEscrituraForm,
+    LoginUsuarioForm,
+    RegistroUsuarioForm,
+    RestablecerClaveForm,
+    SeguimientoForm,
+    SolicitarRecuperacionForm,
+    SolicitudEscrituraForm,
+    ValorServicioForm,
+    VerificarCodigoRecuperacionForm,
+)
+from .models import (
+    ContactMessage,
+    Expediente,
+    IndiceEscritura,
+    RecuperacionClave,
+    Service,
+    SolicitudEscritura,
+    Tramite,
+    ValorServicio,
+    VerificacionCorreo,
+)
+
+
+def enviar_email_resend(destinatario, asunto, mensaje_html, mensaje_texto=None):
+    if not settings.RESEND_API_KEY:
+        raise RuntimeError("RESEND_API_KEY no está configurada")
+
+    resend.api_key = settings.RESEND_API_KEY
+
+    payload = {
+        "from": settings.RESEND_FROM_EMAIL,
+        "to": [destinatario],
+        "subject": asunto,
+        "html": mensaje_html,
+    }
+
+    if mensaje_texto:
+        payload["text"] = mensaje_texto
+
+    return resend.Emails.send(payload)
+
 
 def home(request):
     return render(request, "pages/home.html")
 
+
 def contact(request):
-    # Rate limit básico: máximo 1 mensaje cada 30 segundos por sesión
     now = timezone.now()
     last_post = request.session.get("last_contact_post")
+
     if request.method == "POST" and last_post:
         last = timezone.datetime.fromisoformat(last_post)
         if now - last < timedelta(seconds=30):
@@ -47,17 +87,41 @@ def contact(request):
                 f"Mensaje:\n{obj.message}\n"
             )
 
-            send_mail(
-                subject=f"[Contacto Notaría] {obj.subject}",
-                message=body,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.CONTACT_RECIPIENT],
-                fail_silently=False,
-            )
+            body_html = f"""
+            <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+                <h2>Nuevo mensaje de contacto</h2>
+                <p><strong>ID:</strong> {obj.id}</p>
+                <p><strong>Nombre:</strong> {obj.full_name}</p>
+                <p><strong>Email:</strong> {obj.email}</p>
+                <p><strong>Teléfono:</strong> {obj.phone}</p>
+                <p><strong>Asunto:</strong> {obj.subject}</p>
+                <p><strong>Mensaje:</strong></p>
+                <p>{obj.message}</p>
+            </div>
+            """
 
-            # guarda timestamp para rate limit
+            try:
+                enviar_email_resend(
+                    destinatario=settings.CONTACT_RECIPIENT,
+                    asunto=f"[Contacto Notaría] {obj.subject}",
+                    mensaje_html=body_html,
+                    mensaje_texto=body,
+                )
+            except Exception as e:
+                messages.error(request, f"No se pudo enviar el correo de contacto: {e}")
+                return render(request, "pages/contact.html", {
+                    "form": form,
+                    "address": "Dirección de la Notaría, Ciudad",
+                    "hours": [
+                        ("Lunes a Viernes", "09:00–14:00 / 15:30–18:00"),
+                        ("Sábado", "09:00–13:00"),
+                    ],
+                    "phone_display": "+56 32 123 4567",
+                    "email_display": "contacto@notaria.local",
+                    "gmap_embed": "https://www.google.com/maps/embed?pb=TU_EMBED_AQUI",
+                })
+
             request.session["last_contact_post"] = now.isoformat()
-
             messages.success(request, "Tu mensaje fue enviado correctamente.")
             return redirect("contact")
     else:
@@ -76,6 +140,7 @@ def contact(request):
     }
     return render(request, "pages/contact.html", context)
 
+
 def services_list(request):
     q = request.GET.get("q", "").strip()
     qs = Service.objects.filter(is_active=True)
@@ -83,27 +148,31 @@ def services_list(request):
         qs = qs.filter(name__icontains=q)
     return render(request, "pages/tramites_list.html", {"items": qs, "q": q})
 
+
 def service_detail(request, id: int):
     obj = get_object_or_404(Service, pk=id, is_active=True)
     return render(request, "pages/tramite_detail.html", {"obj": obj})
 
-def quienes_somos(request):
-    return render(request, 'pages/quienes_somos.html')
 
+def quienes_somos(request):
+    return render(request, "pages/quienes_somos.html")
 
 
 def horario_atencion(request):
-    return render(request, 'pages/horario_atencion.html')
+    return render(request, "pages/horario_atencion.html")
+
 
 def tramites_comunes(request):
-    return render(request, 'pages/tramites_comunes.html')
+    return render(request, "pages/tramites_comunes.html")
+
 
 def preguntas_frecuentes(request):
-    return render(request, 'pages/preguntas_frecuentes.html')
+    return render(request, "pages/preguntas_frecuentes.html")
 
 
 def servicios_notariales(request):
-    return render(request, 'pages/servicios_notariales.html')
+    return render(request, "pages/servicios_notariales.html")
+
 
 def escrituras_publicas(request):
     servicios = ValorServicio.objects.filter(
@@ -131,6 +200,7 @@ def escrituras_publicas(request):
         "servicios": servicios,
     })
 
+
 def solicitud_escrituras(request):
     if request.method == "POST":
         form = SolicitudEscrituraForm(request.POST)
@@ -157,15 +227,12 @@ def solicitud_escrituras(request):
 
 
 def validar_documentos(request):
-    return render(request, 'pages/validar_documentos.html')
+    return render(request, "pages/validar_documentos.html")
 
-def seguimiento_escrituras(request):
-    return render(request, 'pages/seguimiento_escrituras.html')
 
 def notaria_en_linea(request):
-    return render(request, 'pages/notaria_en_linea.html')
+    return render(request, "pages/notaria_en_linea.html")
 
-from .models import Tramite
 
 def tramites_list(request):
     tramites = Tramite.objects.filter(activo=True).order_by("nombre")
@@ -176,6 +243,7 @@ def tramite_detail(request, tramite_id: int):
     tramite = Tramite.objects.get(pk=tramite_id)
     return render(request, "pages/tramite_detail.html", {"tramite": tramite})
 
+
 def documentos_privados(request):
     servicios = ValorServicio.objects.filter(
         categoria="Documentos Privados",
@@ -185,6 +253,7 @@ def documentos_privados(request):
     return render(request, "pages/documentos_privados.html", {
         "servicios": servicios
     })
+
 
 def seguimiento_escrituras(request):
     resultado = None
@@ -246,6 +315,8 @@ class CustomLoginView(LoginView):
             messages.error(self.request, "Revisa los datos ingresados.")
 
         return self.render_to_response(self.get_context_data(form=form))
+
+
 def registro_usuario(request):
     if request.method == "POST":
         form = RegistroUsuarioForm(request.POST)
@@ -271,7 +342,12 @@ def registro_usuario(request):
                     }
                 )
 
-                enviar_codigo_verificacion(user.email, codigo)
+                try:
+                    enviar_codigo_verificacion(user.email, codigo)
+                except Exception as e:
+                    user.delete()
+                    messages.error(request, f"No se pudo crear la cuenta o enviar el correo: {e}")
+                    return render(request, "pages/registro.html", {"form": form})
 
                 messages.success(
                     request,
@@ -288,6 +364,7 @@ def registro_usuario(request):
         form = RegistroUsuarioForm()
 
     return render(request, "pages/registro.html", {"form": form})
+
 
 def verificar_correo(request, user_id):
     user = get_object_or_404(User, id=user_id)
@@ -328,6 +405,7 @@ def verificar_correo(request, user_id):
         "vence_en": verificacion.vence_en,
     })
 
+
 def reenviar_codigo(request, user_id):
     user = get_object_or_404(User, id=user_id)
     verificacion = get_object_or_404(VerificacionCorreo, user=user)
@@ -357,11 +435,9 @@ def logout_view(request):
     logout(request)
     return redirect("home")
 
+
 def es_funcionario(user):
     return user.is_authenticated and hasattr(user, "perfil") and user.perfil.tipo == "funcionario"
-
-
-
 
 
 @login_required
@@ -380,7 +456,7 @@ def panel_funcionario(request):
     )
 
     mensajes_contacto = ContactMessage.objects.order_by("-created_at")[:20]
-    
+
     paginator = Paginator(expedientes_lista, 10)
     page_number = request.GET.get("page")
     expedientes = paginator.get_page(page_number)
@@ -396,6 +472,7 @@ def panel_funcionario(request):
     }
 
     return render(request, "pages/panel_funcionario.html", context)
+
 
 @login_required
 @user_passes_test(es_funcionario)
@@ -419,6 +496,7 @@ def crear_expediente_desde_solicitud(request, solicitud_id):
         f"Expediente {expediente.codigo_seguimiento} creado correctamente."
     )
     return redirect("panel_funcionario")
+
 
 @login_required
 @user_passes_test(es_funcionario)
@@ -461,20 +539,40 @@ def notificar_expediente_listo(request, expediente_id):
         f"Notaría Felipe Velásquez"
     )
 
-    send_mail(
-        subject=asunto,
-        message=mensaje,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[expediente.solicitud.email],
-        fail_silently=False,
-    )
+    mensaje_html = f"""
+    <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <p>Estimado/a {expediente.solicitud.nombre_completo},</p>
+        <p>
+            Le informamos que su escritura asociada al código
+            <strong>{expediente.codigo_seguimiento}</strong>
+            se encuentra actualmente en estado:
+            <strong>{expediente.get_estado_display()}</strong>.
+        </p>
+        <p><strong>Observaciones:</strong><br>
+        {expediente.observaciones_publicas or 'Sin observaciones adicionales.'}</p>
+        <p>Si necesita más información, puede responder este correo o contactarse con la notaría.</p>
+        <p>Saludos,<br>Notaría Felipe Velásquez</p>
+    </div>
+    """
 
-    expediente.notificado_cliente = True
-    expediente.fecha_notificacion = timezone.now()
-    expediente.save(update_fields=["notificado_cliente", "fecha_notificacion"])
+    try:
+        enviar_email_resend(
+            destinatario=expediente.solicitud.email,
+            asunto=asunto,
+            mensaje_html=mensaje_html,
+            mensaje_texto=mensaje,
+        )
 
-    messages.success(request, f"Se notificó al cliente en {expediente.solicitud.email}.")
+        expediente.notificado_cliente = True
+        expediente.fecha_notificacion = timezone.now()
+        expediente.save(update_fields=["notificado_cliente", "fecha_notificacion"])
+
+        messages.success(request, f"Se notificó al cliente en {expediente.solicitud.email}.")
+    except Exception as e:
+        messages.error(request, f"No se pudo enviar el correo: {e}")
+
     return redirect("panel_funcionario")
+
 
 @login_required
 def indices_escrituras(request):
@@ -528,6 +626,7 @@ def indices_escrituras(request):
     }
     return render(request, "pages/indices_escrituras.html", context)
 
+
 @login_required
 @user_passes_test(es_funcionario)
 def gestion_indices(request):
@@ -575,6 +674,7 @@ def editar_indice(request, indice_id):
         "indice": indice,
     })
 
+
 @login_required
 @user_passes_test(es_funcionario)
 def gestionar_valores(request):
@@ -601,13 +701,13 @@ def editar_valor(request, valor_id):
         "valor": valor
     })
 
+
 @login_required
 def responder_mensaje_contacto(request, mensaje_id):
     if request.method != "POST":
         return redirect("panel_funcionario")
 
     mensaje = get_object_or_404(ContactMessage, id=mensaje_id)
-
     respuesta = request.POST.get("respuesta", "").strip()
 
     if not respuesta:
@@ -631,13 +731,22 @@ Saludos cordiales,
 Notaría Felipe Velásquez
 """.strip()
 
+    cuerpo_html = f"""
+    <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <p>Hola {mensaje.full_name},</p>
+        <p>Te escribimos en respuesta al mensaje que enviaste a través del formulario de contacto de la notaría.</p>
+        <p><strong>Tu mensaje fue:</strong><br>"{mensaje.message}"</p>
+        <p><strong>Nuestra respuesta:</strong><br>{respuesta}</p>
+        <p>Saludos cordiales,<br>Notaría Felipe Velásquez</p>
+    </div>
+    """
+
     try:
-        send_mail(
-            subject=asunto,
-            message=cuerpo,
-            from_email=None,  # usa DEFAULT_FROM_EMAIL
-            recipient_list=[mensaje.email],
-            fail_silently=False,
+        enviar_email_resend(
+            destinatario=mensaje.email,
+            asunto=asunto,
+            mensaje_html=cuerpo_html,
+            mensaje_texto=cuerpo,
         )
 
         mensaje.replied = True
@@ -651,6 +760,7 @@ Notaría Felipe Velásquez
         messages.error(request, f"No se pudo enviar el correo: {e}")
 
     return redirect("panel_funcionario")
+
 
 @login_required
 @user_passes_test(es_funcionario)
@@ -674,6 +784,7 @@ def eliminar_mensaje_contacto(request, mensaje_id):
     )
     return redirect("panel_funcionario")
 
+
 def generar_codigo_verificacion():
     return f"{random.randint(0, 999999):06d}"
 
@@ -684,47 +795,57 @@ def obtener_fecha_vencimiento(minutos=10):
 
 def enviar_codigo_verificacion(destinatario, codigo):
     asunto = "Código de verificación de correo"
-    mensaje = (
+    mensaje_texto = (
         f"Hola,\n\n"
         f"Tu código de verificación es: {codigo}\n\n"
         f"Este código vence en 10 minutos.\n\n"
         f"Si no solicitaste este registro, ignora este correo."
     )
 
-    try:
-        send_mail(
-            subject=asunto,
-            message=mensaje,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[destinatario],
-            fail_silently=True,  # 👈 IMPORTANTE
-        )
-    except Exception as e:
-        print("ERROR EMAIL:", e)
+    mensaje_html = f"""
+    <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <p>Hola,</p>
+        <p>Tu código de verificación es:</p>
+        <h2>{codigo}</h2>
+        <p>Este código vence en 10 minutos.</p>
+        <p>Si no solicitaste este registro, ignora este correo.</p>
+    </div>
+    """
 
-    send_mail(
-        subject=asunto,
-        message=mensaje,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[destinatario],
-        fail_silently=False,
+    return enviar_email_resend(
+        destinatario=destinatario,
+        asunto=asunto,
+        mensaje_html=mensaje_html,
+        mensaje_texto=mensaje_texto,
     )
+
+
 def enviar_codigo_recuperacion(destinatario, codigo):
     asunto = "Recuperación de contraseña"
-    mensaje = (
+    mensaje_texto = (
         f"Hola,\n\n"
         f"Tu código para restablecer tu contraseña es: {codigo}\n\n"
         f"Este código vence en 10 minutos.\n\n"
         f"Si no solicitaste este cambio, ignora este correo."
     )
 
-    send_mail(
-        subject=asunto,
-        message=mensaje,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[destinatario],
-        fail_silently=False,
+    mensaje_html = f"""
+    <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <p>Hola,</p>
+        <p>Tu código para restablecer tu contraseña es:</p>
+        <h2>{codigo}</h2>
+        <p>Este código vence en 10 minutos.</p>
+        <p>Si no solicitaste este cambio, ignora este correo.</p>
+    </div>
+    """
+
+    return enviar_email_resend(
+        destinatario=destinatario,
+        asunto=asunto,
+        mensaje_html=mensaje_html,
+        mensaje_texto=mensaje_texto,
     )
+
 
 def servicios_cbr(request):
     servicios = ValorServicio.objects.filter(
@@ -735,6 +856,7 @@ def servicios_cbr(request):
     return render(request, "pages/servicios_cbr.html", {
         "servicios": servicios
     })
+
 
 def olvide_clave(request):
     if request.method == "POST":
@@ -769,6 +891,7 @@ def olvide_clave(request):
         form = SolicitarRecuperacionForm()
 
     return render(request, "pages/olvide_clave.html", {"form": form})
+
 
 def verificar_codigo_recuperacion(request, user_id):
     user = get_object_or_404(User, id=user_id)
@@ -821,6 +944,7 @@ def verificar_codigo_recuperacion(request, user_id):
         "email": user.email,
     })
 
+
 def restablecer_clave(request):
     user_id = request.session.get("recuperacion_user_id")
     codigo_ok = request.session.get("recuperacion_codigo_ok")
@@ -861,5 +985,3 @@ def restablecer_clave(request):
         form = RestablecerClaveForm()
 
     return render(request, "pages/restablecer_clave.html", {"form": form})
-
-
