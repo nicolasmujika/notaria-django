@@ -6,6 +6,9 @@ import dj_database_url  # type: ignore
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
+# =========================
+# BASICO
+# =========================
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe")
 DEBUG = os.getenv("DJANGO_DEBUG", "0") == "1"
 
@@ -24,6 +27,9 @@ CSRF_TRUSTED_ORIGINS = [
     if origin.strip()
 ]
 
+# =========================
+# APPS
+# =========================
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -66,20 +72,44 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-# FORZAR uso de DATABASE_URL en Railway
-DATABASES = {
-    "default": dj_database_url.parse(
-        os.environ["DATABASE_URL"],
-        conn_max_age=600,
-        ssl_require=False,
-    )
-}
+# =========================
+# BASE DE DATOS (FIX CLAVE)
+# =========================
+DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
 
+if DATABASE_URL:
+    # Railway
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=False,
+        )
+    }
+else:
+    # Docker local
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("POSTGRES_DB", "notaria_db"),
+            "USER": os.getenv("POSTGRES_USER", "notaria_user"),
+            "PASSWORD": os.getenv("POSTGRES_PASSWORD", "notaria_pass"),
+            "HOST": os.getenv("POSTGRES_HOST", "db"),
+            "PORT": os.getenv("POSTGRES_PORT", "5432"),
+        }
+    }
+
+# =========================
+# INTERNACIONALIZACION
+# =========================
 LANGUAGE_CODE = "es"
 TIME_ZONE = os.getenv("TZ", "America/Santiago")
 USE_I18N = True
 USE_TZ = True
 
+# =========================
+# STATIC
+# =========================
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
@@ -87,25 +117,29 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-EMAIL_BACKEND = os.getenv(
-    "EMAIL_BACKEND",
-    "django.core.mail.backends.console.EmailBackend",
-)
-EMAIL_HOST = os.getenv("EMAIL_HOST", "")
-EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
-EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "1") == "1"
-EMAIL_TIMEOUT = int(os.getenv("EMAIL_TIMEOUT", "15"))
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@notaria.local")
+# =========================
+# EMAIL (SE DEJA SOLO RESEND)
+# =========================
+RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
+RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "onboarding@resend.dev")
+
+# ⚠️ Dejamos SMTP solo como fallback (opcional)
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 CONTACT_RECIPIENT = os.getenv(
     "CONTACT_RECIPIENT",
-    EMAIL_HOST_USER or "admin@notaria.local"
+    "admin@notaria.local"
 )
 
+# =========================
+# RECAPTCHA
+# =========================
 RECAPTCHA_PUBLIC_KEY = os.getenv("RECAPTCHA_PUBLIC_KEY", "")
 RECAPTCHA_PRIVATE_KEY = os.getenv("RECAPTCHA_PRIVATE_KEY", "")
 
+# =========================
+# AUTH
+# =========================
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
@@ -114,6 +148,9 @@ AUTHENTICATION_BACKENDS = [
     "paginas.backends.EmailOrUsernameBackend",
 ]
 
+# =========================
+# SEGURIDAD
+# =========================
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 if not DEBUG:
