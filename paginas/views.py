@@ -332,7 +332,7 @@ def registro_usuario(request):
 
                 codigo = generar_codigo_verificacion()
 
-                VerificacionCorreo.objects.update_or_create(
+                verificacion, _ = VerificacionCorreo.objects.update_or_create(
                     user=user,
                     defaults={
                         "codigo": codigo,
@@ -345,6 +345,7 @@ def registro_usuario(request):
                 try:
                     enviar_codigo_verificacion(user.email, codigo)
                 except Exception as e:
+                    verificacion.delete()
                     user.delete()
                     messages.error(request, f"No se pudo crear la cuenta o enviar el correo: {e}")
                     return render(request, "pages/registro.html", {"form": form})
@@ -358,7 +359,6 @@ def registro_usuario(request):
             except Exception as e:
                 messages.error(request, f"No se pudo crear la cuenta o enviar el correo: {e}")
         else:
-            print(form.errors)
             messages.error(request, "No se pudo crear la cuenta. Revisa los campos.")
     else:
         form = RegistroUsuarioForm()
@@ -800,6 +800,23 @@ def enviar_codigo_verificacion(destinatario, codigo):
         f"Tu código de verificación es: {codigo}\n\n"
         f"Este código vence en 10 minutos.\n\n"
         f"Si no solicitaste este registro, ignora este correo."
+    )
+
+    mensaje_html = f"""
+    <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <p>Hola,</p>
+        <p>Tu código de verificación es:</p>
+        <h2>{codigo}</h2>
+        <p>Este código vence en 10 minutos.</p>
+        <p>Si no solicitaste este registro, ignora este correo.</p>
+    </div>
+    """
+
+    return enviar_email_resend(
+        destinatario=destinatario,
+        asunto=asunto,
+        mensaje_html=mensaje_html,
+        mensaje_texto=mensaje_texto,
     )
 
     mensaje_html = f"""
