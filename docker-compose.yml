@@ -28,7 +28,8 @@ services:
     ports:
       - "8000:8000"
     command: >
-      bash -lc "python manage.py runserver 0.0.0.0:8000"
+      bash -lc "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+
   assets:
     image: node:20-alpine
     container_name: notaria_assets
@@ -39,7 +40,6 @@ services:
     command: sh -lc "npm install && npm run dev"
     depends_on:
       - web
-
 
 volumes:
   pgdata:

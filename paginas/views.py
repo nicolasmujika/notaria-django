@@ -691,6 +691,17 @@ def enviar_codigo_verificacion(destinatario, codigo):
         f"Si no solicitaste este registro, ignora este correo."
     )
 
+    try:
+        send_mail(
+            subject=asunto,
+            message=mensaje,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[destinatario],
+            fail_silently=True,  # 👈 IMPORTANTE
+        )
+    except Exception as e:
+        print("ERROR EMAIL:", e)
+
     send_mail(
         subject=asunto,
         message=mensaje,
