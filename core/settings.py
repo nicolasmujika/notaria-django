@@ -68,7 +68,7 @@ DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
 if DATABASE_URL:
     DATABASES = {
         "default": dj_database_url.parse(
-            DATABASE_URL,
+            os.environ["DATABASE_URL"],
             conn_max_age=600,
             ssl_require=False,
         )
