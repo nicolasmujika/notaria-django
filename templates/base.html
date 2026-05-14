@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Notaría Felipe Velásquez{% endblock %}</title>
+  <title>{% block title %}Notaría y Conservador Felipe Velásquez{% endblock %}</title>
 
   <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
@@ -24,7 +24,7 @@
           </div>
 
           <div class="site-brand-text">
-            <div class="site-brand-title">Notaría Felipe Velásquez</div>
+            <div class="site-brand-title">Notaría y Conservador de Bienes Raíces, Comercio y Minas</div>
             <div class="site-brand-subtitle">3ª Notaría de Vallenar | Alto del Carmen</div>
           </div>
         </div>
@@ -58,7 +58,7 @@
 
             <li class="nav-item">
               <button type="button" class="nav-link nav-toggle" data-target="submenu-notaria" aria-expanded="false">
-                NOTARÍA <span class="caret">▾</span>
+                NOSOTROS <span class="caret">▾</span>
               </button>
               <ul id="submenu-notaria" class="submenu">
                 <li><a href="{% url 'quienes_somos' %}" class="submenu-link">QUIÉNES SOMOS</a></li>
@@ -74,11 +74,19 @@
               </button>
               <ul id="submenu-servicios" class="submenu">
                 <li><a href="{% url 'servicios_notariales' %}" class="submenu-link">SERVICIOS NOTARIALES</a></li>
-                <li><a href="{% url 'servicios_cbr' %}" class="submenu-link">SERVICIOS CBR</a></li>
                 <li><a href="{% url 'escrituras_publicas' %}" class="submenu-link">ESCRITURAS PÚBLICAS</a></li>
                 <li><a href="{% url 'solicitud_escrituras' %}" class="submenu-link">SOLICITUD ESCRITURAS</a></li>
                 <li><a href="{% url 'seguimiento_escrituras' %}" class="submenu-link">SEGUIMIENTO ESCRITURAS</a></li>
                 <li><a href="{% url 'documentos_privados' %}" class="submenu-link">DOCUMENTOS PRIVADOS</a></li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <button type="button" class="nav-link nav-toggle" data-target="submenu-conservador" aria-expanded="false">
+                CONSERVADOR <span class="caret">▾</span>
+              </button>
+              <ul id="submenu-conservador" class="submenu">
+                <li><a href="{% url 'servicios_cbr' %}" class="submenu-link">SERVICIOS CBR</a></li>
               </ul>
             </li>
 
@@ -158,8 +166,8 @@
         <div class="site-footer-col">
           <h3 class="site-footer-title">Ubicación</h3>
           <p>
-            Notaría Felipe Velásquez<br>
-            31 de Enero 195, Alto del Carmen, Atacama<br>
+            Notaría y Conservador Felipe Velásquez<br>
+            31 de enero esquina Ramón Freire, Alto del Carmen, Atacama<br>
             notaria.altodelcarmen@gmail.com<br>
             Horario de atención: 9:00 am - 16:00 pm<br>
             Atención de lunes a viernes<br>

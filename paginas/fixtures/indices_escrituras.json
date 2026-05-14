@@ -1,0 +1,162 @@
+﻿[
+{
+  "model": "paginas.indiceescritura",
+  "pk": 4,
+  "fields": {
+    "comparecientes": "Arriagada Gonz├ílez Adriana Segundo",
+    "materia": "",
+    "fecha": "",
+    "numero_repertorio": "5",
+    "foja": "9",
+    "anio": 2022,
+    "acto": "Compraventa",
+    "objeto": "0,133 acc. canal cordillera",
+    "creado_en": "2026-03-17T18:17:07.158Z",
+    "actualizado_en": "2026-03-17T18:17:07.158Z"
+  }
+},
+{
+  "model": "paginas.indiceescritura",
+  "pk": 5,
+  "fields": {
+    "comparecientes": "Arriagada Torres Pascual Segundo",
+    "materia": "",
+    "fecha": "",
+    "numero_repertorio": "9",
+    "foja": "9",
+    "anio": 2022,
+    "acto": "Compraventa",
+    "objeto": "0,35 acc. canal cordillera",
+    "creado_en": "2026-03-17T18:17:07.162Z",
+    "actualizado_en": "2026-03-17T18:17:07.162Z"
+  }
+},
+{
+  "model": "paginas.indiceescritura",
+  "pk": 6,
+  "fields": {
+    "comparecientes": "Arriagada Torres Adriana Segundo",
+    "materia": "",
+    "fecha": "",
+    "numero_repertorio": "8",
+    "foja": "9",
+    "anio": 2022,
+    "acto": "Compraventa",
+    "objeto": "0,33 acc. canal cordillera",
+    "creado_en": "2026-03-17T18:17:07.164Z",
+    "actualizado_en": "2026-03-17T18:17:07.164Z"
+  }
+},
+{
+  "model": "paginas.indiceescritura",
+  "pk": 7,
+  "fields": {
+    "comparecientes": "Arriagada Torres Yolanda Bravo",
+    "materia": "",
+    "fecha": "",
+    "numero_repertorio": "9",
+    "foja": "9",
+    "anio": 2022,
+    "acto": "Compraventa",
+    "objeto": "0,33 acc. canal cordillera",
+    "creado_en": "2026-03-17T18:17:07.166Z",
+    "actualizado_en": "2026-03-17T18:17:07.166Z"
+  }
+},
+{
+  "model": "paginas.indiceescritura",
+  "pk": 8,
+  "fields": {
+    "comparecientes": "├ülvarez Ceballos Ver├│nica",
+    "materia": "",
+    "fecha": "",
+    "numero_repertorio": "16",
+    "foja": "11",
+    "anio": 2022,
+    "acto": "Permuta",
+    "objeto": "0,67 derechos de aguas canal Potrerillos",
+    "creado_en": "2026-03-17T18:17:07.169Z",
+    "actualizado_en": "2026-03-17T18:17:07.169Z"
+  }
+},
+{
+  "model": "paginas.indiceescritura",
+  "pk": 9,
+  "fields": {
+    "comparecientes": "├ülvarez Vargas Sonia Juliana",
+    "materia": "",
+    "fecha": "",
+    "numero_repertorio": "16",
+    "foja": "11",
+    "anio": 2022,
+    "acto": "Permuta",
+    "objeto": "0,67 derechos de aguas canal Potrerillos",
+    "creado_en": "2026-03-17T18:17:07.170Z",
+    "actualizado_en": "2026-03-17T18:17:07.170Z"
+  }
+},
+{
+  "model": "paginas.indiceescritura",
+  "pk": 10,
+  "fields": {
+    "comparecientes": "├ülvarez Ceballos Ver├│nica",
+    "materia": "",
+    "fecha": "",
+    "numero_repertorio": "13",
+    "foja": "7",
+    "anio": 2022,
+    "acto": "Permuta",
+    "objeto": "0,67 acc. aguas canal Potrerillos",
+    "creado_en": "2026-03-17T18:17:07.173Z",
+    "actualizado_en": "2026-03-17T18:17:07.173Z"
+  }
+},
+{
+  "model": "paginas.indiceescritura",
+  "pk": 11,
+  "fields": {
+    "comparecientes": "├ülvarez N├║├▒ez In├®s del Carmen",
+    "materia": "",
+    "fecha": "",
+    "numero_repertorio": "13",
+    "foja": "7",
+    "anio": 2022,
+    "acto": "Permuta",
+    "objeto": "0,67 acc. aguas canal Potrerillos",
+    "creado_en": "2026-03-17T18:17:07.175Z",
+    "actualizado_en": "2026-03-17T18:17:07.175Z"
+  }
+},
+{
+  "model": "paginas.indiceescritura",
+  "pk": 12,
+  "fields": {
+    "comparecientes": "├ülvarez Dardos Sonia Alicia",
+    "materia": "",
+    "fecha": "",
+    "numero_repertorio": "13",
+    "foja": "7",
+    "anio": 2022,
+    "acto": "Permuta",
+    "objeto": "0,67 acc. aguas canal Potrerillos",
+    "creado_en": "2026-03-17T18:17:07.177Z",
+    "actualizado_en": "2026-03-17T18:17:07.177Z"
+  }
+},
+{
+  "model": "paginas.indiceescritura",
+  "pk": 13,
+  "fields": {
+    "comparecientes": "├ülvarez Mu├▒oz Mariano",
+    "materia": "",
+    "fecha": "",
+    "numero_repertorio": "13",
+    "foja": "7",
+    "anio": 2022,
+    "acto": "Permuta",
+    "objeto": "0,67 acc. aguas canal Potrerillos",
+    "creado_en": "2026-03-17T18:17:07.180Z",
+    "actualizado_en": "2026-03-17T18:17:07.180Z"
+  }
+}
+]

@@ -91,14 +91,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-  document.querySelectorAll('.ep-card-btn').forEach(function(btn) {
+  document.querySelectorAll('.ep-card-btn:not(.ep-card-btn-primary)').forEach(function(btn) {
     btn.addEventListener('click', function() {
       const card = this.closest('.ep-card');
       const isActive = card.classList.contains('active');
 
       document.querySelectorAll('.ep-card').forEach(function(item) {
         item.classList.remove('active');
-        const button = item.querySelector('.ep-card-btn');
+        const button = item.querySelector('.ep-card-btn:not(.ep-card-btn-primary)');
         if (button) {
           button.textContent = 'Ver más';
         }
