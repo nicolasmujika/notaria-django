@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Aranceles – Notaría y Conservador{% endblock %}
+
+{% block content %}
+<div style="max-width:1100px; margin:0 auto; padding:2rem 1rem;">
+
+  <h1 style="font-size:1.8rem; font-weight:700; color:#1f2c8c;
+              border-left:4px solid #1f2c8c; padding-left:0.75rem;
+              margin-bottom:0.4rem; display:flex; align-items:center; gap:0.5rem;">
+    Arancel Notaría y Conservador
+  </h1>
+
+  <p style="color:#6b7280; font-size:0.88rem; margin-bottom:2rem;">
+    Valores expresados en pesos chilenos (CLP). Vigentes desde 1998.
+  </p>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(290px,1fr));
+              gap:1.5rem; margin-bottom:2rem;">
+
+    <!-- Tarjeta 1 -->
+    <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px;
+                padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <div style="display:flex; align-items:flex-start; gap:1rem;">
+        <div style="font-size:2.8rem; color:#1f2c8c; flex-shrink:0;">📋</div>
+        <div>
+          <h2 style="font-size:1rem; font-weight:700; color:#1f2c8c; margin-bottom:0.25rem;">
+            Arancel Conservadores de Bienes Raíces y Comercio
+          </h2>
+          <p style="font-size:0.78rem; color:#9ca3af; margin-bottom:0.5rem;">
+            &nbsp;·&nbsp; Decreto Exento N° 588
+          </p>
+          <p style="font-size:0.85rem; color:#374151; margin-bottom:1rem;">
+            Establece el arancel de los Conservadores de Bienes Raíces y Comercio.
+          </p>
+          <a href="{% static 'docs/arancel_conservador_bienes_raices.pdf' %}"
+             target="_blank"
+             style="display:inline-flex; align-items:center; gap:0.4rem;
+                    background:#1f2c8c; color:#fff; padding:0.5rem 1.1rem;
+                    border-radius:8px; font-size:0.84rem; font-weight:600;
+                    text-decoration:none;">
+             Descargar PDF
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta 2 -->
+    <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px;
+                padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <div style="display:flex; align-items:flex-start; gap:1rem;">
+        <div style="font-size:2.8rem; color:#1f2c8c; flex-shrink:0;">📋</div>
+        <div>
+          <h2 style="font-size:1rem; font-weight:700; color:#1f2c8c; margin-bottom:0.25rem;">
+            Arancel Conservadores de Minas
+          </h2>
+          <p style="font-size:0.78rem; color:#9ca3af; margin-bottom:0.5rem;">
+            &nbsp;·&nbsp; Decreto Exento N° 589
+          </p>
+          <p style="font-size:0.85rem; color:#374151; margin-bottom:1rem;">
+            Establece el arancel de los Conservadores de Minas.
+          </p>
+          <a href="{% static 'docs/arancel_conservador_minas.pdf' %}"
+             target="_blank"
+             style="display:inline-flex; align-items:center; gap:0.4rem;
+                    background:#1f2c8c; color:#fff; padding:0.5rem 1.1rem;
+                    border-radius:8px; font-size:0.84rem; font-weight:600;
+                    text-decoration:none;">
+             Descargar PDF
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta 3 -->
+    <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px;
+                padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <div style="display:flex; align-items:flex-start; gap:1rem;">
+        <div style="font-size:2.8rem; color:#1f2c8c; flex-shrink:0;">📋</div>
+        <div>
+          <h2 style="font-size:1rem; font-weight:700; color:#1f2c8c; margin-bottom:0.25rem;">
+            Arancel Notarios Públicos
+          </h2>
+          <p style="font-size:0.78rem; color:#9ca3af; margin-bottom:0.5rem;">
+            Decreto Exento N° 587
+          </p>
+          <p style="font-size:0.85rem; color:#374151; margin-bottom:1rem;">
+            Establece el arancel de los Notarios Públicos. Última modificación: Febrero 2020.
+          </p>
+          <a href="{% static 'docs/Aranceles_notaria.pdf' %}"
+             target="_blank"
+             style="display:inline-flex; align-items:center; gap:0.4rem;
+                    background:#1f2c8c; color:#fff; padding:0.5rem 1.1rem;
+                    border-radius:8px; font-size:0.84rem; font-weight:600;
+                    text-decoration:none;">
+             Descargar PDF
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p style="color:#9ca3af; font-size:0.8rem;">
+    Los valores de timbres y derechos adicionales no están incluidos.
+    Consultar por otros trámites no listados.
+  </p>
+
+</div>
+{% endblock %}

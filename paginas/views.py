@@ -161,6 +161,8 @@ def quienes_somos(request):
 def horario_atencion(request):
     return render(request, "pages/horario_atencion.html")
 
+def aranceles(request):
+    return render(request, "pages/aranceles.html")
 
 def tramites_comunes(request):
     return render(request, "pages/tramites_comunes.html")

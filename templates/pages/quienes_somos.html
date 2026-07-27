@@ -1,103 +1,139 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/servicios.css' %}">
 {% endblock %}
-{% block title %}Quiénes Somos - Notaría Felipe Velasquez{% endblock %}
+
+{% block title %}Quiénes Somos - Notaría Felipe Velásquez{% endblock %}
 
 {% block content %}
 
 <section class="qs-wrap">
 
-  <!-- IMAGEN IZQUIERDA -->
-  <div class="qs-photo">
-    <img src="{% static 'img/doc-priv1.jpg' %}" alt="Entrada de la notaría">
-  </div>
+    <div class="qs-photo">
+        <img src="{% static 'img/doc-priv1.jpg' %}" alt="Entrada de la notaría">
+    </div>
 
-  <!-- TEXTO DERECHA -->
-  <div class="qs-content">
-    <h1 class="qs-title">NOTARÍA Y CONSERVADOR</h1>
+    <div class="qs-content">
 
-    <p>
-      La Notaría de Alto del Carmen, a cargo del Notario y Conservador Felipe Andrés Velásquez Morales,
-      cumple un rol fundamental en la formalización de actos y contratos, otorgando seguridad jurídica
-      a las personas y a la comunidad.
-    </p> 
+        <h1 class="qs-title">NOTARÍA Y CONSERVADOR</h1>
 
-    <h2 class="qs-subtitle">Funcion Notarial y Conservadora</h2>
+        <p>
+            La Notaría de Alto del Carmen, a cargo del Notario y Conservador Felipe Andrés Velásquez Morales,
+            cumple un rol fundamental en la formalización de actos y contratos, otorgando seguridad jurídica
+            a las personas y a la comunidad.
+        </p>
 
-    <p>
-      Nuestra oficina presta servicios notariales y de conservador, apoyando a personas y empresas en
-      la correcta formalización de documentos y en la gestión de antecedentes vinculados a distintas materias.
-    </p>
+        <h2 class="qs-subtitle">Función Notarial y Conservadora</h2>
 
-    <p>
-      En este contexto, la atención se orienta principalmente a gestiones relacionadas con bienes raíces,
-      comercio, minas y aguas, conforme a la normativa vigente y a las funciones propias de la Notaría y el Conservador.
-    </p>
+        <p>
+            Nuestra oficina presta servicios notariales y de conservador, apoyando a personas y empresas en
+            la correcta formalización de documentos y en la gestión de antecedentes vinculados a distintas materias.
+        </p>
 
-    <p>
-      El objetivo es garantizar procesos claros, ordenados y confiables, resguardando la correcta administración
-      de la información y la validez legal de cada actuación.
-    </p>
-    
-    <h2 class="qs-subtitle">Sobre el Notario</h2>
-    <p>
-      El Notario Público Titular es el abogado Felipe Andrés Velásquez Morales, quien desarrolla su labor con un enfoque
-      centrado en la atención responsable, la seguridad jurídica y la confianza de quienes acuden diariamente a realizar sus gestiones.
-    </p>
-   
+        <p>
+            En este contexto, la atención se orienta principalmente a gestiones relacionadas con bienes raíces,
+            comercio, minas y aguas, conforme a la normativa vigente y a las funciones propias de la Notaría y el Conservador.
+        </p>
 
-    <h2 class="qs-subtitle">Compromiso Institucional</h2>
+        <p>
+            El objetivo es garantizar procesos claros, ordenados y confiables, resguardando la correcta administración
+            de la información y la validez legal de cada actuación.
+        </p>
 
-    <ul class="qs-list">
-      <li>Atención clara, ordenada y cercana para cada usuario.</li>
-      <li>Gestión eficiente de documentos y trámites notariales.</li>
-      <li>Resguardo de la información y cumplimiento normativo.</li>
-      <li>Mejora continua en procesos y atención al público.</li>
-    </ul>
-  </div>
+        <h2 class="qs-subtitle">Sobre el Notario</h2>
+
+        <p>
+            El Notario Público Titular es el abogado Felipe Andrés Velásquez Morales, quien desarrolla su labor con un enfoque
+            centrado en la atención responsable, la seguridad jurídica y la confianza de quienes acuden diariamente a realizar sus gestiones.
+        </p>
+
+        <h2 class="qs-subtitle">Compromiso Institucional</h2>
+
+        <ul class="qs-list">
+            <li>Atención clara, ordenada y cercana para cada usuario.</li>
+            <li>Gestión eficiente de documentos y trámites notariales.</li>
+            <li>Resguardo de la información y cumplimiento normativo.</li>
+            <li>Mejora continua en procesos y atención al público.</li>
+        </ul>
+
+    </div>
 
 </section>
 
+
 <section class="equipo-notaria">
 
-  <h2 class="equipo-title">Funcionarios de Nuestra Notaría</h2>
-  <p class="equipo-subtitle">
-    Equipo de trabajo que atiende en la Notaría Felipe Velasquez Morales
-  </p>
+    <h2 class="equipo-title">Nuestro Equipo</h2>
 
-  <div class="equipo-grid">
+    <p class="equipo-subtitle">
+        Conoce a quienes forman parte de nuestra notaría y trabajan diariamente para brindar una atención cercana y eficiente.
+    </p>
 
-    <!-- FUNCIONARIO -->
-    <div class="equipo-card">
-      <img src="{% static 'img/hombre.jpg' %}" alt="Funcionario">
-      <h3>Felipe Velásquez Morales</h3>
-      <span class="cargo">Notario Público</span>
-      
+
+
+    <div class="equipo-destacado">
+
+        <div class="equipo-card destacado">
+
+          <img class="equipo-foto"
+              src="{% static 'img/felipe.jpeg' %}"
+              alt="Felipe Velásquez">
+
+          <h3>Felipe Velásquez Morales</h3>
+
+          <span class="cargo">
+              Notario Público y Conservador
+          </span>
+
+        </div>
+
     </div>
 
-    <div class="equipo-card">
-      <img src="{% static 'img/mujer.jpg' %}" alt="Funcionario">
-      <h3>Yaritza</h3>
-      
-      
-    </div>
+    <div class="equipo-grid">
 
-    <div class="equipo-card">
-      <img src="{% static 'img/mujer.jpg' %}" alt="Funcionario">
-      <h3>Arlett</h3>
-      
-      
-    </div>
+        <div class="equipo-card">
 
-    <div class="equipo-card">
-      <img src="{% static 'img/mujer.jpg' %}" alt="Funcionario">
-      <h3>Deborah</h3>
-      
-    </div>
+            <img class="equipo-foto"
+                src="{% static 'img/debora.jpeg' %}"
+                alt="Deborah">
 
-  </div>
+            <h3>Deborah</h3>
+
+        </div>
+
+        <div class="equipo-card">
+
+            <img class="equipo-foto"
+                src="{% static 'img/yaritza.jpeg' %}"
+                alt="yaritza">
+
+            <h3>Yaritza</h3>
+
+        </div>
+
+        <div class="equipo-card">
+
+            <img class="equipo-foto"
+                src="{% static 'img/arlett.jpeg' %}"
+                alt="arlett">
+
+            <h3>Arlett</h3>
+
+        </div>
+
+        <div class="equipo-card">
+
+            <div class="equipo-foto equipo-foto-icon">
+                <i class="fa-solid fa-user"></i>
+            </div>
+
+            <h3>Johanna Campillay</h3>
+
+        </div>
+
+    </div>
 
 </section>
 

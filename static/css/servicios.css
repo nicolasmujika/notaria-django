@@ -1,4 +1,4 @@
-  .qs-wrap {
+.qs-wrap {
     display: flex;
     gap: 48px;
     align-items: flex-start;
@@ -75,62 +75,148 @@
     }
   }
 
-  .equipo-notaria {
-    margin-top: 80px;
+  .equipo-notaria{
+    max-width:1200px;
+    margin:90px auto;
+    padding:0 20px;
     }
 
-    .equipo-title {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 10px;
+    .equipo-title{
+    text-align:center;
+    font-size:48px;
+    font-weight:700;
+    color:#0d244d;
+    margin-bottom:15px;
     }
 
-    .equipo-subtitle {
-    text-align: center;
-    color: #6b7280;
-    margin-bottom: 40px;
+    .equipo-subtitle{
+      text-align:center;
+      color:#5f6b7a;
+      font-size:21px;
+      margin-bottom:60px;
+    }
+    .equipo-destacado{
+      margin-bottom:35px;
+    }
+    
+    .equipo-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:30px;
     }
 
-    .equipo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
-    gap: 32px;
+    /* Cuando hay una 4ta tarjeta (sin pareja), la centramos bajo la columna del medio */
+    .equipo-grid .equipo-card:nth-child(4):last-child{
+      grid-column: 2;
     }
 
-    .equipo-card {
-    text-align: center;
-    border: 1px solid #e5e7eb;
-    padding: 24px;
-    border-radius: 6px;
-    background: white;
-    transition: 0.2s;
+    .equipo-foto-icon{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg, #eaf1ff 0%, #dfeaff 100%);
+      color:#1f3c88;
+      font-size:60px;
     }
 
-    .equipo-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    .equipo-card{
+      background:#fff;
+      border-radius:18px;
+      border:1px solid #e9ecef;
+      padding:40px 25px;
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      box-shadow:0 10px 25px rgba(0,0,0,.08);
+      transition:.35s ease;
     }
 
-    .equipo-card img {
-    width: 80px;
-    height: 80px;
-    margin: auto;
-    margin-bottom: 12px;
+    .equipo-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 18px 40px rgba(0,0,0,.14);
     }
 
-    .equipo-card h3 {
-    font-size: 1.05rem;
-    font-weight: 600;
+    .equipo-foto{
+      width:170px;
+      height:170px;
+      border-radius:50%;
+      object-fit:cover;
+      object-position:center 18%;
+      border:6px solid #fff;
+      box-shadow:0 8px 25px rgba(0,0,0,.18);
+      margin:0 auto 22px;
+      transition:.35s;
     }
 
-    .equipo-card .cargo {
-    display: block;
-    color: #0f4c81;
-    font-weight: 500;
-    margin-bottom: 10px;
+    .destacado{
+      max-width:520px;
+      margin:auto;
+      padding:40px 30px;
     }
 
+    .equipo-card:hover .equipo-foto{
+      transform:scale(1.07);
+    }
+
+    .destacado .equipo-foto{
+      width:190px;
+      height:190px;
+    }
+
+    .destacado h3{
+        font-size:28px;
+        color:#0d244d;
+        margin:15px 0 8px;
+        text-align:center;
+    }
+
+    .equipo-grid h3{
+        font-size:30px;
+        color:#0d244d;
+        margin:15px 0 0;
+    }
+
+    .cargo{
+        display:block;
+        font-size:18px;
+        color:#1b5dbf;
+        font-weight:600;
+        margin-top:8px;
+        text-align:center;
+    }
+
+    .equipo-card::after{
+        content:"";
+        display:block;
+        width:70px;
+        height:4px;
+        background:#1b5dbf;
+        border-radius:30px;
+        margin:25px auto 0;
+    }
+
+    /* Responsive */
+
+    @media (max-width:992px){
+
+        .equipo-grid{
+            grid-template-columns:1fr;
+        }
+
+        .equipo-grid .equipo-card:nth-child(4):last-child{
+          grid-column: 1;
+        }
+
+        .equipo-title{
+            font-size:38px;
+        }
+
+        .destacado{
+            padding:35px;
+        }
+
+    }
 
     .horario-page{
         background:
@@ -2901,5 +2987,3 @@
   color: #475569;
   text-align: center;
 }
-
-
